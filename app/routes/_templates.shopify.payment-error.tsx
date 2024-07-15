@@ -1,0 +1,43 @@
+import { BodyWrapper } from '~/components/BodyWrapper';
+import { Button } from '~/components/Button';
+import { Description } from '~/components/Description';
+import { Footer } from '~/components/shopify/Footer';
+import { Head } from '~/components/Head';
+import { Header } from '~/components/shopify/Header';
+import { Intro } from '~/components/shopify/Intro';
+
+export default function () {
+  return /*html*/ `
+	{% capture email_title %} Your payment couldn’t be processed {% endcapture %}
+	{% capture email_body %}
+		You added items to your shopping cart but the payment couldn’t be processed. You haven’t been charged.
+	{% endcapture %}
+
+	${Head({ title: '{{ email_title }}' })}
+	${BodyWrapper({
+    children: /*html*/ `
+			${Header()}
+
+			${Intro({
+        heading: `{{ email_title }}`,
+        description: /*html*/ `{{email_body}}<br />
+				You can still return to your cart to complete your purchase.`,
+        showOrderNumber: false,
+      })}
+
+			${Description({
+        description: /*html*/ `
+					{{ email_body }}
+					<br />
+					You can still return to your cart to complete your purchase.`,
+      })}
+
+			{% if url %}
+				${Button({ url: '{{ url }}', label: 'Return to cart', paddingTop: 0 })}
+			{% endif %}
+
+			${Footer()}
+	`,
+  })}
+`;
+}
