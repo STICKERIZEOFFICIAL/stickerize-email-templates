@@ -1,5 +1,4 @@
 ## [Remix Docs](https://remix.run/docs)
-## [Recharge - Template Language Docs - Jinja2](https://jinja.palletsprojects.com/en/2.9.x/templates/#builtin-filters)
 
 ## Development
 
