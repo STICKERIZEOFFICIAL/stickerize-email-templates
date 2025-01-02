@@ -10,15 +10,15 @@ import { Total } from "~/components/shopify/Total";
 export default function () {
   return /*html*/ `
 	
-	${Head({ title: "Thank you" })}
+	${Head({ title: "Your custom sticker order is confirmed" })}
 	${BodyWrapper({
     children: /*html*/ `
 			${Header()}
 
 			${Intro({
-        heading: "Thank You<br />",
+        heading: "Your custom sticker order is confirmed<br />",
         description:
-          "We're getting your order ready to be shipped. We will notify you when it has been sent.<br />",
+          "Thank you for choosing STICKERIZE©!<br /><br /> We’ve received your order and are already working to bring your custom stickers to life. You’ll receive another email once your order ships.<br /> If you have any questions, feel free to reach out.<br />",
         showOrderNumber: false,
       })}
 

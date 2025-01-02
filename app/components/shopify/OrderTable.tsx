@@ -155,7 +155,7 @@ export function OrderTable({
                                 <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="14" height="14" style="vertical-align: top;" class="discount-tag-icon" />
                                 <span>
                                   {{ discount_allocation.discount_application.title | upcase }}
-                                  (-{{ discount_allocation.amount | money }})
+                                  (-{{ discount_allocation.amount | money_without_trailing_zeros }})
                                 </span>
                               </span>
                             </p>
@@ -178,9 +178,9 @@ export function OrderTable({
                       {% endif %}
                         <p style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right;">
                           {% if line.final_line_price > 0 %}
-                            {{ line.final_line_price | money }}
+                            {{ line.final_line_price | money_without_trailing_zeros }}
                             {% if line.unit_price_measurement %}
-                              {{ line.unit_price | money }}/
+                              {{ line.unit_price | money_without_trailing_zeros }}/
                               {%- if line.unit_price_measurement.reference_value != 1 -%}
                                 {{- line.unit_price_measurement.reference_value -}}
                               {%- endif -%}
@@ -191,7 +191,7 @@ export function OrderTable({
                           {% endif %}
                         </p>
                         {% if line.original_line_price != line.final_line_price %}
-                          <p class="c-grey l-grey" style="font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; color:#c9c7c5; text-align:right;">{{ line.original_line_price | money }}</p>
+                          <p class="c-grey l-grey" style="font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; color:#c9c7c5; text-align:right;">{{ line.original_line_price | money_without_trailing_zeros }}</p>
                         {% endif %}
                       </td>`
                         : ""
@@ -266,7 +266,7 @@ export function OrderTable({
                     {% endfor %}
                     <p>
                       <span class="order-list__item-discount-allocation">
-                        <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="14" height="14" style="vertical-align: top;" class="discount-tag-icon" />&nbsp;<span>{{ discount_title | upcase }} (-{{ discount_amount | money }})</span>
+                        <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="14" height="14" style="vertical-align: top;" class="discount-tag-icon" />&nbsp;<span>{{ discount_title | upcase }} (-{{ discount_amount | money_without_trailing_zeros }})</span>
                       </span>
                     </p>
                   {% endfor %}
@@ -323,13 +323,13 @@ export function OrderTable({
                   <td style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                     <p style="color:#000001; font-family:'Courier New', monospace; text-align:right; font-size: 13px; line-height: 17px;">
                       {% if final_line_price > 0 %}
-                        {{ final_line_price | money }}
+                        {{ final_line_price | money_without_trailing_zeros }}
                       {% else %}
                         Free
                       {% endif %}
                     </p>
                     {% if original_line_price != final_line_price %}
-                      <p class="c-grey l-grey" style="font-family:'Courier New', monospace; text-align:right; font-size: 13px; line-height: 17px; color:#c9c7c5;">{{ original_line_price | money }}</p>
+                      <p class="c-grey l-grey" style="font-family:'Courier New', monospace; text-align:right; font-size: 13px; line-height: 17px; color:#c9c7c5;">{{ original_line_price | money_without_trailing_zeros }}</p>
                     {% endif %}
                   </td>
                 `
