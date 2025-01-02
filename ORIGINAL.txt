@@ -1,0 +1,1079 @@
+
+{% capture email_title %}
+    {% if has_pending_payment %}
+      Thank you for your order!
+    {% else %}
+      Thank you for your purchase!
+    {% endif %}
+  {% endcapture %}
+  {% capture email_body %}
+    {% if has_pending_payment %}
+      {% if buyer_action_required %}
+        You’ll get a confirmation email after completing your payment.
+      {% else %}
+        Your payment is being processed. You'll get an email when your order is confirmed.
+      {% endif %}
+    {% else %}
+      {% if requires_shipping %}
+      {% case delivery_method %}
+          {% when 'pick-up' %}
+            You’ll receive an email when your order is ready for pickup.
+          {% when 'local' %}
+            Hi {{ customer.first_name }}, we're getting your order ready for delivery.
+          {% else %}
+            We're getting your order ready to be shipped. We will notify you when it has been sent.
+        {% endcase %}
+          {% if delivery_instructions != blank  %}
+            <p><b>Delivery information:</b> {{ delivery_instructions }}</p>
+          {% endif %}
+         {% if consolidated_estimated_delivery_time %}
+          {% if has_multiple_delivery_methods %}
+            <h3 class="estimated_delivery__title">Estimated delivery</h3>
+            <p>{{ consolidated_estimated_delivery_time }}</p>
+          {% else %}
+            <p>
+              Estimated delivery <b>{{ consolidated_estimated_delivery_time }}</b>
+            </p>
+          {% endif %}
+         {% endif %}
+      {% endif %}
+    {% endif %}
+    {% assign gift_card_line_items = line_items | where: "gift_card" %}
+    {% assign found_gift_card_with_recipient_email = false %}
+    {% for line_item in gift_card_line_items %}
+      {% if line_item.properties["__shopify_send_gift_card_to_recipient"] and line_item.properties["Recipient email"] %}
+        {% assign found_gift_card_with_recipient_email = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    {% if found_gift_card_with_recipient_email %}
+      <p>Your gift card recipient will receive an email with their gift card code.</p>
+    {% elsif gift_card_line_items.first %}
+      <p>You’ll receive separate emails for any gift cards.</p>
+    {% endif %}
+  {% endcapture %}
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+  <head>
+      <!--[if gte mso 9]>
+      <xml>
+          <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+          </o:OfficeDocumentSettings>
+      </xml>
+      <![endif]-->
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="format-detection" content="date=no" />
+      <meta name="format-detection" content="address=no" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="x-apple-disable-message-reformatting" />
+      <title>{{ email_title }}</title>
+      <!--[if !mso]><!-->	
+      <style type="text/css" media="all"> 
+          @font-face {
+            font-family: 'JetBrainsMono';
+            font-style: italic;
+            font-weight: 100 800;
+            src: url("https://fonts.gstatic.com/s/jetbrainsmono/v20/tDbX2o-flEEny0FZhsfKu5WU4xD-CwOnSA.woff2") format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+          }
+          @font-face {
+            font-family: 'JetBrainsMono';
+            font-style: normal;
+            font-weight: 100 800;
+            src: url("https://fonts.gstatic.com/s/jetbrainsmono/v20/tDbV2o-flEEny0FZhsfKu5WU4xD7OwE.woff2") format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+          }
+      </style>
+      <!--<![endif]-->
+  
+      <!--<![endif]-->
+      <!--[if gte mso 9]>
+      <style type="text/css" media="all">
+          sup { font-size: 100% !important; }
+      </style>
+      <![endif]-->
+      
+  
+      <style type="text/css" media="screen">
+          body { padding:0 !important; margin:0 auto !important; display:block !important; min-width:100% !important; width:100% !important; background:#fbf9f6; -webkit-text-size-adjust:none }
+          a { color:#000001; text-decoration:none }
+          p { margin-top:0; margin-left:0 !important; margin-right:0 !important; margin-bottom:0 } 
+  
+          table { mso-table-lspace:0pt; mso-table-rspace:0pt; }
+          img { margin: 0 !important; -ms-interpolation-mode: bicubic; /* Allow smoother rendering of resized image in Internet Explorer */ }
+          img, a img{ border:0; outline:none; text-decoration:none; }
+          #outlook a { padding:0; }
+          .ReadMsgBody { width:100%; }
+          .ExternalClass { width:100%; }
+          div,p,a,li,td,blockquote { mso-line-height-rule:exactly; }
+          a[href^=tel],a[href^=sms] { color:inherit; text-decoration:none; }
+          .ExternalClass, .ExternalClass p, .ExternalClass td, .ExternalClass div, .ExternalClass span, .ExternalClass font { line-height:100%; }
+          a[x-apple-data-detectors] { color:inherit !important; text-decoration:none !important; font-size:inherit !important; font-family:inherit !important; font-weight:inherit !important; line-height:inherit !important; }
+          #MessageViewBody, #MessageWebViewDiv { width: 100% !important; } /* Samsung Galaxy Note 4 Samsung Mail - make email stay centered */
+          .dijitReset { color: #000001 !important; }
+          .x-gmail-data-detectors, .x-gmail-data-detectors *, .aBn { border-bottom: 0 !important; cursor: default !important; } /* A work-around for Gmail meddling in triggered links. */
+          .a6S { display: none !important; opacity: 001 !important; } /* Prevents Gmail from displaying an download button on large, non-linked images. */
+          img.g-img + div { display:none !important; } /* If the above doesn't work, add a .g-img class to any image in question. */
+          u + #body a { color: inherit !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+          #MessageViewBody a { color: inherit !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+          
+          
+          .l-grey a { color: #c9c7c5; }
+          .l-white a { color: #fffffe; }
+          .l-black a { color: #000001; }
+  
+          /* Mobile styles */
+          @media only screen and (max-device-width: 480px), only screen and (max-width: 480px) {
+              .mfz-14 { font-size: 14px !important; }
+  
+              .mlh-17 { line-height: 17px !important; }
+  
+              .mpx-0 { padding-left: 0px !important; padding-right: 0px !important; }
+  
+              .mpb-16 { padding-bottom: 16px !important; }
+  
+              .td,
+              .m-shell { width: 100% !important; min-width: 100% !important; }
+  
+              .mt-left { text-align: left !important; }
+              .mt-center { text-align: center !important; }
+              
+              .me-left { margin-right: auto !important; }
+              .me-center { margin: 0 auto !important; }
+  
+              .mh-auto { height: auto !important; }
+              .mw-auto { width: auto !important; }
+  
+              .fluid-img img { width: 100% !important; max-width: 100% !important; height: auto !important; }
+  
+              .column,
+              .column-top { float: left !important; width: 100% !important; display: block !important; }
+  
+              .m-hide { display: none !important; width: 0 !important; height: 0 !important; font-size: 0 !important; line-height: 0 !important; min-height: 0 !important; }
+              .m-block { display: block !important; }
+  
+              .mw-100p { width: 100% !important; }
+  
+              .mw-10 { width: 10px !important; }
+  
+              .mw-img-90,
+              .mw-img-90 img { width: 90px !important; height: auto !important; }
+  
+              .hide-for-desktop { display: block !important; max-width: 100% !important; max-height: 100% !important; visibility: visible !important; opacity: 1 !important; width: auto !important; height: auto !important; }
+          }
+          @media screen and (max-device-width: 370px), only screen and (max-width: 370px) {
+              .mmfz-13 { font-size: 13px !important; line-height: 16px !important; }
+          }
+      </style>
+  </head>
+  <body class="body" id="body" style="padding:0 !important; margin:0 auto !important; display:block !important; min-width:100% !important; width:100% !important; background:#fbf9f6; -webkit-text-size-adjust:none;">
+      <center>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" background="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/bg_img_1.png?v=1734347875" style="margin: 0; padding: 0; width: 100%; height: 100%;" bgcolor="#fbf9f6">
+              <!-- Preview Text -->
+              <tr class="m-hide" style="mso-hide: all;">
+                  <td style="font-size: 0pt; line-height: 0pt;">&nbsp;</td>
+              </tr>
+              <tr class="m-hide" style="mso-hide: all;"><td style="font-size: 0pt; line-height: 0pt;">&#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &nbsp; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &#8199;&#847; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &shy; &nbsp;</td></tr>
+              <!-- END Preview Text -->
+              <tr>
+                  <td style="margin: 0; padding: 0; width: 100%; height: 100%;" align="center" valign="top">
+                      <table width="732" border="0" cellspacing="0" cellpadding="0" class="m-shell" bgcolor="#fbf9f6">
+                          <tr>
+                              <td style="padding-top: 12px;">
+                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <!-- Header -->
+                                      <tr>
+                                          <td  style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px; padding-left: 12px; padding-right: 12px;">
+                                              <a href="{{shop.url}}" target="_blank">
+                                                  <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_e1564c50-5faf-4022-9c16-fff8a8cb746b.png?v=1734345195" width="192" height="28" border="0" alt="" />
+                                              </a>
+                                          </td>
+                                      </tr>
+                                      <!-- END Header -->
+  
+                                      <!-- Intro -->
+                                      <tr>
+                                          <td  style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Arial Black', Arial, sans-serif; text-align:left; font-size: 18px; line-height: 22px; padding-top: 24px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+                                              thank you
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+                                              we would be grateful to hear your feedback.
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+                                              {{ email_body }}
+                                          </td>
+                                      </tr>
+                                      {% if transaction_count > 0 %}
+                                        {% for transaction in transactions %}
+                                          {% if transaction.show_buyer_pending_payment_instructions? %}
+                                          <tr>
+                                              <td  style="mso-line-height-alt: 19px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+                                                  <p style="margin: 0; padding: 0;">{{transaction.buyer_pending_payment_notice}}</p>
+                                                  <table class="row">
+                                                    <tr>
+                                                      {% for instruction in transaction.buyer_pending_payment_instructions %}
+                                                        <td  style="mso-line-height-alt: 19px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px;">{{ instruction.header }}</td>
+                                                      {% endfor %}
+                                                      <td>Amount</td>
+                                                    </tr>
+                                                    <tr>
+                                                      {% for instruction in transaction.buyer_pending_payment_instructions %}
+                                                        <td  style="mso-line-height-alt: 19px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px;">{{ instruction.value }}</td>
+                                                      {% endfor %}
+                                                      <td>{{transaction.amount | money}}</td>
+                                                    </tr>
+                                                  </table>
+                                              </td>
+                                          </tr>									      
+                                          {% endif %}
+                                        {% endfor%}
+                                      {% endif %}
+                                      <tr>
+                                          <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-top: 4px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
+                                              <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/img_1.jpg?v=1734345195" width="700" height="450" border="0" alt="" />
+                                          </td>
+                                      </tr>
+                                      <!-- END Intro -->
+  
+                                      <!-- Order table -->
+                                      <tr>
+                                          <td  style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Arial Black', Arial, sans-serif; text-align:left; font-size: 18px; line-height: 22px; padding-bottom: 10px; padding-left: 12px; padding-right: 12px;">
+                                              Your order
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td style="padding: 0 16px 14px;">
+                                              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                  <!-- Item scenario 1 -->
+                                                  {% for line in subtotal_line_items %}
+                                                    {% if line.groups.size == 0 %}
+                                                    <tr class="order-list__item">
+                                                      <td class="order-list__item__cell">
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                            <tr>
+                                                          {% assign expand_bundles = false %}
+  
+                                                          {% if expand_bundles and line.bundle_parent? %}
+                                                          <!-- column left -->
+                                                            <td class="mw-img-90" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+                                                              {% if line.image %}
+                                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                                    <tr>
+                                                                        <td  style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                                                                            <img src="{{ line | img_url: 'compact_cropped' }}" align="left" width="112" height="auto" class="order-list__product-image"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                              {% else %}
+                                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                                    <tr>
+                                                                        <td  style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                                                                            <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="112" height="112" class="order-list__no-product-image"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                              {% endif %}
+                                                            </td>
+                                                          {% else %}
+                                                            <td class="mw-img-90" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+                                                              {% if line.image %}
+                                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                                    <tr>
+                                                                        <td  style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                                                                            <img src="{{ line | img_url: 'compact_cropped' }}" align="left" width="112" height="112" class="order-list__product-image"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                              {% else %}
+                                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                                    <tr>
+                                                                        <td  style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                                                                            <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="112" height="112" class="order-list__no-product-image"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                              {% endif %}
+                                                            </td>
+                                                          <!-- END column left -->
+                                                          {% endif %}
+                                                          <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                                                          
+                                                          <!-- column center -->
+                                                          <td  style="letter-spacing: -0.04em; border-bottom: 1px solid #c8c7c4; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
+                                                            {% if line.product.title %}
+                                                                {% assign line_title = line.product.title %}
+                                                              {% else %}
+                                                                {% assign line_title = line.title %}
+                                                              {% endif %}
+  
+                                                              <!-- Product title -->
+                                                              <p  style="margin-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                                  <span class="order-list__item-title">{{ line_title }}</span>
+                                                              </p>
+  
+                                                              <!-- List product details -->
+                                                              <p  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                                  {% if line.variant.title != 'Default Title' %}
+                                                                    <span class="order-list__item-detail">&bull;&nbsp;{{ line.variant.title }}</span><br/>
+                                                                  {% endif %}
+  
+                                                                  {% for property in line.properties %}
+                                                                    {% assign property_first_char = property.first | slice: 0 %}
+                                                                    {% if property.last != blank and property_first_char != '_' %}
+                                                                      <span class="order-list__item-detail">
+                                                                        &bull;&nbsp;{{ property.first }}: {{ property.last }}
+                                                                      </span><br/>
+                                                                    {% endif %}
+                                                                  {% endfor %}
+  
+                                                                  {% if line.selling_plan_allocation %}
+                                                                    <span class="order-list__item-detail">&bull;&nbsp;{{ line.selling_plan_allocation.selling_plan.name }}</span><br/>
+                                                                  {% endif %}
+                                                              </p>
+  
+                                                            {% if expand_bundles %}
+                                                              {% for component in line.bundle_components %}
+                                                                <table>
+                                                                  <tr class="order-list__item">
+                                                                    <td class="order-list__bundle-item">
+                                                                      <table>
+                                                                        <td class="order-list__image-cell">
+                                                                          {% if component.image %}
+                                                                            <img src="{{ component | img_url: 'compact_cropped' }}" align="left" width="40" height="40" class="order-list__product-image small"/>
+                                                                          {% else %}
+                                                                            <div class="order-list__no-image-cell small">
+                                                                              <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="40" height="40" class="order-list__no-product-image small"/>
+                                                                            </div>
+                                                                          {% endif %}
+                                                                        </td>
+  
+                                                                        <td class="order-list__product-description-cell">
+                                                                          {% if component.product.title %}
+                                                                            {% assign component_title = component.product.title %}
+                                                                          {% else %}
+                                                                            {% assign component_title = component.title %}
+                                                                          {% endif %}
+  
+                                                                          {% assign component_display = component.quantity %}
+  
+                                                                          <span class="order-list__item-title">{{ component_display }}&nbsp;&times;&nbsp;{{ component_title }}</span><br>
+  
+                                                                          {% if component.variant.title != 'Default Title'%}
+                                                                            <span class="order-list__item-variant">{{ component.variant.title }}</span>
+                                                                          {% endif %}
+                                                                        </td>
+                                                                      </table>
+                                                                    </td>
+                                                                  </tr>
+                                                                </table>
+                                                              {% endfor %}
+                                                            {% else %}
+                                                              {% for group in line.groups %}
+                                                                <span class="order-list__item-variant">Part of: {{ group.display_title }}</span><br/>
+                                                              {% endfor %}
+                                                            {% endif %}
+  
+                                                              {% if line.gift_card and line.properties["__shopify_send_gift_card_to_recipient"] %}
+                                                                {% for property in line.properties %}
+                                                                {% assign property_first_char = property.first | slice: 0 %}
+                                                                {% if property.last != blank and property_first_char != '_' %}
+                                                                  <div class="order-list__item-property">
+                                                                    <dt>{{ property.first }}:</dt>
+                                                                    <dd>
+                                                                    {% if property.last contains '/uploads/' %}
+                                                                      <a href="{{ property.last }}" class="link" target="_blank" style="color:#000001; text-decoration:none;">
+                                                                      {{ property.last | split: '/' | last }}
+                                                                      </a>
+                                                                    {% else %}
+                                                                      {{ property.last }}
+                                                                    {% endif %}
+                                                                    </dd>
+                                                                  </div>
+                                                                {% endif %}
+                                                              {% endfor %}
+  
+                                                              {% endif %}
+  
+                                                            {% if line.selling_plan_allocation %}
+                                                              <span class="order-list__item-variant">{{ line.selling_plan_allocation.selling_plan.name }}</span><br/>
+                                                            {% endif %}
+  
+                                                            {% if line.refunded_quantity > 0 %}
+                                                              <span class="order-list__item-refunded">Refunded</span>
+                                                            {% endif %}
+  
+                                                            {% if line.discount_allocations %}
+                                                              {% for discount_allocation in line.discount_allocations %}
+                                                                {% if discount_allocation.discount_application.target_selection != 'all' %}
+                                                                <p  style="margin-top: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                                  <span class="order-list__item-discount-allocation">
+                                                                    <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="14" height="14" style="vertical-align: top;" class="discount-tag-icon" />
+                                                                    <span>
+                                                                      {{ discount_allocation.discount_application.title | upcase }}
+                                                                      (-{{ discount_allocation.amount | money }})
+                                                                    </span>
+                                                                  </span>
+                                                                </p>
+                                                                {% endif %}
+                                                              {% endfor %}
+                                                            {% endif %}												          
+                                                          </td>
+                                                          <!-- END column center -->
+                                                          <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                                                          <!-- column right -->
+                                                            {% if expand_bundles and line.bundle_parent? %}
+                                                              <td  style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                                                            {% else %}
+                                                              <td  style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                                                            {% endif %}
+                                                            <p  style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right;">
+                                                                {% if line.final_line_price > 0 %}
+                                                                  {{ line.final_line_price | money }}
+                                                                    {% if line.unit_price_measurement %}
+                                                                      {{ line.unit_price | money }}/
+                                                                      {%- if line.unit_price_measurement.reference_value != 1 -%}
+                                                                        {{- line.unit_price_measurement.reference_value -}}
+                                                                      {%- endif -%}
+                                                                      {{ line.unit_price_measurement.reference_unit }}
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                  Free
+                                                                {% endif %}
+                                                              </p>
+                                                              {% if line.original_line_price != line.final_line_price %}
+                                                                <p class="c-grey l-grey" style="font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; color:#c9c7c5; text-align:right;">{{ line.original_line_price | money }}</p>
+                                                              {% endif %}
+                                                            </td>
+                                                          <!-- END column right -->
+                                                            </tr>
+                                                        </table>
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                {% endfor %}
+                                                  <!-- END Item scenario 1 -->												
+  
+                                                  <!-- Item scenario 2 -->												
+                                                    {% for line_item_group in line_item_groups %}
+                                                      
+                                                    {% assign final_line_price = 0 %}
+                                                    {% assign original_line_price = 0 %}
+                                                    {% assign discount_keys_str = "" %}
+  
+                                                    {% for component in line_item_group.components %}
+                                                      {% assign final_line_price = final_line_price | plus: component.final_line_price %}
+                                                      {% assign original_line_price = original_line_price | plus: component.original_line_price %}
+  
+                                                      {% for da in component.discount_allocations %}
+                                                        {% if da.discount_application.target_selection != 'all' %}
+                                                          {% assign discount_key = da.discount_application.title | append: da.discount_application.type %}
+                                                          {% assign discount_keys_str = discount_keys_str | append: discount_key | append: "," %}
+                                                        {% endif %}
+                                                      {% endfor %}
+                                                    {% endfor %}
+  
+                                                    {% assign discount_keys = discount_keys_str | split: "," | uniq %}
+  
+                                                    <tr class="order-list__item">
+                                                      <td class="order-list__item__cell">
+                                                        <table>
+                                                            <td class="mw-img-90" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+                                                              {% if line_item_group.image %}
+                                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                                    <tr>
+                                                                        <td  style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                                                                            <img src="{{ line_item_group | img_url: 'compact_cropped' }}" align="left" width="112" height="112" class="order-list__product-image"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                              {% else %}
+                                                                <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                                    <tr>
+                                                                        <td  style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                                                                            <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="112" height="112" class="order-list__no-product-image"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                              {% endif %}
+                                                          </td>
+                                                          <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                                                          <td  style="letter-spacing: -0.04em; border-bottom: 1px solid #c8c7c4; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
+                                                              <!-- Proudct title -->
+                                                              <p  style="margin-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                                  <span class="order-list__item-title">{{ line_item_group.title }}&nbsp;&times;&nbsp;{{ line_item_group.quantity }}</span>
+                                                              </p>
+  
+                                                            {% for discount_key in discount_keys %}
+                                                               {% assign discount_amount = 0 %}
+                                                               {% for component in line_item_group.components %}
+                                                                 {% for da in component.discount_allocations %}
+                                                                   {% assign key = da.discount_application.title | append: da.discount_application.type %}
+                                                                   {% if da.discount_application.target_selection != 'all' and key == discount_key %}
+                                                                     {% assign discount_amount = discount_amount | plus: da.amount %}
+                                                                     {% assign discount_title = da.discount_application.title %}
+                                                                   {% endif %}
+                                                                 {% endfor %}
+                                                               {% endfor %}
+                                                               <p>
+                                                                 <span class="order-list__item-discount-allocation">
+                                                                   <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="14" height="14" style="vertical-align: top;" class="discount-tag-icon" />&nbsp;<span>{{ discount_title | upcase }} (-{{ discount_amount | money }})</span>
+                                                                 </span>
+                                                               </p>
+                                                             {% endfor %}
+  
+                                                             {% for component in line_item_group.components %}
+                                                               <table>
+                                                                 <tr class="order-list__item">
+                                                                   <td class="order-list__bundle-item">
+                                                                     <table>
+                                                                       <td class="order-list__image-cell">
+                                                                         {% if component.image %}
+                                                                           <img src="{{ component | img_url: 'compact_cropped' }}" align="left" width="40" height="40" class="order-list__product-image"/>
+                                                                         {% else %}
+                                                                           <div class="order-list__no-image-cell small">
+                                                                             <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="40" height="40" class="order-list__no-product-image small"/>
+                                                                           </div>
+                                                                         {% endif %}
+                                                                       </td>
+  
+                                                                       <td class="order-list__product-description-cell">
+                                                                         <!-- Component title -->
+                                                                         {% if component.product.title %}
+                                                                           {% assign component_title = component.product.title %}
+                                                                         {% else %}
+                                                                           {% assign component_title = component.title %}
+                                                                         {% endif %}
+                                                                         <span class="order-list__item-title">{{ component.quantity }}&nbsp;&times;&nbsp;{{ component_title }}</span><br/>
+  
+                                                                         <!-- Component variant -->
+                                                                         {% if component.variant.title != 'Default Title' %}
+                                                                           <span class="order-list__item-detail">&bull; {{ component.variant.title }}</span><br/>
+                                                                         {% endif %}
+  
+                                                                         <!-- Component properties -->
+                                                                         {% for property in component.properties %}
+                                                                           {% assign property_first_char = property.first | slice: 0 %}
+                                                                           {% if property.last != blank and property_first_char != '_' %}
+                                                                             <span class="order-list__item-detail">
+                                                                               &bull; {{ property.first }}: {{ property.last }}
+                                                                             </span><br/>
+                                                                           {% endif %}
+                                                                         {% endfor %}
+                                                                       </td>
+                                                                     </table>
+                                                                   </td>
+                                                                 </tr>
+                                                               </table>
+                                                             {% endfor %}
+                                                          </td>
+                                                          <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                                                            <td  style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                                                            <p  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                              {% if final_line_price > 0 %}
+                                                                {{ final_line_price | money }}
+                                                              {% else %}
+                                                                Free
+                                                              {% endif %}
+                                                            </p>
+                                                            {% if original_line_price != final_line_price %}
+                                                              <p class="c-grey l-grey" style="font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; color:#c9c7c5;">{{ original_line_price | money }}</p>
+                                                            {% endif %}
+                                                          </td>
+                                                      </table>
+                                                    </td>
+                                                  </tr>
+                                                    {% endfor %}
+                                                  <!-- END Item scenario 2 -->												
+                                              </table>
+                                          </td>
+                                      </tr>
+                                      <!-- END Order table -->
+  
+                                      <!-- Total -->
+                                      <tr>
+                                          <td style="padding: 0 16px 30px; font-size: 0pt; line-height: 0pt;">
+                                          {% assign total_order_discount_amount = 0 %}
+                                          {% assign has_shipping_discount = false %}
+                                          {% assign epsilon = 0.00001 %}
+  
+                                          {% for discount_application in discount_applications %}
+                                            {% if discount_application.target_selection == 'all' and discount_application.target_type == 'line_item' %}
+                                              {% assign order_discount_count = order_discount_count | plus: 1 %}
+                                              {% assign total_order_discount_amount = total_order_discount_amount | plus: discount_application.total_allocated_amount %}
+                                            {% endif %}
+                                            {% if discount_application.target_type == 'shipping_line' %}
+                                              {% assign has_shipping_discount = true %}
+                                              {% assign shipping_discount_title = discount_application.title %}
+                                              {% if discount_application.total_allocated_amount == 0 %}
+                                                {% assign discount_value_price = discount_application.value | times: 100 %}
+                                              {% else %}
+                                                {% assign discount_value_price = discount_application.total_allocated_amount %}
+                                              {% endif %}
+                                              {% assign shipping_amount_minus_discount_value_price = shipping_price | minus: discount_value_price %}
+                                              {% assign shipping_amount_minus_discount_value_price_abs = shipping_amount_minus_discount_value_price | abs %}
+                                              {% assign discount_application_value_type = discount_application.value_type | strip %}
+                                              {% if shipping_amount_minus_discount_value_price_abs < epsilon or discount_application_value_type == 'percentage' and discount_application.value == 100 %}
+                                                {% assign free_shipping = true %}
+                                              {% else %}
+                                                {% assign discounted_shipping_price = shipping_amount_minus_discount_value_price %}
+                                              {% endif %}
+                                            {% endif %}
+                                          {% endfor %}
+                                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          subtotal
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ subtotal_price | plus: total_order_discount_amount | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% if order_discount_count > 0 %}
+                                                  {% if order_discount_count == 1 %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          order discount
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          -{{ total_order_discount_amount | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                  {% if order_discount_count > 1 %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          order discount
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          -{{ total_order_discount_amount | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                  {% for discount_application in discount_applications %}
+                                                    {% if discount_application.target_selection == 'all' and discount_application.target_type != 'shipping_line' %}
+                                                    <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" colspan="2" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="14" height="14" class="discount-tag-icon" style="display: inline-block; vertical-align: top;" />&nbsp;<span class="subtotal-line__discount-title">{{discount_application.title}} (-{{ discount_application.total_allocated_amount | money }})</span>
+                                                      </td>													
+                                                  </tr>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                  {% endif %}
+  
+                                                  {% unless retail_delivery_only %}
+                                                    {% if delivery_method == 'pick-up' %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          pickup
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ shipping_price | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% else %}
+                                                  {% if has_shipping_discount %}
+                                                  {% if free_shipping == true %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          shipping
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          <span style="text-decoration: line-through;">{{ shipping_price | money }}</span> free
+                                                      </td>
+                                                  </tr>
+                                                  {% else %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          shipping
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          <span style="text-decoration: line-through;">{{ shipping_price | money }}</span> {{ discounted_shipping_price | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                    <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" colspan="2" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" style="display: inline-block; vertical-align: top;" width="14" height="14" class="discount-tag-icon" />&nbsp;{{ shipping_discount_title }} (-{{ discount_value_price | money }})</span>
+                                                      </td>													
+                                                  </tr>
+                                                  {% else %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          shipping
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ shipping_price | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+  
+                                                    {% endif %}
+                                                  {% endunless %}
+  
+                                                  {% if total_duties %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          duties
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ total_duties | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                  {% if tax_price > 0 %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          taxes
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ tax_price | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                  {% if total_tip and total_tip > 0 %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          tip
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ total_tip | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+  
+                                                  {% assign transaction_size = 0 %}
+                                                    {% assign transaction_amount = 0 %}
+                                                    {% assign net_transaction_amount_rounding = 0 %}
+                                                    {% for transaction in transactions %}
+                                                      {% if transaction.status == "success" %}
+                                                        {% if transaction.kind == "sale" or transaction.kind == "capture"  %}
+                                                            {% assign transaction_size = transaction_size | plus: 1 %}
+                                                            {% assign transaction_amount = transaction_amount | plus: transaction.amount %}
+                                                            {% if transaction.amount_rounding != nil %}
+                                                              {% assign net_transaction_amount_rounding = net_transaction_amount_rounding | plus: transaction.amount_rounding %}
+                                                            {% endif %}
+                                                        {% elsif transaction.kind == "refund" or transaction.kind == "change" %}
+                                                          {% assign transaction_size = transaction_size | plus: 1 %}
+                                                          {% assign transaction_amount = transaction_amount | minus: transaction.amount %}
+                                                          {% if transaction.amount_rounding != nil %}
+                                                            {% assign net_transaction_amount_rounding = net_transaction_amount_rounding | minus: transaction.amount_rounding %}
+                                                          {% endif %}
+                                                        {% endif %}
+                                                      {% endif %}
+                                                    {% endfor %}
+  
+                                                  {% if payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %}
+                                                  {% assign next_payment = payment_terms.next_payment %}
+                                                  {% assign due_at_date = next_payment.due_at | date: "%b %d, %Y" %}
+                                                  {% if net_transaction_amount_rounding != 0 %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ total_price | money }}
+                                                      </td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          cash rounding
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {% if net_transaction_amount_rounding < 0 %}-{% endif %} {{ net_transaction_amount_rounding | abs | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total paid today
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ transaction_amount | plus: net_transaction_amount_rounding | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% assign next_amount_due = total_price %}
+                                                  {% if next_payment %}
+                                                    {% assign next_amount_due = next_payment.amount_due %}
+                                                  {% endif %}
+  
+                                                  {% if payment_terms.type == 'receipt' %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total due on receipt
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ next_amount_due | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% elsif payment_terms.type == 'fulfillment' %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total due on fulfillment
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ next_amount_due | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% else %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total due {{ due_at_date }}
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ next_amount_due | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% endif %}
+                                                  {% else %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ total_price | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% if net_transaction_amount_rounding != 0 %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          cash rounding
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {% if net_transaction_amount_rounding < 0 %}-{% endif %} {{ net_transaction_amount_rounding | abs | money }}
+                                                      </td>
+                                                  </tr>
+                                                  {% if financial_status == 'paid' %}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          paid<br /><small>{{ gateway | capitalize }}</small>
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ transaction_amount | plus: net_transaction_amount_rounding | money }}
+                                                      </td>
+                                                  </tr>
+                                                    {% endif %}
+                                                  {% endif %}
+                                                  {% if transaction_amount != total_price and payment_terms == nil%}
+                                                  <tr>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+                                                          total paid today
+                                                      </td>
+                                                      <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+                                                          {{ transaction_amount | plus: net_transaction_amount_rounding | money }}
+                                                      </td>
+                                                  </tr>
+                                                    {% endif %}
+                                                  {% endif %}
+                                              </table>
+                                          </td>
+                                      </tr>
+                                      <!-- END Total -->
+  
+                                      <!-- Customer info -->
+                                      <tr>
+                                          <td class="mpx-0" style="padding: 0 16px 24px;">
+                                              <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#efeae4">
+                                                  <tr>
+                                                      <td style="padding: 16px 16px 0;">
+                                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      order number
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                                                                      {{ order_name }}
+                                                                  </td>
+                                                              </tr>
+                                                              {%- if po_number %}
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      PO number
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                                                                      #{{ po_number }}
+                                                                  </td>
+                                                              </tr>
+                                                              {%- endif %}
+                                                              {% if consolidated_estimated_delivery_time %}
+                                                              {% if has_multiple_delivery_methods %}
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      Estimated delivery
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;">
+                                                                       {{ consolidated_estimated_delivery_time | date: '%B %d, %Y' }}
+                                                                  </td>
+                                                              </tr>
+                                                              {% else %}
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      Estimated delivery
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;">
+                                                                       {{ consolidated_estimated_delivery_time | date: '%B %d, %Y' }}
+                                                                  </td>
+                                                              </tr>
+                                                              {% endif %}
+                                                              {% endif %}
+                                                              {% if requires_shipping and shipping_address %}
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      shipping&nbsp;address
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                                                                      <a href="{{shop.url}}" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none; pointer-events:none; cursor:auto;"><span class="link" style="color:#000001; text-decoration:none;">{{ shipping_address | format_address }}</span></a>
+                                                                  </td>
+                                                              </tr>
+                                                              {% endif %}
+                                                              {% if company_location %}
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      Location
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                                                                      {{ company_location.name }}
+                                                                  </td>
+                                                              </tr>
+                                                              {% endif %}
+  
+                                                              {% if transaction_size > 0 or payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %}
+                                                              <tr>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                                                                      payment method
+                                                                  </td>
+                                                                  <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                                                                      {% if payment_terms %}
+                                                                        {% assign due_date = payment_terms.next_payment.due_at | default: nil %}
+                                                                        {% if payment_terms.type == 'receipt' or payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}
+                                                                          {{ payment_terms.translated_name }}<br>
+                                                                        {% else %}
+                                                                          {{ payment_terms.translated_name }}: Due {{ due_date | date: format: 'date' }}<br>
+                                                                        {% endif %}
+                                                                      {% endif %}
+                                                                      {% if transaction_size > 0 %}
+                                                                        {% for transaction in transactions %}
+                                                                          {% if transaction.status == "success" or transaction.status == "pending" %}
+                                                                            {% if transaction.kind == "capture" or transaction.kind == "sale" %}
+                                                                              {% if transaction.payment_details.gift_card_last_four_digits %}
+                                                                                <img src="{{ transaction.payment_details.type | downcase | replace: '_', '-'  | payment_type_img_url }}" class="customer-info__item-credit" height="16">
+                                                                                ending with {{ transaction.payment_details.gift_card_last_four_digits }}<br>
+                                                                              {% elsif transaction.payment_details.credit_card_company %}
+                                                                                <img src="{{ transaction.payment_details.credit_card_company | payment_icon_png_url  }}" class="customer-info__item-credit" height="16" alt="{{ transaction.payment_details.credit_card_company }}">
+                                                                                <span>ending with {{ transaction.payment_details.credit_card_last_four_digits }}</span><br>
+                                                                              {% elsif transaction.gateway_display_name == "Gift card" %}
+                                                                                <img src="{{ transaction.gateway_display_name | downcase | replace: ' ', '-'  | payment_type_img_url }}" class="customer-info__item-credit" height="16">
+                                                                                ending with {{ transaction.payment_details.gift_card.last_four_characters | upcase }}<br>
+                                                                                  &emsp;&emsp;&emsp;&nbsp;Gift card balance - <b>{{ transaction.payment_details.gift_card.balance |  money }}</b>
+                                                                              {% elsif transaction.gateway_display_name != "Shop Cash" %}
+                                                                                {{ transaction.gateway_display_name }}<br>
+                                                                              {% endif %}
+                                                                            {% elsif transaction.kind == "authorization" and transaction.gateway_display_name == "Shop Cash" %}
+                                                                              <span>Shop Cash</span><br>                              
+                                                                            {% endif %}
+                                                                          {% endif %}
+                                                                        {% endfor %}
+                                                                      {% endif %}
+                                                                  </td>
+                                                              </tr>
+                                                              {% endif %}
+                                                          </table>
+                                                      </td>
+                                                  </tr>
+                                              </table>
+                                          </td>
+                                      </tr>
+                                      <!-- END Customer info -->
+  
+                                      <!-- Footer -->
+                                      <tr>
+                                          <td style="padding: 0 16px 22px;">
+                                              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                  <tr>
+                                                      <td  style="border-bottom: 1px solid #c8c7c4; padding-bottom: 24px;" align="left">
+                                                          <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                              <tr>
+                                                                  <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px;">
+                                                                      If you signed up for a subscription, you can customize <br class="m-hide" />you refill frequency anytime:
+                                                                  </td>
+                                                              </tr>															
+                                                          </table>
+  
+                                                          <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                                                              <tr>
+                                                                  <td  style="mso-line-height-alt: 17px; border-bottom: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 15px;">
+                                                                      <a href="https://stickerize.com/en-bg/account" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">GO TO ACCOUNT →</span></a>
+                                                                  </td>
+                                                              </tr>
+                                                          </table>
+                                                      </td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td  style="padding-top: 12px;">
+                                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                              <tr>
+                                                                  <th class="column-top" width="288" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+                                                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                          <tr>
+                                                                              <td class="mpb-16" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px;">
+                                                                                  Tomtebogatan 34, Stockholm, Sweden
+                                                                              </td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                                                  For information about how we <br class="m-hide" />process data and monitor <br class="m-hide" />communications please see our <br class="m-hide" /><a href="#" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="#" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; <br class="m-hide" />Conditions</span></a>
+                                                                              </td>
+                                                                          </tr>
+                                                                      </table>
+                                                                  </th>
+                                                                  <th class="column mpb-16" width="16" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">&nbsp;</th>
+                                                                  <th class="column-top" width="396" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+                                                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                          <tr>
+                                                                              <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                                                                  <a href="mailto:hello@stickerize.com" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">HELLO@STICKERIZE.COM</span></a>
+                                                                              </td>
+                                                                          </tr>
+                                                                      </table>
+                                                                  </th>
+                                                              </tr>
+                                                          </table>
+                                                      </td>
+                                                  </tr>
+                                              </table>											
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 12px; padding-right: 12px;">
+                                              <a href="{{shop.url}}" target="_blank" rel="noopener"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="700" height="110" border="0" alt="" /></a>
+                                          </td>
+                                      </tr>
+                                      <!-- END Footer -->
+                                  </table>
+                              </td>
+                          </tr>
+                      </table>
+                  </td>
+              </tr>
+          </table>
+          <div style="font-size: 0pt; line-height: 0pt;">&nbsp;
+              {%- if billing_address.country_code == 'DE' or billing_address.country_code == 'DK' -%}
+                {%- if shop.terms_of_service.body != blank -%}
+                  {{ shop.terms_of_service | attach_as_pdf: "Terms of service" }}
+                {%- endif -%}
+  
+                {%- if shop.refund_policy.body != blank -%}
+                  {{ shop.refund_policy | attach_as_pdf: "Refund policy" }}
+                {%- endif -%}
+              {%- endif -%}
+          </div>
+      </center>
+  </body>
+  </html>
