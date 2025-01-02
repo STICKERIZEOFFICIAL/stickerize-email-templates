@@ -1,46 +1,67 @@
-export function Footer({ paddingTop = '0' }: { paddingTop?: string } = {}) {
+export function Footer({ paddingTop = "0" }: { paddingTop?: string } = {}) {
   return /*html*/ `
   <!-- Footer -->
   <tr>
     <td style="padding: ${paddingTop} 16px 32px;">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <th class="column-top" width="334" style="text-transform: lowercase; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td class="mfz-14 mlh-17" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;">
-                  Centralplan 15, Stockholm, Sweden
-                </td>
-              </tr>
-              <tr>
-                <td class="mfz-14 mlh-17" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px;">
-                  For information about how we process data and monitor communications please see our <a href="#" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="#" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; Conditions</span></a>
-                </td>
-              </tr>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+    <tr>
+        <td  style="border-bottom: 1px solid #c8c7c4; padding-bottom: 24px;" align="left">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                <tr>
+                    <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px;">
+                        If you signed up for a subscription, you can customize <br class="m-hide" />you refill frequency anytime:
+                    </td>
+                </tr>															
             </table>
-          </th>
-          <th class="column mpb-16" width="16" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">&nbsp;</th>
-          <th class="column-top" width="350" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td class="mfz-14 mlh-17" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px;">
-                  <a href="mailto:hello@swoop.com" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:underline;">HELLO@SWOOP.COM</span></a>
-                  {% if unsubscribe_url %}
-                  <br />
-                  <a href="{{ unsubscribe_url }}" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:underline;">UNSUBSCRIBE</span></a>
-                  {% endif %}
-                </td>
-              </tr>
+
+            <table border="0" cellspacing="0" cellpadding="0" role="presentation">
+                <tr>
+                    <td  style="mso-line-height-alt: 17px; border-bottom: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 15px;">
+                        <a href="https://stickerize.com/en-bg/account" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">GO TO ACCOUNT →</span></a>
+                    </td>
+                </tr>
             </table>
-          </th>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 16px; padding-right: 16px;">
-      <img src="https://cdn.shopify.com/s/files/1/0764/7356/5526/files/logo_footer.png?v=1702567429" width="700" height="140" border="0" alt="" />
-    </td>
-  </tr>
-  <!-- END Footer -->`;
+        </td>
+    </tr>
+    <tr>
+        <td  style="padding-top: 12px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th class="column-top" width="288" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="mpb-16" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px;">
+                                    Tomtebogatan 34, Stockholm, Sweden
+                                </td>
+                            </tr>
+                            <tr>
+                                <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                    For information about how we <br class="m-hide" />process data and monitor <br class="m-hide" />communications please see our <br class="m-hide" /><a href="#" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="#" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; <br class="m-hide" />Conditions</span></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </th>
+                    <th class="column mpb-16" width="16" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">&nbsp;</th>
+                    <th class="column-top" width="396" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                                    <a href="mailto:hello@stickerize.com" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">HELLO@STICKERIZE.COM</span></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </th>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>											
+</td>
+</tr>
+<tr>
+<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 12px; padding-right: 12px;">
+<a href="{{shop.url}}" target="_blank" rel="noopener"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="700" height="110" border="0" alt="" /></a>
+</td>
+</tr>
+<!-- END Footer -->`;
 }

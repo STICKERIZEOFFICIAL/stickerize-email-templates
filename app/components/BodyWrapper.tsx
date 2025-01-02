@@ -1,8 +1,8 @@
 export function BodyWrapper({ children }: { children: React.ReactNode }) {
   return /*html*/ `
-    <body class="body" id="body" style="padding:0 !important; margin:0 auto !important; display:block !important; min-width:100% !important; width:100% !important; background:#fffffe; -webkit-text-size-adjust:none;">
+    <body class="body" id="body" style="padding:0 !important; margin:0 auto !important; display:block !important; min-width:100% !important; width:100% !important; background:#fbf9f6; -webkit-text-size-adjust:none;">
     <center>
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 0; padding: 0; width: 100%; height: 100%;" bgcolor="#fffffe">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" background="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/bg_img_1.png?v=1734347875" style="margin: 0; padding: 0; width: 100%; height: 100%;" bgcolor="#fbf9f6">
         <!-- Preview Text -->
         <tr class="m-hide" style="mso-hide: all;">
         <td style="font-size: 0pt; line-height: 0pt;">&nbsp;</td>
@@ -11,10 +11,10 @@ export function BodyWrapper({ children }: { children: React.ReactNode }) {
         <!-- END Preview Text -->
 
         <tr>
-          <td style="margin: 0; padding: 0; width: 100%; height: 100%;" align="center" valign="top">
-            <table width="732" border="0" cellspacing="0" cellpadding="0" class="m-shell">
+        <td style="margin: 0; padding: 0; width: 100%; height: 100%;" align="center" valign="top">
+          <table width="732" border="0" cellspacing="0" cellpadding="0" class="m-shell" bgcolor="#fbf9f6">
               <tr>
-                <td style="padding-top: 10px;">
+                <td style="padding-top: 12px;">
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   
                     ${children}

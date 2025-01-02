@@ -21,34 +21,20 @@ export function Head({ title }: { title: string }) {
 		<title>${title}</title>
 		<!--[if !mso]><!-->
 		<style type="text/css" media="all">
-			@font-face {
-			font-family:"neue-helvetica-73-extended";
-			src:url("https://cdn.shopify.com/s/files/1/0764/7356/5526/files/helvetica_neue.woff2?v=1704982311") format("woff2"),url("https://cdn.shopify.com/s/files/1/0764/7356/5526/files/helvetica_neue.woff?v=1704982301") format("woff");
-			font-display:auto;font-style:normal;font-weight:bold;font-stretch:normal;
-			}
-			@font-face {
-			font-family:"letter-gothic-std";
-			src:url("https://use.typekit.net/af/28f823/000000000000000000012e1e/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"),url("https://use.typekit.net/af/28f823/000000000000000000012e1e/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"),url("https://use.typekit.net/af/28f823/000000000000000000012e1e/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
-			font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
-			}
-	
-			@font-face {
-			font-family:"letter-gothic-std";
-			src:url("https://use.typekit.net/af/89fea7/000000000000000000012e1d/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff2"),url("https://use.typekit.net/af/89fea7/000000000000000000012e1d/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("woff"),url("https://use.typekit.net/af/89fea7/000000000000000000012e1d/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3") format("opentype");
-			font-display:auto;font-style:italic;font-weight:400;font-stretch:normal;
-			}
-	
-			@font-face {
-			font-family:"letter-gothic-std";
-			src:url("https://use.typekit.net/af/7676e3/000000000000000000012e1b/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff2"),url("https://use.typekit.net/af/7676e3/000000000000000000012e1b/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("woff"),url("https://use.typekit.net/af/7676e3/000000000000000000012e1b/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3") format("opentype");
-			font-display:auto;font-style:normal;font-weight:700;font-stretch:normal;
-			}
-	
-			@font-face {
-			font-family:"letter-gothic-std";
-			src:url("https://use.typekit.net/af/cb8eed/000000000000000000012e1c/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("woff2"),url("https://use.typekit.net/af/cb8eed/000000000000000000012e1c/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("woff"),url("https://use.typekit.net/af/cb8eed/000000000000000000012e1c/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3") format("opentype");
-			font-display:auto;font-style:italic;font-weight:700;font-stretch:normal;
-			}
+		  @font-face {
+            font-family: 'JetBrainsMono';
+            font-style: italic;
+            font-weight: 100 800;
+            src: url("https://fonts.gstatic.com/s/jetbrainsmono/v20/tDbX2o-flEEny0FZhsfKu5WU4xD-CwOnSA.woff2") format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+          	}
+          @font-face {
+            font-family: 'JetBrainsMono';
+            font-style: normal;
+            font-weight: 100 800;
+            src: url("https://fonts.gstatic.com/s/jetbrainsmono/v20/tDbV2o-flEEny0FZhsfKu5WU4xD7OwE.woff2") format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+          }
 	
 			.tk-letter-gothic-std { font-family: "letter-gothic-std",monospace; }
 		</style>
@@ -62,7 +48,7 @@ export function Head({ title }: { title: string }) {
 		
 	
 		<style type="text/css" media="screen">
-			body { padding:0 !important; margin:0 auto !important; display:block !important; min-width:100% !important; width:100% !important; background:#fffffe; -webkit-text-size-adjust:none }
+			body { padding:0 !important; margin:0 auto !important; display:block !important; min-width:100% !important; width:100% !important; background:#fbf9f6; -webkit-text-size-adjust:none }
 			a { color:#000001; text-decoration:none; font-family: inherit; font-weight: inherit }
 			p { margin:0 !important } 
 	

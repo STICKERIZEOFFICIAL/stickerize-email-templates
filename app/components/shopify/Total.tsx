@@ -6,6 +6,7 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
     {% assign order_discount_count = 0 %}
     {% assign total_order_discount_amount = 0 %}
     {% assign has_shipping_discount = false %}
+    {% assign epsilon = 0.00001 %}
 
     {% for discount_application in discount_applications %}
       {% if discount_application.target_selection == 'all' and discount_application.target_type == 'line_item' %}
@@ -152,7 +153,7 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% endfor %}
           {% endif %}
           {% endunless %}`
-            : ''
+            : ""
         }
       </table>
     </td>
