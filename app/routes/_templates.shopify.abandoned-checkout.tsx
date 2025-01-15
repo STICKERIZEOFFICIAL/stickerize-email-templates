@@ -9,26 +9,26 @@ export default function () {
   return /*html*/ `
 	{% capture email_title %}
 	{% if item_count == 1 %}
-	You left an item in your cart
+	You left a sticker in your cart
 	{% else %}
-	You left items in your cart
+	You left your custom stickers in your cart
 	{% endif %}
 	{% endcapture %}
 	{% capture email_body %}
 	{% if billing_address.first_name %}
 	{% if item_count == 1 %}
-	Hi {{ billing_address.first_name }}, you added an item to your shopping cart and haven't completed your purchase. You
+	Hi {{ billing_address.first_name }}, you added custom sticker to your shopping cart and haven't completed your purchase. You
 	can complete it now while it's still available.
 	{% else %}
-	Hi {{ billing_address.first_name }}, you added items to your shopping cart and haven't completed your purchase. You can
+	Hi {{ billing_address.first_name }}, you added custom stickers to your shopping cart and haven't completed your purchase. You can
 	complete it now while they're still available.
 	{% endif %}
 	{% else %}
 	{% if item_count == 1 %}
-	Hi, you added an item to your shopping cart and haven't completed your purchase. You can complete it now while it's
+	Hi, you added a sticker to your shopping cart and haven't completed your purchase. You can complete it now while it's
 	still available.
 	{% else %}
-	Hi, you added items to your shopping cart and haven't completed your purchase. You can complete it now while they're
+	Hi, you added custom stickers to your shopping cart and haven't completed your purchase. You can complete it now while they're
 	still available.
 	{% endif %}
 	{% endif %}

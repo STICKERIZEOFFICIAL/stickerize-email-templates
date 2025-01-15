@@ -8,8 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Thank you{% endcapture %}
-	{% capture email_body %}arrowroot powder neutralizes unpleasant Odours while letting your body breathe and release toxins.{% endcapture %}
+	{% capture email_title %}Join our creative community!{% endcapture %}
+	{% capture email_body %}You’re just one step ahead from exclusive offers, and inspiration from STICKERIZE©. You just need to confirm you want to receive marketing updates from us. </br> We’re excited to keep you in the loop as we create amazing custom stickers together. </br> If you didn’t subscribe, then you don’t need to do anything.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
