@@ -9,7 +9,7 @@ export function Footer({ paddingTop = "0" }: { paddingTop?: string } = {}) {
             <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                 <tr>
                     <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px;">
-                        If you signed up for a subscription, you can customize <br class="m-hide" />you refill frequency anytime:
+                        If you’d like to manage your orders or download invoices, <br>simply log in to your account.
                     </td>
                 </tr>															
             </table>
