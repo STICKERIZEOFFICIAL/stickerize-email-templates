@@ -20,6 +20,17 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
       {% endif %}
     {% endfor %}
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        {% if total_order_discount_amount > epsilon %}
+        <tr>
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
+            discount
+          </td>
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+            -{{ total_order_discount_amount | money_without_trailing_zeros }}
+          </td>
+        </tr>
+        {% endif %}
+
         {% if delivery_method == 'pick-up' %}
         <tr>
           <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
