@@ -64,7 +64,7 @@ export function OrderTable({
 
                       <!-- List product details -->
                       <p style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
-                          {% assign important_properties = "_size,_cut,_stkType" | split: "," %}
+                          {% assign important_properties = "Size,_cut,_stkType" | split: "," %}
                           {% for prop_name in important_properties %}
                               {% for property in line.properties %}
                                   {% if property.first == prop_name and property.last != blank %}
@@ -100,7 +100,7 @@ export function OrderTable({
                                       {% assign component_title = component.title %}
                                     {% endif %}
 
-                                    {% assign component_display = component.quantity %}
+                                    {% assign component_display = component.Quantity %}
 
                                     <span class="order-list__item-title">{{ component_display }}&nbsp;&times;&nbsp;{{ component_title }}</span><br>
 
@@ -250,7 +250,7 @@ export function OrderTable({
                 <td style="letter-spacing: -0.04em; border-bottom: 1px solid #c8c7c4; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                   <!-- Product title -->
                   <p style="margin-bottom: 12px; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
-                    <span class="order-list__item-title">{{ line_item_group.title }}&nbsp;&times;&nbsp;{{ line_item_group.quantity }}</span>
+                    <span class="order-list__item-title">{{ line_item_group.title }}&nbsp;&times;&nbsp;{{ line_item_group.Quantity }}</span>
                   </p>
 
                   {% for discount_key in discount_keys %}
@@ -293,7 +293,7 @@ export function OrderTable({
                               {% else %}
                                 {% assign component_title = component.title %}
                               {% endif %}
-                              <span class="order-list__item-title">{{ component.quantity }}&nbsp;&times;&nbsp;{{ component_title }}</span><br/>
+                              <span class="order-list__item-title">{{ component.Quantity }}&nbsp;&times;&nbsp;{{ component_title }}</span><br/>
 
                               <!-- Component variant -->
                               {% if component.variant.title != 'Default Title' %}
