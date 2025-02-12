@@ -185,13 +185,6 @@ export function OrderTable({
                         <p style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right;">
                           {% if line.final_line_price > 0 %}
                             {{ line.final_line_price | money_without_trailing_zeros }}
-                            {% if line.unit_price_measurement %}
-                              {{ line.unit_price | money_without_trailing_zeros }}/
-                              {%- if line.unit_price_measurement.reference_value != 1 -%}
-                                {{- line.unit_price_measurement.reference_value -}}
-                              {%- endif -%}
-                              {{ line.unit_price_measurement.reference_unit }}
-                            {% endif %}
                           {% else %}
                             Free
                           {% endif %}
