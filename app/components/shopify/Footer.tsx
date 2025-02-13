@@ -17,7 +17,7 @@ export function Footer({ paddingTop = "0" }: { paddingTop?: string } = {}) {
             <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                 <tr>
                     <td  style="mso-line-height-alt: 17px; border-bottom: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 15px;">
-                        <a href="https://stickerize.com/en-bg/account" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">GO TO ACCOUNT →</span></a>
+                        <a href="https://stickerize.com/account" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">GO TO ACCOUNT →</span></a>
                     </td>
                 </tr>
             </table>
@@ -31,12 +31,12 @@ export function Footer({ paddingTop = "0" }: { paddingTop?: string } = {}) {
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td class="mpb-16" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px;">
-                                    Tomtebogatan 34, Stockholm, Sweden
+                                    Tomtebogatan 34, 11338 Stockholm, Sweden
                                 </td>
                             </tr>
                             <tr>
                                 <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
-                                    For information about how we <br class="m-hide" />process data and monitor <br class="m-hide" />communications please see our <br class="m-hide" /><a href="#" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="#" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; <br class="m-hide" />Conditions</span></a>
+                                    For information about how we <br class="m-hide" />process data and monitor <br class="m-hide" />communications please see our <br class="m-hide" /><a href="https://stickerize.com/pages/privacy-policy" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="https://stickerize.com/pages/terms-of-service" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; <br class="m-hide" />Conditions</span></a>
                                 </td>
                             </tr>
                         </table>
@@ -46,7 +46,7 @@ export function Footer({ paddingTop = "0" }: { paddingTop?: string } = {}) {
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
-                                    <a href="mailto:hello@stickerize.com" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">HELLO@STICKERIZE.COM</span></a>
+                                    <a href="mailto:help@stickerize.com" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">HELP@STICKERIZE.COM</span></a>
                                 </td>
                             </tr>
                         </table>
