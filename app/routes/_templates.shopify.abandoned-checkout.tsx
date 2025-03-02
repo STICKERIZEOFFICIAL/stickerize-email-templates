@@ -54,6 +54,7 @@ export default function () {
 
 			${Footer({ paddingTop: '16px' })}
 	`,
+	previewText: "",
   })}
 `;
 }

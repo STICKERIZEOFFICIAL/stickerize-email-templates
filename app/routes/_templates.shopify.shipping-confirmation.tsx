@@ -53,6 +53,7 @@ export default function () {
 
 			${Footer()}
 	`,
+	previewText: "",
   })}
 `;
 }
