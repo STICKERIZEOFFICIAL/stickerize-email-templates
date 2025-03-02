@@ -10,9 +10,9 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} Your payment couldn’t be processed for order {{ order_name }} {% endcapture %}
+	{% capture email_title %} Action needed: Payment issue with your order: {{ order_name }} {% endcapture %}
 	{% capture email_body %}
-		You have not been charged, please try paying for the order again.
+	We’re having trouble processing your payment. To ensure your custom stickers are made without delay, please update your payment information or contact us for support.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -33,12 +33,12 @@ export default function () {
 			${CustomerInfo()}
 
 			{% if checkout_payment_collection_url %}
-				${Button({ url: '{{ checkout_payment_collection_url }}', label: 'Pay now', paddingTop: 0 })}
+				${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
 			{% endif %}
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Please update your payment information.",
   })}
 `;
 }

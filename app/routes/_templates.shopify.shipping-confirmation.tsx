@@ -10,23 +10,23 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-  {% capture email_title %}Your order is on the way{% endcapture %}
-  {% capture email_body %}Your order is on the way. Track your shipment to see the delivery status.{% endcapture %}
+  {% capture email_title %}Your custom stickers are on their way{% endcapture %}
+  {% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}The last items in your order are on the way{% endcapture %}
-			{% capture email_body %}The last items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %}
+		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
+		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Some items in your order are on the way{% endcapture %}
-			{% capture email_body %}Some items in your order are on the way. Track your shipment to see the delivery status.{% endcapture %}
+		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
+		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}The last item in your order is on the way{% endcapture %}
-			{% capture email_body %}The last item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %}
+		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
+		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
 		{% else %}
-			{% capture email_title %}One item in your order is on the way{% endcapture %}
-			{% capture email_body %}One item in your order is on the way. Track your shipment to see the delivery status.{% endcapture %}
+		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
+		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
 		{% endif %}
 	{% endif %}
 
@@ -39,7 +39,7 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `We’re working to get your order out ASAP.<br/>
+        description: `{{ email_body}} <br /> <br />
 				You can track your order here:<br/>`,
         showOrderNumber: false,
         showTrackingNumber: true,
@@ -53,7 +53,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Good news - Your order has been shipped and is on its way to you.",
   })}
 `;
 }

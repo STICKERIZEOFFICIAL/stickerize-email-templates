@@ -30,7 +30,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "We’ve received your order and are already working to bring your custom stickers to life.",
   })}
 `;
 }

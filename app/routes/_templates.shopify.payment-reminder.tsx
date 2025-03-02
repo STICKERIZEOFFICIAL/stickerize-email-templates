@@ -9,15 +9,15 @@ import { Intro } from '~/components/shopify/Intro';
 export default function () {
   return /*html*/ `
 		{% if payment_schedule.overdue? and payment_schedule.number_of_days_overdue == 0 %}
-		{% capture email_title %}Your payment is due today{% endcapture %}
+		{% capture email_title %}Don’t forget to complete your order{% endcapture %}
 		{% elsif payment_schedule.due_later? and payment_schedule.due_in_days == 0 %}
-		{% capture email_title %}Your payment is due today{% endcapture %}
+		{% capture email_title %}Don’t forget to complete your order{% endcapture %}
 		{% elsif payment_schedule.overdue? and payment_schedule.number_of_days_overdue == 1 %}
-		{% capture email_title %}Your payment was due yesterday{% endcapture %}
+		{% capture email_title %}Don’t forget to complete your order{% endcapture %}
 		{% elsif payment_schedule.due_later? and payment_schedule.due_in_days == 1 %}
-		{% capture email_title %}Your payment is due tomorrow{% endcapture %}
+		{% capture email_title %}Don’t forget to complete your order{% endcapture %}
 		{% elsif payment_schedule.due_later? and payment_schedule.due_in_days > 1 %}
-		{% capture email_title %}Your payment is due in {{ payment_schedule.due_in_days}} days{% endcapture %}
+		{% capture email_title %}Don’t forget to complete your order.{% endcapture %}
 		{% else %}
 		{% capture email_title %}Your payment is {{ payment_schedule.number_of_days_overdue }} days overdue{% endcapture %}
 		{% endif %}
@@ -39,13 +39,13 @@ export default function () {
 					{{ custom_message }}
 				{% else %}
 					{% if payment_schedule.overdue? and payment_schedule.number_of_days_overdue == 0 %}
-						This is a reminder that you have a payment of {{ payment_schedule.amount_due |
+					Your custom sticker order is waiting. To avoid any delays, please complete your payment. Once done, we’ll start crafting your stickers right away. Payment of {{ payment_schedule.amount_due |
 						money_with_currency }} due today for order {{ name }}.
 					{% elsif payment_schedule.due_later? %}
-						This is a reminder that your payment of {{ payment_schedule.amount_due | money_with_currency }}
+					Your custom sticker order is waiting. To avoid any delays, please complete your payment. Once done, we’ll start crafting your stickers right away. Payment of {{ payment_schedule.amount_due | money_with_currency }}
 						for order {{ name }} is due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}.
 					{% else %}
-						This is a reminder that your payment of {{ payment_schedule.amount_due | money_with_currency }}
+					Your custom sticker order is waiting. To avoid any delays, please complete your payment. Once done, we’ll start crafting your stickers right away. Payment of {{ payment_schedule.amount_due | money_with_currency }}
 						for order {{ name }} was due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}.
 					{% endif %}
 					Thank you.
@@ -58,7 +58,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Your custom stickers order is waiting.",
   })}
 `;
 }

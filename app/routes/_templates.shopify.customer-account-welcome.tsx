@@ -9,7 +9,7 @@ import { Intro } from '~/components/shopify/Intro';
 export default function () {
   return /*html*/ `
 	{% capture email_title %}Welcome to {{ shop.name }}!{% endcapture %}
-	{% capture email_body %}You've activated your customer account. Next time you shop with us, log in for faster checkout.{% endcapture %}
+	{% capture email_body %}We’re thrilled to have you on board. Your account is all set up, giving you access to exclusive features, faster checkouts, and more. Let’s start creating amazing custom stickers together.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -38,7 +38,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "We’re thrilled to have you on board.",
   })}
 `;
 }

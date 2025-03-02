@@ -8,8 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Activate your account{% endcapture %}
-	{% capture email_body %}Hi, you've created a new customer account at <a href="{{shop.url}}">{{shop.name}}</a>. All you have to do is activate it.{% endcapture %}
+	{% capture email_title %}Confirm your Stickerize account{% endcapture %}
+	{% capture email_body %}Join the STICKERIZE© family. Set up your account to easily track orders, save designs, and enjoy exclusive perks. Click below to get started — it only takes a minute!{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -38,7 +38,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Confirm your Stickerize account",
   })}
 `;
 }

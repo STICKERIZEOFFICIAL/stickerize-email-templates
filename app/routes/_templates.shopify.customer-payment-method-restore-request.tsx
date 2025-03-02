@@ -8,10 +8,9 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Verify your payment information for {{ shop.name }}{% endcapture %}
-	{% capture email_greeting %}Hi {{display_name}},{% endcapture %}
+	{% capture email_title %}Restore your payment method for {{ shop.name }}{% endcapture %}
 	{% capture email_body %}
-		To continue making purchases with {{ shop.name }}, you will need to verify your payment information. Your financial institution needs this as an extra layer of security.
+	Your payment method needs attention. Please restore or update your details to continue enjoying seamless ordering for your custom stickers.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -26,15 +25,14 @@ export default function () {
       })}
 
 			${Description({
-        description: /*html*/ `{{ email_greeting }}<br />
-				{{email_body}}`,
+        description: /*html*/ `{{email_body}}`,
       })}
 
 			${Button({ url: '{{ email_confirmation_url }}', label: 'Confirm payment information', paddingTop: 0 })}
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Please restore or update your details to continue enjoying seamless ordering for your custom stickers.",
   })}
 `;
 }

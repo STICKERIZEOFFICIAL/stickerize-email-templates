@@ -10,22 +10,22 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-		{% capture email_title %}Your order is out for delivery{% endcapture %}
+		{% capture email_title %}Your stickers are almost here.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}The last items in your order are out for delivery{% endcapture %}
+			{% capture email_title %}Your stickers are almost here.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Some items in your order are out for delivery{% endcapture %}
+			{% capture email_title %}Your stickers are almost here.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}The last item in your order is out for delivery{% endcapture %}
+			{% capture email_title %}Your stickers are almost here.{% endcapture %}
 		{% else %}
-			{% capture email_title %}One item in your order is out for delivery{% endcapture %}
+			{% capture email_title %}Your stickers are almost here.{% endcapture %}
 		{% endif %}
 	{% endif %}
 
-	{% capture email_emphasis %}Estimated delivery date: <strong>{{fulfillment.estimated_delivery_at | date: format: 'date'}}</strong>{% endcapture %}
+	{% capture email_emphasis %}Exciting news — your custom sticker order is out for delivery and should arrive soon. Get ready to unbox your creativity.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -52,7 +52,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Your custom stickers are out for delivery and should arrive soon.",
   })}
 `;
 }

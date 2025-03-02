@@ -8,9 +8,9 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} Your payment couldn’t be processed {% endcapture %}
+	{% capture email_title %} There’s an issue with your payment {% endcapture %}
 	{% capture email_body %}
-		You added items to your shopping cart but the payment couldn’t be processed. You haven’t been charged.
+	We couldn’t process your payment for your custom sticker order. Please double-check your payment details or try again with a different method. <br /><br />Need assistance? We’re here to help.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -20,25 +20,23 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: /*html*/ `{{email_body}}<br />
-				You can still return to your cart to complete your purchase.`,
+        description: /*html*/ `{{email_body}}`,
         showOrderNumber: false,
       })}
 
 			${Description({
         description: /*html*/ `
 					{{ email_body }}
-					<br />
-					You can still return to your cart to complete your purchase.`,
+					`,
       })}
 
 			{% if url %}
-				${Button({ url: '{{ url }}', label: 'Return to cart', paddingTop: 0 })}
+				${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
 			{% endif %}
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "We couldn’t process your payment for your custom sticker order.",
   })}
 `;
 }

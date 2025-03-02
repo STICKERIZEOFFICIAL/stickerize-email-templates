@@ -28,7 +28,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "See the details to get to know what has changed",
   })}
 `;
 }

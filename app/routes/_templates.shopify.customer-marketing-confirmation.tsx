@@ -32,7 +32,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "You just need to confirm you want to receive marketing updates from us.",
   })}
 `;
 }

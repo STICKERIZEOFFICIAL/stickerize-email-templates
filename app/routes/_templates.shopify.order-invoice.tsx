@@ -40,7 +40,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Your invoice is ready to be downloaded",
   })}
 `;
 }

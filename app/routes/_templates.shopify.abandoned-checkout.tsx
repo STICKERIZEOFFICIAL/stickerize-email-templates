@@ -9,27 +9,23 @@ export default function () {
   return /*html*/ `
 	{% capture email_title %}
 	{% if item_count == 1 %}
-	You left a sticker in your cart
+	Don’t miss out on your custom stickers
 	{% else %}
-	You left your custom stickers in your cart
+	Don’t miss out on your custom stickers
 	{% endif %}
 	{% endcapture %}
 	{% capture email_body %}
 	{% if billing_address.first_name %}
 	{% if item_count == 1 %}
-	Hi {{ billing_address.first_name }}, you added custom sticker to your shopping cart and haven't completed your purchase. You
-	can complete it now while it's still available.
+	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
 	{% else %}
-	Hi {{ billing_address.first_name }}, you added custom stickers to your shopping cart and haven't completed your purchase. You can
-	complete it now while they're still available.
+	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
 	{% endif %}
 	{% else %}
 	{% if item_count == 1 %}
-	Hi, you added a sticker to your shopping cart and haven't completed your purchase. You can complete it now while it's
-	still available.
+	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
 	{% else %}
-	Hi, you added custom stickers to your shopping cart and haven't completed your purchase. You can complete it now while they're
-	still available.
+	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
 	{% endif %}
 	{% endif %}
 	{% endcapture %}
@@ -54,7 +50,7 @@ export default function () {
 
 			${Footer({ paddingTop: '16px' })}
 	`,
-	previewText: "",
+	previewText: "Finish your checkout today and let’s make something awesome.",
   })}
 `;
 }

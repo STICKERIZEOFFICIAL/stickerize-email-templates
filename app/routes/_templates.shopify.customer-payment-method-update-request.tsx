@@ -11,7 +11,7 @@ export default function () {
 	{% capture email_title %}Update your payment method for {{ shop.name }}{% endcapture %}
 	{% capture email_greeting %}Hi {{display_name}},{% endcapture %}
 	{% capture email_body %}
-		You’re receiving this message because you requested to update your payment method for {{ shop.name }}, or because there was a problem processing your payments. Contact your financial institution to make sure your payment information is correct, or you can update your payment method.
+	For a smoother experience, we need you to update your payment method. Click the link below to update securely, and we’ll ensure there are no disruptions to your orders.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -34,7 +34,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Click the link below to update securely, and we’ll ensure there are no disruptions to your orders.",
   })}
 `;
 }

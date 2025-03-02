@@ -96,7 +96,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "View your order",
   })}
 `;
 }

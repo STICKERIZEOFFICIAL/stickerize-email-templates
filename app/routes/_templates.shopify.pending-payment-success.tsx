@@ -10,7 +10,7 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Your payment for {{ order.name }} has been received {% endcapture %}
+	{% capture email_title %}Your payment has been confirmed for order: {{ order.name }} {% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -19,7 +19,7 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: null,
+        description: "Great news. Your payment has been successfully processed, and we’re moving ahead with your custom sticker order. Stay tuned for updates on your shipment.",
         showOrderNumber: true,
       })}
 
@@ -31,7 +31,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "We’re moving ahead with your custom sticker order.",
   })}
 `;
 }

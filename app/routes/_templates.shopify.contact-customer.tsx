@@ -19,7 +19,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: `{{ custom_message}}`,
   })}
 `;
 }

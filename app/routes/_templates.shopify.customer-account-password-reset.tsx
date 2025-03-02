@@ -9,7 +9,7 @@ import { Intro } from "~/components/shopify/Intro";
 export default function () {
   return /*html*/ `
 	{% capture email_title %}Reset your password{% endcapture %}
-	{% capture email_body %}Follow this link to reset your customer account password at <a href="{{shop.url}}">{{shop.name}}</a>. If you didn't request a new password, you can safely delete this email.{% endcapture %}
+	{% capture email_body %}Need to update your account access? No problem. Click the link below to reset your password and get back to creating custom stickers in no time. <br /><br /> If you didn't request a new password, you can safely delete this email.{% endcapture %}
 
 	${Head({ title: "{{ email_title }}" })}
 	${BodyWrapper({
@@ -36,7 +36,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Click the link inside the email to reset your password and get back to creating custom stickers in no time.",
   })}
 `;
 }
