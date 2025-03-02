@@ -157,7 +157,7 @@ export function Intro({
   }
  <tr>
     <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-top: 4px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
-      <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/img_1.jpg?v=1734345195" width="700" height="450" border="0" alt="" />
+      <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/241121_Stickerize_packaging_6.jpg?v=1740917483" width="700" height="450" border="0" alt="" />
     </td>
   </tr>
   <!-- END Intro -->`;
