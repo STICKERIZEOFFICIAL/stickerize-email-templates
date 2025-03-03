@@ -36,7 +36,7 @@ export default function () {
 				${Button({ url: '{{ customer.account_activation_url }}', label: 'Activate your account', paddingTop: 0 })}
 			{% endif %}
 
-			${Footer()}
+			${Footer({ showLoginSection: false })}
 	`,
 	previewText: "Confirm your Stickerize account",
   })}
