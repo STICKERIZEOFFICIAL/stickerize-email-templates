@@ -33,7 +33,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Your return request was sent and is being reviewed.",
   })}
 `;
 }

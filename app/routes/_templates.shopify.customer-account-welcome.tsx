@@ -38,7 +38,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "We’re thrilled to have you on board.",
+	previewText: "Get ready to create high-quality custom stickers with ease. Let’s make something awesome together.",
   })}
 `;
 }

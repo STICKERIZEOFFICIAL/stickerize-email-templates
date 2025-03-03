@@ -96,7 +96,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "View your order",
+	previewText: "Here is your order receipt",
   })}
 `;
 }

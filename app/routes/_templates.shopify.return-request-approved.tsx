@@ -62,7 +62,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "We sent you a return shipping label, or you will receive one soon.",
   })}
 `;
 }

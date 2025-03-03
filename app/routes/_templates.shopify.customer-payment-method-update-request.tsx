@@ -34,7 +34,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Click the link below to update securely, and we’ll ensure there are no disruptions to your orders.",
+	previewText: "Click the link inside email to update payment method securely, and we’ll ensure there are no disruptions to your orders.",
   })}
 `;
 }
