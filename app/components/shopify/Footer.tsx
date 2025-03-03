@@ -1,5 +1,5 @@
 export function Footer({ 
-    paddingTop = "0", 
+    paddingTop = "0",
     showLoginSection = true 
   }: { 
     paddingTop?: string,
@@ -7,11 +7,10 @@ export function Footer({
   } = {}) {
     return /*html*/ `
     <!-- Footer -->
-    ${showLoginSection ? `
     <tr>
       <td style="padding: ${paddingTop} 16px 32px;">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
-      <tr>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+      ${showLoginSection ? `<tr>
           <td  style="border-bottom: 1px solid #c8c7c4; padding-bottom: 24px;" align="left">
               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                   <tr>
@@ -31,7 +30,7 @@ export function Footer({
           </td>
       </tr>` : ''}
       <tr>
-          <td  style="padding-top: ${showLoginSection ? '12px' : paddingTop};">
+          <td  style="padding-top: 12px;">
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                   <tr>
                       <th class="column-top" width="288" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
