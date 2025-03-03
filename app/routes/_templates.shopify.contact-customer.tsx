@@ -17,7 +17,7 @@ export default function () {
         showOrderNumber: false,
       })}
 
-			${Footer()}
+			${Footer({ showLoginSection: false })}
 	`,
 	previewText: `{{ custom_message}}`,
   })}

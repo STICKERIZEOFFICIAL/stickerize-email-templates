@@ -30,7 +30,7 @@ export default function () {
 				${Button({ url: '{{ shop.url }}', label: 'Subscribe', paddingTop: 0 })}
 			{% endif %}
 
-			${Footer()}
+			${Footer( { showLoginSection: false })}
 	`,
 	previewText: "You just need to confirm you want to receive marketing updates from us.",
   })}

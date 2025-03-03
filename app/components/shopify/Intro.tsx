@@ -20,7 +20,7 @@ export function Intro({
       description
         ? /*html*/ `
           <tr>
-            <td style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+            <td style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 18px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
               ${description}
             </td>
           </tr>`
@@ -33,7 +33,7 @@ export function Intro({
           <td style="padding: 0 16px 16px;" align="left">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
                   {% if order_name %}
                     {{ order_name }}
                   {% else %}
@@ -46,7 +46,7 @@ export function Intro({
         </tr>
         {%- if po_number %}
         <tr>
-          <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+          <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
             PO number:
           </td>
         </tr>
@@ -54,7 +54,7 @@ export function Intro({
           <td style="padding: 0 16px 16px;" align="left">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
                   #{{ po_number }}
                 </td>
               </tr>
@@ -66,7 +66,7 @@ export function Intro({
           {% for transaction in transactions %}
             {% if transaction.show_buyer_pending_payment_instructions? %}
             <tr>
-              <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px; padding-left: 16px; padding-right: 16px;">
+              <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 18px; padding-bottom: 16px; padding-left: 16px; padding-right: 16px;">
                 <p>{{transaction.buyer_pending_payment_notice}}</p>
                 <table class="row">
                   <tr>
@@ -99,7 +99,7 @@ export function Intro({
             <td style="padding: 0 16px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                  <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
                     <a href="{{ fulfillment.tracking_url }}">
                       {{ fulfillment.tracking_numbers.first }}
                     </a>
@@ -113,7 +113,7 @@ export function Intro({
             <td style="padding: 0 16px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                  <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
                       {{ fulfillment.tracking_numbers.first }}
                   </td>
                 </tr>
@@ -127,7 +127,7 @@ export function Intro({
             <td style="padding: 0 16px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                  <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
                     <a href="{{ fulfillment.tracking_urls[forloop.index0] }}">
                       {{ tracking_number }}
                     </a>
@@ -141,7 +141,7 @@ export function Intro({
           <td style="padding: 0 16px 16px;" align="left">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
                     {{ tracking_number }}
                 </td>
               </tr>

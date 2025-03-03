@@ -34,7 +34,7 @@ export default function () {
         })}
 			{% endif %}
 
-			${Footer()}
+			${Footer({ showLoginSection: false })}
 	`,
 	previewText: "Click the link inside the email to reset your password and get back to creating custom stickers in no time.",
   })}
