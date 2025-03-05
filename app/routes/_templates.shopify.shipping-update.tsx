@@ -19,8 +19,12 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `{{email_body}}<br/>
-				You can track your order here:<br/>`,
+        description: `{{email_body}}<br/><br/>
+				{% if shipping_price > 0 %}
+				You can track your order here:<br/>
+				{% else %}
+				Your package number:<br/>
+				{% endif %}`,
         showOrderNumber: false,
 				showTrackingNumber: true,
       })}

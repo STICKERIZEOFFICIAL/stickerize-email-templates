@@ -100,9 +100,13 @@ export function Intro({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                    {% if shipping_price > 0 %}
                     <a href="{{ fulfillment.tracking_url }}">
                       {{ fulfillment.tracking_numbers.first }}
                     </a>
+                    {% else %}
+                      {{ fulfillment.tracking_numbers.first }}
+                    {% endif %}
                   </td>
                 </tr>
               </table>
@@ -128,9 +132,13 @@ export function Intro({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
+                    {% if shipping_price > 0 %}
                     <a href="{{ fulfillment.tracking_urls[forloop.index0] }}">
                       {{ tracking_number }}
                     </a>
+                    {% else %}
+                      {{ tracking_number }}
+                    {% endif %}
                   </td>
                 </tr>
               </table>

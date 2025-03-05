@@ -39,7 +39,11 @@ export default function () {
 					{{ email_emphasis }}
 					<br />
 				{% endif %}
-				You can track your order here:`,
+				{% if shipping_price > 0 %}
+				You can track your order here:
+				{% else %}
+				Your package number:
+				{% endif %}`,
         showOrderNumber: false,
         showTrackingNumber: true,
       })}
