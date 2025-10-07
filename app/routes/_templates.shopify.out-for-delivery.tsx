@@ -39,7 +39,7 @@ export default function () {
 					{{ email_emphasis }}
 					<br />
 				{% endif %}
-				{% if shipping_price > 0 %}
+				{% if shipping_method.title contains 'Express' %}
 				You can track your order here:
 				{% else %}
 				Your package number:

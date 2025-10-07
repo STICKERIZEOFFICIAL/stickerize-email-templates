@@ -20,7 +20,7 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: `{{email_body}}<br/><br/>
-				{% if shipping_price > 0 %}
+				{% if shipping_method.title contains 'Express' %}
 				You can track your order here:<br/>
 				{% else %}
 				Your package number:<br/>
