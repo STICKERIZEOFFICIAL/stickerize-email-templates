@@ -6,6 +6,7 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
     {% assign order_discount_count = 0 %}
     {% assign total_order_discount_amount = 0 %}
     {% assign has_shipping_discount = false %}
+    {% assign shipping_amount = 0 %}
     {% assign epsilon = 0.00001 %}
 
     {% for discount_application in discount_applications %}
@@ -16,7 +17,7 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
       {% if discount_application.target_type == 'shipping_line' %}
         {% assign has_shipping_discount = true %}
         {% assign shipping_discount = discount_application.title %}
-        {% assign shipping_amount = discount_application.total_allocated_amount %}
+        {% assign shipping_amount = shipping_amount | plus: discount_application.total_allocated_amount %}
       {% endif %}
     {% endfor %}
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -41,7 +42,11 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           </td>
         </tr>
         {% else %}
+        {% assign shipping_amount_due = shipping_price %}
         {% if has_shipping_discount %}
+          {% assign shipping_amount_due = shipping_price | minus: shipping_amount %}
+        {% endif %}
+        {% if shipping_amount_due < epsilon %}
         <tr>
           <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
             shipping
@@ -56,11 +61,7 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
             shipping
           </td>
           <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
-          {% if shipping_price | floor == 0 %}
-            free
-          {% else %}
-            {{ shipping_price | money_without_trailing_zeros }}
-          {% endif %}
+            {{ shipping_amount_due | money_without_trailing_zeros }}
           </td>
         </tr>
         {% endif %}
