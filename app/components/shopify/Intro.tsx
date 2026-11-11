@@ -3,16 +3,23 @@ export function Intro({
   description,
   showOrderNumber,
   showTrackingNumber,
+  showImage = true,
 }: {
   heading: string;
   description: string | null;
   showOrderNumber: boolean;
   showTrackingNumber?: boolean;
+  /**
+   * The packaging photo under the intro. Defaults to true so templates that
+   * keep it need no change; the notifications listed in
+   * docs/shopify-notification-images.md pass false.
+   */
+  showImage?: boolean;
 }) {
   return /*html*/ `
     <!-- Intro -->
     <tr>
-      <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Arial Black', Arial, sans-serif; text-align:left; font-size: 18px; line-height: 22px; padding-top: 24px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+      <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-top: 24px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
         ${heading}
       </td>
     </tr>
@@ -30,7 +37,7 @@ export function Intro({
     showOrderNumber
       ? /*html*/ `
         <tr>
-          <td style="padding: 0 16px 16px;" align="left">
+          <td style="padding: 0 12px 16px;" align="left">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
@@ -51,7 +58,7 @@ export function Intro({
           </td>
         </tr>
         <tr>
-          <td style="padding: 0 16px 16px;" align="left">
+          <td style="padding: 0 12px 16px;" align="left">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
@@ -93,20 +100,15 @@ export function Intro({
     showTrackingNumber
       ? /*html*/ `
         {% if fulfillment.tracking_numbers.size > 0 %}
-          {% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_company and
-          fulfillment.tracking_url %}
+          {% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_url %}
           <tr>
-            <td style="padding: 0 16px 16px;" align="left">
+            <td style="padding: 0 12px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
-                    {% if shipping_method.title contains 'Express' %}
-                    <a href="{{ fulfillment.tracking_url }}">
+                    <a href="{{ fulfillment.tracking_url }}" target="_blank" rel="noopener">
                       {{ fulfillment.tracking_numbers.first }}
                     </a>
-                    {% else %}
-                      {{ fulfillment.tracking_numbers.first }}
-                    {% endif %}
                   </td>
                 </tr>
               </table>
@@ -114,7 +116,7 @@ export function Intro({
           </tr>
           {% elsif fulfillment.tracking_numbers.size == 1 %}
           <tr>
-            <td style="padding: 0 16px 16px;" align="left">
+            <td style="padding: 0 12px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
@@ -128,17 +130,13 @@ export function Intro({
           {% for tracking_number in fulfillment.tracking_numbers %}
           {% if fulfillment.tracking_urls[forloop.index0] %}
           <tr>
-            <td style="padding: 0 16px 16px;" align="left">
+            <td style="padding: 0 12px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
-                    {% if shipping_method.title contains 'Express' %}
-                    <a href="{{ fulfillment.tracking_urls[forloop.index0] }}">
+                    <a href="{{ fulfillment.tracking_urls[forloop.index0] }}" target="_blank" rel="noopener">
                       {{ tracking_number }}
                     </a>
-                    {% else %}
-                      {{ tracking_number }}
-                    {% endif %}
                   </td>
                 </tr>
               </table>
@@ -146,7 +144,7 @@ export function Intro({
           </tr>
           {% else %}
           <tr>
-          <td style="padding: 0 16px 16px;" align="left">
+          <td style="padding: 0 12px 16px;" align="left">
             <table border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
@@ -163,10 +161,25 @@ export function Intro({
       `
       : ""
   }
- <tr>
-    <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-top: 4px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
-      <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/241121_Stickerize_packaging_6.jpg?v=1740917483" width="700" height="450" border="0" alt="" />
-    </td>
-  </tr>
+  ${
+    showImage
+      ? /*html*/ `
+        <tr>
+          <td style="font-size:0pt; line-height:0pt; text-align:left; padding-top: 4px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+              <tr>
+                <td class="fluid-img" width="49%" valign="top" style="padding: 0;">
+                  <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Left_Image.jpg?v=1765296929" width="344" height="344" border="0" alt="" style="width: 100%; max-width: 344px; height: auto; display: block;" />
+                </td>
+                <td width="2%" style="font-size: 0pt; line-height: 0pt;">&nbsp;</td>
+                <td class="fluid-img" width="49%" valign="top" style="padding: 0;">
+                  <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Right_Image.jpg?v=1765296929" width="344" height="344" border="0" alt="" style="width: 100%; max-width: 344px; height: auto; display: block;" />
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>`
+      : ""
+  }
   <!-- END Intro -->`;
 }

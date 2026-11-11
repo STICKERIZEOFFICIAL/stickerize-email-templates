@@ -16,6 +16,7 @@ export default function () {
         heading: `Payment received. Designs are next.`,
         description: /*html*/ `Thanks, we've received the payment for order {{ order_number }}. Designs are lined up for print and we'll send an email as soon as they ship.`,
         showOrderNumber: true,
+        showImage: false,
       })}
 
 			<tr>

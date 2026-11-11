@@ -166,7 +166,9 @@ const transaction = {
 export const sampleData: Record<string, unknown> = {
   // --- Shop -----------------------------------------------------------------
   shop: {
-    name: 'STICKERIZE©',
+    // Mirrors the store name in Shopify's settings — whatever is set there is
+    // what {{ shop.name }} prints. No © unless the store name itself has one.
+    name: 'Stickerize',
     email: 'help@stickerize.com',
     url: 'https://stickerize.com',
     domain: 'stickerize.com',
@@ -186,6 +188,10 @@ export const sampleData: Record<string, unknown> = {
     orders_count: 3,
     total_spent: 11200,
     default_address: shippingAddress,
+    // The account emails gate their button on these, so without them the CTA
+    // never renders in the preview.
+    account_activation_url: 'https://stickerize.com/account/activate/sample',
+    reset_password_url: 'https://stickerize.com/account/reset/sample',
   },
 
   // --- Order ----------------------------------------------------------------
@@ -289,7 +295,9 @@ export const sampleData: Record<string, unknown> = {
     completed_at: null,
   },
   due_date: '2026-12-08T00:00:00-05:00',
-  po_number: 'PO-55120',
+  // Most orders have none, and the template already hides the box when it is
+  // absent ({%- if po_number %}). Set a value here to preview the B2B case.
+  po_number: null,
   company_location: { name: 'Brooklyn Studio', external_id: 'BK-1' },
   b2b: false,
 

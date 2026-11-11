@@ -20,12 +20,13 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: `{{email_body}}<br/><br/>
-				{% if shipping_method.title contains 'Express' %}
+				{% if fulfillment.tracking_url %}
 				You can track your order here:<br/>
-				{% else %}
+				{% elsif fulfillment.tracking_numbers.size > 0 %}
 				Your package number:<br/>
 				{% endif %}`,
         showOrderNumber: false,
+        showImage: false,
 				showTrackingNumber: true,
       })}
 

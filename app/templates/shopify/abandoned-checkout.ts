@@ -44,6 +44,7 @@ export default function () {
 					{{ email_body }}
 					{% endif %}`,
         showOrderNumber: false,
+        showImage: false,
       })}
 
 			${OrderTable({ heading: 'Complete your purchase', hidePrices: true })}

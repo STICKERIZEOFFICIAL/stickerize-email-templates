@@ -2,7 +2,7 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
   return /*html*/ `
   <!-- Total -->
   <tr>
-    <td style="padding: 0 16px 30px; font-size: 0pt; line-height: 0pt;">
+    <td style="padding: 0 12px 30px; font-size: 0pt; line-height: 0pt;">
     {% assign order_discount_count = 0 %}
     {% assign total_order_discount_amount = 0 %}
     {% assign has_shipping_discount = false %}
@@ -116,8 +116,8 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           <td style="padding-top: 16px;"></td>
         </tr>
         <tr>
-            <td style="border-top: 2px solid #dedede; padding-bottom: 16px;"></td>
-            <td style="border-top: 2px solid #dedede; padding-bottom: 16px;"></td>
+            <td style="border-top: 1px solid #000001; padding-bottom: 16px;"></td>
+            <td style="border-top: 1px solid #000001; padding-bottom: 16px;"></td>
         </tr>
         
           {% for transaction in transactions %}

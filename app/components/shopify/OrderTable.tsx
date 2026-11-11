@@ -8,12 +8,12 @@ export function OrderTable({
   return /*html*/ `
   <!-- Order table -->
   <tr>
-    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Arial Black', Arial, sans-serif; text-align:left; font-size: 18px; line-height: 22px; padding-bottom: 10px; padding-left: 12px; padding-right: 12px;">
+    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 10px; padding-left: 12px; padding-right: 12px;">
       ${heading}
     </td>
   </tr>
   <tr>
-    <td style="padding: 0 16px 14px;">
+    <td style="padding: 0 12px 14px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
         <!-- Item scenario 1 -->
         {% for line in subtotal_line_items %}
@@ -26,11 +26,11 @@ export function OrderTable({
                     {% assign thumb = line.properties._thumb %}
 
                     <!-- column left -->
-                    <td class="mw-img-90" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+                    <td class="mw-img-90" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
                         {% if thumb %}
                             <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
-                                    <td style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding: 12px;">
+                                    <td style="border: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding: 12px;">
                                         <img src="{{ thumb }}" align="left" width="88" height="88" class="order-list__product-image"/>
                                     </td>
                                 </tr>
@@ -38,7 +38,7 @@ export function OrderTable({
                         {% else %}
                             <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
-                                    <td style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding: 12px;">
+                                    <td style="border: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding: 12px;">
                                         <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="88" height="88" class="order-list__no-product-image"/>
                                     </td>
                                 </tr>
@@ -47,10 +47,10 @@ export function OrderTable({
                     </td>
                     <!-- END column left -->
 
-                    <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                    <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                     
                     <!-- column center -->
-                    <td style="letter-spacing: -0.04em; border-bottom: 1px solid #c8c7c4; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
+                    <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                       {% if line.product.title %}
                         {% assign line_title = line.product.title %}
                       {% else %}
@@ -171,16 +171,16 @@ export function OrderTable({
                     </td>
                     <!-- END column center -->
 
-                    <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                    <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
 
                     <!-- column right -->
                     ${
                       !hidePrices
                         ? /*html*/ `
                       {% if expand_bundles and line.bundle_parent? %}
-                        <td style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                        <td style="border-bottom: 1px solid #000001; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                       {% else %}
-                        <td style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                        <td style="border-bottom: 1px solid #000001; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                       {% endif %}
                         <p style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right;">
                           {% if line.final_line_price > 0 %}
@@ -225,12 +225,12 @@ export function OrderTable({
           {% assign discount_keys = discount_keys_str | split: "," | uniq %}
           <tr class="order-list__item">
             <td class="order-list__item__cell">
-              <table>
-                <td class="mw-img-90" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                <td class="mw-img-90" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
                   {% if line_item_group.image %}
                     <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                       <tr>
-                        <td style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                        <td style="border: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left;">
                           <img src="{{ line_item_group | img_url: 'compact_cropped' }}" align="left" width="112" height="112" class="order-list__product-image"/>
                         </td>
                       </tr>
@@ -238,15 +238,15 @@ export function OrderTable({
                   {% else %}
                     <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                       <tr>
-                        <td style="border: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left;">
+                        <td style="border: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left;">
                           <img src="{{ 'notifications/no-image.png' | shopify_asset_url }}" align="left" width="112" height="112" class="order-list__no-product-image"/>
                         </td>
                       </tr>
                     </table>
                   {% endif %}
                 </td>
-                <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
-                <td style="letter-spacing: -0.04em; border-bottom: 1px solid #c8c7c4; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
+                <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                   <!-- Product title -->
                   <p style="margin-bottom: 12px; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
                     <span class="order-list__item-title">{{ line_item_group.title }}&nbsp;&times;&nbsp;{{ line_item_group.quantity }}</span>
@@ -315,11 +315,11 @@ export function OrderTable({
                     </table>
                   {% endfor %}
                 </td>
-                <td class="mw-10" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                 ${
                   !hidePrices
                     ? /*html*/ `
-                  <td style="border-bottom: 1px solid #c8c7c4; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                  <td style="border-bottom: 1px solid #000001; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                     <p style="color:#000001; font-family:'Courier New', monospace; text-align:right; font-size: 13px; line-height: 17px;">
                       {% if final_line_price > 0 %}
                         {{ final_line_price | money_without_trailing_zeros }}

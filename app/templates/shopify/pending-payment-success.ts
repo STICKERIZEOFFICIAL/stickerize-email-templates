@@ -20,6 +20,7 @@ export default function () {
         heading: `{{ email_title }}`,
         description: "All good. The payment went through and designs are headed for print. We'll send an email as soon as they ship.",
         showOrderNumber: true,
+        showImage: false,
       })}
 
 			${OrderTable({ heading: 'Order summary' })}

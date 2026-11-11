@@ -3,6 +3,7 @@ import { Link, json, useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
 import { renderLiquid } from '~/preview/liquid.server';
 import { DEFAULT_LOCALE, LOCALES, type LocaleCode } from '~/preview/locales';
+import { useNarrowViewport } from '~/preview/useNarrowViewport';
 import {
   TEMPLATES,
   getTemplate,
@@ -26,10 +27,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
   // iframe loads its own copy from /preview/shopify/:slug.
   const { html, error } = await renderLiquid(source, { ...template.data, locale });
 
+  // Global components have no subject: they are not emails.
   const subject = subjectFor(template, locale);
   // Already Liquid-resolved: it comes out of the rendered email.
   const previewText = previewTextFor(template, html, locale);
-  const subjectRender = await renderLiquid(subject, template.data);
+  const subjectRender = subject ? await renderLiquid(subject, template.data) : null;
 
   const { previous, next } = neighbours(template.slug);
 
@@ -37,9 +39,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
     slug: template.slug,
     label: template.label,
     group: template.group,
-    path: sourcePath(template.slug),
+    path: sourcePath(template),
     subject,
-    subjectRendered: subjectRender.error ? subject : subjectRender.html.trim(),
+    subjectRendered:
+      subject && subjectRender && !subjectRender.error ? subjectRender.html.trim() : subject,
     previewText,
     source,
     error,
@@ -69,6 +72,12 @@ export default function TemplatePreview() {
   const [scheme, setScheme] = useState<Scheme>('light');
   const [locale, setLocale] = useState<LocaleCode>(DEFAULT_LOCALE);
   const [copied, setCopied] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
+
+  // A phone cannot show a 732px email at full width, so there is no desktop
+  // view to offer: render the mobile one and drop the control.
+  const narrow = useNarrowViewport();
+  const renderWidth: Width = narrow ? 'mobile' : width;
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -83,8 +92,20 @@ export default function TemplatePreview() {
   }, [data.previous, data.next, navigate]);
 
   useEffect(() => setCopied(false), [data.slug]);
+  // Picking a template from the drawer should close it.
+  useEffect(() => setNavOpen(false), [data.slug]);
+
+  useEffect(() => {
+    if (!navOpen) return;
+    function onKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') setNavOpen(false);
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [navOpen]);
 
   async function copySubject() {
+    if (!data.subject) return;
     try {
       await navigator.clipboard.writeText(data.subject);
       setCopied(true);
@@ -98,11 +119,28 @@ export default function TemplatePreview() {
   }`;
 
   return (
-    <div className="shell">
+    <div className={`shell${navOpen ? ' shell--nav-open' : ''}`}>
       <Sidebar templates={data.templates} current={data.slug} />
+      {navOpen ? (
+        <button
+          type="button"
+          className="nav-scrim"
+          aria-label="Close the template list"
+          onClick={() => setNavOpen(false)}
+        />
+      ) : null}
 
       <main>
         <div className="topbar">
+          <button
+            type="button"
+            className="btn nav-toggle"
+            aria-expanded={navOpen}
+            onClick={() => setNavOpen((open) => !open)}
+          >
+            ☰ Templates
+          </button>
+
           <div>
             <h1 className="topbar__title">{data.label}</h1>
             <div className="topbar__meta">
@@ -139,11 +177,12 @@ export default function TemplatePreview() {
             opening anything. They come from different places — the subject
             from Shopify's admin, the preheader from the template — so each is
             labelled with where it is edited. */}
+        {data.subject ? (
         <section className="dispatch" aria-label="Inbox lines">
           <div className="dispatch__inbox">
             <span className="dispatch__eyebrow">As it lands in the inbox</span>
             <div className="dispatch__row">
-              <span className="dispatch__sender">STICKERIZE©</span>
+              <span className="dispatch__sender">Stickerize</span>
               <p className="dispatch__subject">{data.subjectRendered}</p>
               {data.previewText ? (
                 <p className="dispatch__preheader">{data.previewText}</p>
@@ -187,6 +226,7 @@ export default function TemplatePreview() {
             </div>
           </dl>
         </section>
+        ) : null}
 
         {data.error ? (
           <div className="banner">
@@ -201,23 +241,25 @@ export default function TemplatePreview() {
           </div>
         ) : (
           <div className="stage">
-            <div className={`viewer${width === 'mobile' ? ' viewer--mobile' : ''}`}>
+            <div className={`viewer${renderWidth === 'mobile' ? ' viewer--mobile' : ''}`}>
               {/* Controls for how the email renders sit on the email, not in
                   the page toolbar — none of them change the app around it. */}
               <div className="viewer__bar">
-                <div className="segmented">
-                  {(['desktop', 'mobile'] as const).map((name) => (
-                    <button
-                      key={name}
-                      type="button"
-                      className="btn btn--bare"
-                      aria-pressed={width === name}
-                      onClick={() => setWidth(name)}
-                    >
-                      {name === 'desktop' ? 'Desktop' : 'Mobile'}
-                    </button>
-                  ))}
-                </div>
+                {narrow ? null : (
+                  <div className="segmented">
+                    {(['desktop', 'mobile'] as const).map((name) => (
+                      <button
+                        key={name}
+                        type="button"
+                        className="btn btn--bare"
+                        aria-pressed={width === name}
+                        onClick={() => setWidth(name)}
+                      >
+                        {name === 'desktop' ? 'Desktop' : 'Mobile'}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <div className="segmented">
                   {(['light', 'dark'] as const).map((name) => (
@@ -261,7 +303,7 @@ export default function TemplatePreview() {
               </div>
 
               <iframe
-                key={`${data.slug}-${width}-${scheme}-${locale}`}
+                key={`${data.slug}-${renderWidth}-${scheme}-${locale}`}
                 src={frameSrc}
                 title={`${data.label} preview`}
               />
