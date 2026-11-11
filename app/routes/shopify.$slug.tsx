@@ -26,10 +26,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
   // iframe loads its own copy from /preview/shopify/:slug.
   const { html, error } = await renderLiquid(source, { ...template.data, locale });
 
+  // Global components have no subject: they are not emails.
   const subject = subjectFor(template, locale);
   // Already Liquid-resolved: it comes out of the rendered email.
   const previewText = previewTextFor(template, html, locale);
-  const subjectRender = await renderLiquid(subject, template.data);
+  const subjectRender = subject ? await renderLiquid(subject, template.data) : null;
 
   const { previous, next } = neighbours(template.slug);
 
@@ -37,9 +38,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
     slug: template.slug,
     label: template.label,
     group: template.group,
-    path: sourcePath(template.slug),
+    path: sourcePath(template),
     subject,
-    subjectRendered: subjectRender.error ? subject : subjectRender.html.trim(),
+    subjectRendered:
+      subject && subjectRender && !subjectRender.error ? subjectRender.html.trim() : subject,
     previewText,
     source,
     error,
@@ -85,6 +87,7 @@ export default function TemplatePreview() {
   useEffect(() => setCopied(false), [data.slug]);
 
   async function copySubject() {
+    if (!data.subject) return;
     try {
       await navigator.clipboard.writeText(data.subject);
       setCopied(true);
@@ -139,6 +142,7 @@ export default function TemplatePreview() {
             opening anything. They come from different places — the subject
             from Shopify's admin, the preheader from the template — so each is
             labelled with where it is edited. */}
+        {data.subject ? (
         <section className="dispatch" aria-label="Inbox lines">
           <div className="dispatch__inbox">
             <span className="dispatch__eyebrow">As it lands in the inbox</span>
@@ -187,6 +191,7 @@ export default function TemplatePreview() {
             </div>
           </dl>
         </section>
+        ) : null}
 
         {data.error ? (
           <div className="banner">

@@ -1,4 +1,6 @@
 import { DEFAULT_LOCALE, type LocaleCode } from '~/preview/locales';
+import globalFooter from '~/templates/global/footer';
+import globalHeader from '~/templates/global/header';
 import abandonedCheckout from '~/templates/shopify/abandoned-checkout';
 import contactCustomer from '~/templates/shopify/contact-customer';
 import customerAccountInvite from '~/templates/shopify/customer-account-invite';
@@ -34,6 +36,7 @@ import uspsReturnLabelCreated from '~/templates/shopify/usps-return-label-create
  */
 
 export const GROUPS = [
+  'Global',
   'Checkout',
   'Order',
   'Payment',
@@ -54,6 +57,11 @@ export type Template = {
   /** One line on when Shopify sends this email. */
   description: string;
   /**
+   * Where the source lives, when it is not the usual
+   * `app/templates/shopify/<slug>.ts`.
+   */
+  file?: string;
+  /**
    * The email's subject line. Shopify stores this in the admin, NOT in the
    * template body, so it cannot be pasted along with the HTML — it has to be
    * typed into the notification's Subject field separately. It lives here so
@@ -61,8 +69,11 @@ export type Template = {
    *
    * Use `{{ name }}` for the order number: it renders with the shop's prefix
    * (#1024), unlike `{{ order_number }}` which renders bare (1024).
+   *
+   * Absent on the Global components, which are not emails and have no inbox
+   * lines of their own.
    */
-  subject: string;
+  subject?: string;
   /**
    * Per-locale overrides. Anything absent falls back to the English strings
    * above. See locales.ts.
@@ -79,6 +90,24 @@ export type Template = {
 };
 
 export const TEMPLATES: Template[] = [
+  // The shared chrome, previewable on its own so the logo and footer can be
+  // checked without opening a notification.
+  {
+    slug: 'header',
+    label: 'Header',
+    group: 'Global',
+    description: 'The masthead every notification shares.',
+    file: 'app/components/shopify/Header.tsx',
+    render: globalHeader,
+  },
+  {
+    slug: 'footer',
+    label: 'Footer',
+    group: 'Global',
+    description: 'The footer every notification shares.',
+    file: 'app/components/shopify/Footer.tsx',
+    render: globalFooter,
+  },
   {
     slug: 'abandoned-checkout',
     label: 'Abandoned checkout',
@@ -336,16 +365,19 @@ export function previewTextFor(
   return template.translations?.[locale]?.previewText ?? extractPreheader(renderedHtml) ?? '';
 }
 
-export function subjectFor(template: Template, locale: LocaleCode = DEFAULT_LOCALE): string {
-  return template.translations?.[locale]?.subject ?? template.subject;
+export function subjectFor(
+  template: Template,
+  locale: LocaleCode = DEFAULT_LOCALE,
+): string | null {
+  return template.translations?.[locale]?.subject ?? template.subject ?? null;
 }
 
 export function getTemplate(slug: string | undefined): Template | undefined {
   return TEMPLATES.find((template) => template.slug === slug);
 }
 
-export function sourcePath(slug: string): string {
-  return `app/templates/shopify/${slug}.ts`;
+export function sourcePath(template: Template): string {
+  return template.file ?? `app/templates/shopify/${template.slug}.ts`;
 }
 
 /** Previous and next template in lifecycle order, for the preview toolbar. */
