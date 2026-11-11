@@ -8,8 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Confirm your Stickerize account{% endcapture %}
-	{% capture email_body %}Join the STICKERIZE© family. Set up your account to easily track orders, save designs, and enjoy exclusive perks. Click below to get started — it only takes a minute!{% endcapture %}
+	{% capture email_title %}Your Stickerize account is ready{% endcapture %}
+	{% capture email_body %}Activate the account to reorder in a few clicks and use earned store credit right in the cart. It takes seconds.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -38,7 +38,7 @@ export default function () {
 
 			${Footer({ showLoginSection: false })}
 	`,
-	previewText: "Confirm your Stickerize account",
+	previewText: "Reorder faster and use store credit.",
   })}
 `;
 }

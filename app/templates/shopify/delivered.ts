@@ -10,18 +10,18 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-		{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+		{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% endif %}
 	{% endif %}
 
@@ -33,8 +33,8 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: /*html*/ `
-		It’s time to get creative — your custom stickers have been delivered. We hope you love them as much as we loved making them. Share your designs with us using #STICKERIZE.<br /><br />
-				Haven't received your package yet? <a href="mailto:{{ shop.email }}">Let us know.</a>
+		Laptop, water bottle, notebook, phone. Your call. Show us where they end up: post it and tag @stickerizee. We feature our favourites.<br /><br />
+				Not seeing your package? <a href="mailto:{{ shop.email }}">Let us know</a> and we'll track it down.
 				<br/>
 				Tracking number:`,
         showOrderNumber: false,
@@ -49,7 +49,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "It’s time to get creative — your custom stickers have been delivered.",
+	previewText: "Your order has landed. Show us where it ends up.",
   })}
 `;
 }

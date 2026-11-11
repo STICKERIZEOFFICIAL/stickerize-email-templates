@@ -10,7 +10,7 @@ export default function () {
   return /*html*/ `
 	{% capture email_title %}Restore your payment method for {{ shop.name }}{% endcapture %}
 	{% capture email_body %}
-	Your payment method needs attention. Please restore or update your details to continue enjoying seamless ordering for your custom stickers.
+	We couldn't verify the payment method saved to your Stickerize account. Use the secure link below to restore it or add a new one.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -32,7 +32,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Please restore or update your details to continue enjoying seamless ordering for your custom stickers.",
+	previewText: "Restore or update it using the secure link inside.",
   })}
 `;
 }

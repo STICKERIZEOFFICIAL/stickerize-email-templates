@@ -9,52 +9,52 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Your order has been canceled{% endcapture %}
+	{% capture email_title %}Order {{ order_number }} has been canceled{% endcapture %}
 	{% capture email_body %}
 		{% if financial_status == 'voided' %}
 			{% case cancel_reason %}
 			{% when 'customer' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'inventory' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'fraud' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'declined' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'staff' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'other' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% endcase %}
 		{% elsif financial_status == 'refunded' %}
 			{% case cancel_reason %}
 			{% when 'customer' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments were refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'inventory' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments were refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'fraud' %}
 				The order was canceled because of unforeseen circumstances and your payment has been refunded.
 			{% when 'declined' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments were refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'staff' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments were refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'other' %}
-				TWe’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments were refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+				Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% endcase %}
 		{% elsif financial_status == 'paid' %}
 			{% case cancel_reason %}
 			{% when 'customer' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'inventory' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'fraud' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'declined' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'staff' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'other' %}
-			We’re sorry to see your order go. Your custom sticker order has been canceled, and any applicable payments will be refunded promptly. If you didn’t mean to cancel or have any questions, please don’t hesitate to contact us.
+			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% endcase %}
 		{% endif %}
 	{% endcapture %}
@@ -78,7 +78,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Your custom sticker order has been canceled, and any applicable payments will be refunded promptly.",
+	previewText: "Order {{ order_number }} has been canceled and payment refunded.",
   })}
 `;
 }

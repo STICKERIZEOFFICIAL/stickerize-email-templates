@@ -8,8 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Join our creative community!{% endcapture %}
-	{% capture email_body %}You’re just one step ahead from exclusive offers, and inspiration from STICKERIZE©. You just need to confirm you want to receive marketing updates from us. </br> We’re excited to keep you in the loop as we create amazing custom stickers together. </br> If you didn’t subscribe, then you don’t need to do anything.{% endcapture %}
+	{% capture email_title %}One click and you're in{% endcapture %}
+	{% capture email_body %}Confirm your subscription to be first to hear about new drops, creative inspo from our community and the occasional offer. Didn't sign up? Just ignore this email.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -32,7 +32,7 @@ export default function () {
 
 			${Footer( { showLoginSection: false })}
 	`,
-	previewText: "You just need to confirm you want to receive marketing updates from us.",
+	previewText: "Confirm your subscription to join the Stickerize community.",
   })}
 `;
 }

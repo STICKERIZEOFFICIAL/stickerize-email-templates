@@ -10,9 +10,9 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} Action needed: Payment issue with your order: {{ order_name }} {% endcapture %}
+	{% capture email_title %} Payment issue for order {{ order_number }} {% endcapture %}
 	{% capture email_body %}
-	We’re having trouble processing your payment. To ensure your custom stickers are made without delay, please update your payment information or contact us for support.
+	We couldn't complete the payment, so no charge was made and the order is on hold. Try paying again using the button below and we'll send designs to print right away.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -38,7 +38,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Please update your payment information.",
+	previewText: "No payment was charged. Retry the payment to get the order moving.",
   })}
 `;
 }
