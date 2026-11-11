@@ -1,5 +1,4 @@
 import { BodyWrapper } from '~/components/BodyWrapper';
-import { Button } from '~/components/Button';
 import { CustomerInfo } from '~/components/shopify/CustomerInfo';
 import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
