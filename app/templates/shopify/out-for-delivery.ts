@@ -10,20 +10,22 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-		{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+		{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Your custom stickers have arrived.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
 		{% endif %}
 	{% endif %}
+
+	{% capture email_emphasis %}Order {{ order_number }} is out for delivery and should land with you today. Start choosing where to place it.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -33,10 +35,15 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: /*html*/ `
-		It’s time to get creative — your custom stickers have been delivered. We hope you love them as much as we loved making them. Share your designs with us using #STICKERIZE.<br /><br />
-				Haven't received your package yet? <a href="mailto:{{ shop.email }}">Let us know.</a>
-				<br/>
-				Tracking number:`,
+				{% if fulfillment.estimated_delivery_at %}
+					{{ email_emphasis }}
+					<br />
+				{% endif %}
+				{% if shipping_method.title contains 'Express' %}
+				You can track your order here:
+				{% else %}
+				Your package number:
+				{% endif %}`,
         showOrderNumber: false,
         showTrackingNumber: true,
       })}
@@ -49,7 +56,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "It’s time to get creative — your custom stickers have been delivered.",
+	previewText: "Order is out for delivery and should arrive today.",
   })}
 `;
 }

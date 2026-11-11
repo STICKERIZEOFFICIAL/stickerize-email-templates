@@ -62,7 +62,7 @@ export function Intro({
           </td>
         </tr>
         {%- endif %}
-        {% if transaction_count > 0 %}
+        {% if transactions.size > 0 %}
           {% for transaction in transactions %}
             {% if transaction.show_buyer_pending_payment_instructions? %}
             <tr>

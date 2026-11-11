@@ -8,8 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Join our creative community!{% endcapture %}
-	{% capture email_body %}You’re just one step ahead from exclusive offers, and inspiration from STICKERIZE©. You just need to confirm you want to receive marketing updates from us. </br> We’re excited to keep you in the loop as we create amazing custom stickers together. </br> If you didn’t subscribe, then you don’t need to do anything.{% endcapture %}
+	{% capture email_title %}Welcome to {{ shop.name }}!{% endcapture %}
+	{% capture email_body %}Your account has been set up. Log in next time to check out faster, keep track of orders and apply earned store credit in the cart.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -23,16 +23,22 @@ export default function () {
       })}
 
 			${Description({
-        description: /*html*/ `{{ email_body }}`,
+        description: /*html*/ `
+				{% if custom_message != blank %}
+					{{ custom_message }}
+				{% else %}
+					{{ email_body }}
+				{% endif %}
+				`,
       })}
 
 			{% if shop.url  %}
-				${Button({ url: '{{ shop.url }}', label: 'Subscribe', paddingTop: 0 })}
+				${Button({ url: '{{ shop.url }}', label: 'Visit our store', paddingTop: 0 })}
 			{% endif %}
 
-			${Footer( { showLoginSection: false })}
+			${Footer()}
 	`,
-	previewText: "You just need to confirm you want to receive marketing updates from us.",
+	previewText: "Your account is live.",
   })}
 `;
 }

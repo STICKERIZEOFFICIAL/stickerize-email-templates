@@ -8,10 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} There’s an issue with your payment {% endcapture %}
-	{% capture email_body %}
-	We couldn’t process your payment for your custom sticker order. Please double-check your payment details or try again with a different method. <br /><br />Need assistance? We’re here to help.
-	{% endcapture %}
+	{% capture email_title %}One click and you're in{% endcapture %}
+	{% capture email_body %}Confirm your subscription to be first to hear about new drops, creative inspo from our community and the occasional offer. Didn't sign up? Just ignore this email.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -20,23 +18,21 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: /*html*/ `{{email_body}}`,
+        description: null,
         showOrderNumber: false,
       })}
 
 			${Description({
-        description: /*html*/ `
-					{{ email_body }}
-					`,
+        description: /*html*/ `{{ email_body }}`,
       })}
 
-			{% if url %}
-				${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
+			{% if shop.url  %}
+				${Button({ url: '{{ shop.url }}', label: 'Subscribe', paddingTop: 0 })}
 			{% endif %}
 
-			${Footer()}
+			${Footer( { showLoginSection: false })}
 	`,
-	previewText: "We couldn’t process your payment for your custom sticker order.",
+	previewText: "Confirm your subscription to join the Stickerize community.",
   })}
 `;
 }

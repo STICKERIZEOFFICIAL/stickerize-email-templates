@@ -10,22 +10,20 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-		{% capture email_title %}Your stickers are almost here.{% endcapture %}
+		{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Your stickers are almost here.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Your stickers are almost here.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Your stickers are almost here.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Your stickers are almost here.{% endcapture %}
+			{% capture email_title %}It's arrived. Time to Stickerize everything.{% endcapture %}
 		{% endif %}
 	{% endif %}
-
-	{% capture email_emphasis %}Exciting news — your custom sticker order is out for delivery and should arrive soon. Get ready to unbox your creativity.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -35,15 +33,10 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: /*html*/ `
-				{% if fulfillment.estimated_delivery_at %}
-					{{ email_emphasis }}
-					<br />
-				{% endif %}
-				{% if shipping_method.title contains 'Express' %}
-				You can track your order here:
-				{% else %}
-				Your package number:
-				{% endif %}`,
+		Laptop, water bottle, notebook, phone. Your call. Show us where they end up: post it and tag @stickerizee. We feature our favourites.<br /><br />
+				Not seeing your package? <a href="mailto:{{ shop.email }}">Let us know</a> and we'll track it down.
+				<br/>
+				Tracking number:`,
         showOrderNumber: false,
         showTrackingNumber: true,
       })}
@@ -56,7 +49,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Your custom stickers are out for delivery and should arrive soon.",
+	previewText: "Your order has landed. Show us where it ends up.",
   })}
 `;
 }

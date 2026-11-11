@@ -7,19 +7,14 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	${Head({ title: 'Your payment has been processed' })}
+	${Head({ title: 'Payment received. Designs are next.' })}
 	${BodyWrapper({
     children: /*html*/ `
 			${Header()}
 
 			${Intro({
-        heading: `Your payment has been processed`,
-        description: /*html*/ `{% for transaction in transactions %}
-				{% if transaction.id == transaction_id %}
-				You have been charged <b>{{ transaction.amount | money_with_currency }}</b> for your order {{
-				order_name }}.<br />
-				{% endif %}
-				{% endfor %}`,
+        heading: `Payment received. Designs are next.`,
+        description: /*html*/ `Thanks, we've received the payment for order {{ order_number }}. Designs are lined up for print and we'll send an email as soon as they ship.`,
         showOrderNumber: true,
       })}
 
@@ -37,7 +32,7 @@ export default function () {
 							<td
 								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
 								Billing Address<br />
-								{{ address | format_address }}
+								{{ billing_address | format_address }}
 							</td>
 
 							{% assign transaction_count = transactions | size %}
@@ -96,7 +91,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Here is your order receipt",
+	previewText: "Designs are lined up for print.",
   })}
 `;
 }

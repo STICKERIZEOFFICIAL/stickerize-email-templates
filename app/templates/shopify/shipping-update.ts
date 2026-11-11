@@ -1,5 +1,4 @@
 import { BodyWrapper } from '~/components/BodyWrapper';
-import { Button } from '~/components/Button';
 import { CustomerInfo } from '~/components/shopify/CustomerInfo';
 import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
@@ -10,10 +9,8 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} Action needed: Payment issue with your order: {{ order_name }} {% endcapture %}
-	{% capture email_body %}
-	We’re having trouble processing your payment. To ensure your custom stickers are made without delay, please update your payment information or contact us for support.
-	{% endcapture %}
+	{% capture email_title %}Update on order {{ order_number }}{% endcapture %}
+	{% capture email_body %}Quick update: there's movement on your order. The shipment is in transit and making its way to you. Check the latest status using the link below.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -22,23 +19,25 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: /*html*/ `{{ email_body }}<br />`,
-        showOrderNumber: true,
+        description: `{{email_body}}<br/><br/>
+				{% if shipping_method.title contains 'Express' %}
+				You can track your order here:<br/>
+				{% else %}
+				Your package number:<br/>
+				{% endif %}`,
+        showOrderNumber: false,
+				showTrackingNumber: true,
       })}
 
-			${OrderTable({ heading: 'Order summary' })}
+			${OrderTable({ heading: 'Items in this shipment' })}
 
 			${Total()}
 
 			${CustomerInfo()}
 
-			{% if checkout_payment_collection_url %}
-				${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
-			{% endif %}
-
 			${Footer()}
 	`,
-	previewText: "Please update your payment information.",
+	previewText: "New tracking info for order {{ order_number }}.",
   })}
 `;
 }

@@ -9,9 +9,9 @@ import { Intro } from '~/components/shopify/Intro';
 export default function () {
   return /*html*/ `
 	{% capture email_title %}Update your payment method for {{ shop.name }}{% endcapture %}
-	{% capture email_greeting %}Hi {{display_name}},{% endcapture %}
+	{% capture email_greeting %}{% if customer.first_name %}Hi {{ customer.first_name }},<br />{% endif %}{% endcapture %}
 	{% capture email_body %}
-	For a smoother experience, we need you to update your payment method. Click the link below to update securely, and we’ll ensure there are no disruptions to your orders.
+	The payment method saved to your account needs updating. Use the secure link below to check details or add a new card.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -26,15 +26,14 @@ export default function () {
       })}
 
 			${Description({
-        description: /*html*/ `{{ email_greeting }}<br />
-				{{email_body}}`,
+        description: /*html*/ `{{ email_greeting }}{{ email_body }}`,
       })}
 
 			${Button({ url: '{{ email_confirmation_url }}', label: 'Confirm payment information', paddingTop: 0 })}
 
 			${Footer()}
 	`,
-	previewText: "Click the link inside email to update payment method securely, and we’ll ensure there are no disruptions to your orders.",
+	previewText: "Takes a minute, using the secure link inside.",
   })}
 `;
 }

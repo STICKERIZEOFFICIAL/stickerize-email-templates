@@ -10,23 +10,23 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-  {% capture email_title %}Your custom stickers are on their way{% endcapture %}
-  {% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
+  {% capture email_title %}Order {{ order_number }} is on the move{% endcapture %}
+  {% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
-		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
+		{% capture email_title %}Order {{ order_number }} is on the move{% endcapture %}
+		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% else %}
-		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
-		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
+		{% capture email_title %}Order {{ order_number }} is on the move{% endcapture %}
+		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
-		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
+		{% capture email_title %}Order {{ order_number }} is on the move{% endcapture %}
+		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% else %}
-		{% capture email_title %}Your custom stickers are on their way{% endcapture %}
-		{% capture email_body %}Good news - Your order has been shipped and is on its way to you.{% endcapture %}
+		{% capture email_title %}Order {{ order_number }} is on the move{% endcapture %}
+		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% endif %}
 	{% endif %}
 
@@ -57,7 +57,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Good news - Your order has been shipped and is on its way to you.",
+	previewText: "Packed, shipped and heading your way.",
   })}
 `;
 }

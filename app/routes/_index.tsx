@@ -1,38 +1,116 @@
 import type { MetaFunction } from '@remix-run/node';
-import { Link, json, useLoaderData } from '@remix-run/react';
-import { generateRoutes } from '~/utils/routes';
+import { Link } from '@remix-run/react';
+import { useMemo, useState } from 'react';
+import { GROUPS, TEMPLATES, grouped, type Group } from '~/preview/registry';
 
-export async function loader() {
-  return json({
-    routes: await generateRoutes(),
-  });
-}
-
-export const meta: MetaFunction = () => {
-  return [{ title: 'New Remix App' }, { name: 'description', content: 'Welcome to Remix!' }];
-};
+export const meta: MetaFunction = () => [
+  { title: 'STICKERIZE email templates' },
+  { name: 'description', content: 'Local preview of the Shopify customer notification templates.' },
+];
 
 export default function Index() {
-  const { routes } = useLoaderData<typeof loader>();
+  const [query, setQuery] = useState('');
+  const [group, setGroup] = useState<Group | 'All'>('All');
 
-  function renderList(type: 'shopify' | 'recharge') {
-    return (
-      <ol>
-        {routes
-          .filter((url) => url.includes(type))
-          .map((url) => (
-            <li>
-              <Link to={url}>{url.split('/')[2]}</Link>
-            </li>
-          ))}
-      </ol>
-    );
-  }
+  const buckets = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    const matches = TEMPLATES.filter((template) => {
+      if (group !== 'All' && template.group !== group) return false;
+      if (!needle) return true;
+      return `${template.label} ${template.slug} ${template.description} ${template.group}`
+        .toLowerCase()
+        .includes(needle);
+    });
+    return grouped(matches);
+  }, [query, group]);
+
+  const total = buckets.reduce((sum, bucket) => sum + bucket.templates.length, 0);
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-      <h1>Shopify Templates</h1>
-      {renderList('shopify')}
+    <div className="shell shell--wide">
+      <main>
+        <div className="topbar">
+          <strong className="topbar__title">STICKERIZE© / Shopify notifications</strong>
+          <span className="topbar__meta">
+            {total} of {TEMPLATES.length}
+          </span>
+          <div className="topbar__spacer" />
+          <div className="segmented">
+            {(['All', ...GROUPS] as const).map((name) => (
+              <button
+                key={name}
+                type="button"
+                className="btn"
+                aria-pressed={group === name}
+                onClick={() => setGroup(name)}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+          <label>
+            <span className="sr-only" hidden>
+              Search templates
+            </span>
+            <input
+              className="field"
+              style={{ width: 220 }}
+              type="search"
+              placeholder="Search templates…"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          </label>
+        </div>
+
+        <div className="page">
+          <div className="page__header">
+            <h1>Email templates</h1>
+            <p>
+              Every customer notification, rendered with sample order data in the order a customer
+              receives them. Open one to copy the Liquid for Shopify.
+            </p>
+          </div>
+
+          {total === 0 ? (
+            <p className="sidebar__empty">No template matches “{query}”.</p>
+          ) : (
+            buckets.map((bucket) => (
+              <section className="group" key={bucket.group}>
+                <h2 className="group__heading">
+                  {bucket.group}
+                  <span className="group__count">{bucket.templates.length}</span>
+                </h2>
+                <div className="grid">
+                  {bucket.templates.map((template) => (
+                    <Link
+                      className="card"
+                      key={template.slug}
+                      to={`/shopify/${template.slug}`}
+                      prefetch="intent"
+                    >
+                      <div className="card__thumb">
+                        <iframe
+                          src={`/preview/shopify/${template.slug}`}
+                          title={`${template.label} preview`}
+                          loading="lazy"
+                          tabIndex={-1}
+                          scrolling="no"
+                        />
+                      </div>
+                      <div className="card__body">
+                        <div className="card__title">{template.label}</div>
+                        <div className="card__desc">{template.description}</div>
+                        <div className="card__slug">{template.slug}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ))
+          )}
+        </div>
+      </main>
     </div>
   );
 }

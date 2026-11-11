@@ -5,16 +5,13 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
-import { OrderTable } from '~/components/shopify/OrderTable';
 
 export default function () {
   return /*html*/ `
-	{%- assign email_title = 'Your return request was declined' -%}
-	{% if order.customer_order_url %}
-		{%- assign order_details_url = order.customer_order_url -%}
-	{% else %}
-		{%- assign order_details_url = order.order_status_url -%}
-	{% endif %}
+	{% capture email_title %}Restore your payment method for {{ shop.name }}{% endcapture %}
+	{% capture email_body %}
+	We couldn't verify the payment method saved to your Stickerize account. Use the secure link below to restore it or add a new one.
+	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -23,19 +20,19 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `{% if return.decline["note"] != blank %}
-				{{ return.decline["note"] }}<br />
-			{% endif %}`,
-        showOrderNumber: true,
+        description: null,
+        showOrderNumber: false,
       })}
 
-			${OrderTable({ heading: 'Return summary' })}
+			${Description({
+        description: /*html*/ `{{email_body}}`,
+      })}
 
-			${Button({ url: '{{ order_details_url }}', label: 'View your order' })}
+			${Button({ url: '{{ email_confirmation_url }}', label: 'Confirm payment information', paddingTop: 0 })}
 
 			${Footer()}
 	`,
-	previewText: "",
+	previewText: "Restore or update it using the secure link inside.",
   })}
 `;
 }

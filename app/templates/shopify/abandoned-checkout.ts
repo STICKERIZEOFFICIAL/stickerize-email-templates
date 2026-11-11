@@ -9,23 +9,23 @@ export default function () {
   return /*html*/ `
 	{% capture email_title %}
 	{% if item_count == 1 %}
-	Don’t miss out on your custom stickers
+	Designs are still in cart
 	{% else %}
-	Don’t miss out on your custom stickers
+	Designs are still in cart
 	{% endif %}
 	{% endcapture %}
 	{% capture email_body %}
 	{% if billing_address.first_name %}
 	{% if item_count == 1 %}
-	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
+	You were really close. Designs are saved and ready to go from screen to sticker, so pick up right where you left off.
 	{% else %}
-	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
+	You were really close. Designs are saved and ready to go from screen to sticker, so pick up right where you left off.
 	{% endif %}
 	{% else %}
 	{% if item_count == 1 %}
-	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
+	You were really close. Designs are saved and ready to go from screen to sticker, so pick up right where you left off.
 	{% else %}
-	We noticed you left some amazing designs in your cart. It only takes a few clicks to complete your order and turn your ideas into life. Finish your checkout today and let’s make something awesome.
+	You were really close. Designs are saved and ready to go from screen to sticker, so pick up right where you left off.
 	{% endif %}
 	{% endif %}
 	{% endcapture %}
@@ -50,7 +50,7 @@ export default function () {
 
 			${Footer({ paddingTop: '16px' })}
 	`,
-	previewText: "Finish your checkout today and let’s make something awesome.",
+	previewText: "Pick up where you left off. Designs are saved.",
   })}
 `;
 }

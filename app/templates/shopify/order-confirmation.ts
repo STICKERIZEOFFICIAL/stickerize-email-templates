@@ -10,15 +10,15 @@ import { Total } from "~/components/shopify/Total";
 export default function () {
   return /*html*/ `
 	
-	${Head({ title: "Your custom sticker order is confirmed" })}
+	${Head({ title: "Order {{ order_number }} confirmed. Now we make it real." })}
 	${BodyWrapper({
     children: /*html*/ `
 			${Header()}
 
 			${Intro({
-        heading: "Your custom sticker order is confirmed<br />",
+        heading: "Order {{ order_number }} confirmed. Now we make it real.<br />",
         description:
-          "Thank you for choosing STICKERIZE©!<br /><br /> We’ve received your order and are already working to bring your custom stickers to life. You’ll receive another email once your order ships.<br /> If you have any questions, feel free to reach out.<br />",
+          "The order is in, and designs are headed for print. Here's what happens next:<br /><br />1. We print and cut the order.<br />2. We ship it and send tracking information.<br />3. You Stickerize everything.<br /><br />Spotted a typo in your design or picked the wrong size? Reply to this email as soon as you can and we'll try to fix it before it hits the printer.<br />",
         showOrderNumber: false,
       })}
 
@@ -30,7 +30,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "We’ve received your order and are already working to bring your custom stickers to life.",
+	previewText: "Designs are headed for print. Here's what happens next.",
   })}
 `;
 }

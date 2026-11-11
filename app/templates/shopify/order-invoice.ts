@@ -20,10 +20,15 @@ export default function () {
 				{% else %}
 					{% assign due_date = payment_terms.next_payment.due_at | default: nil %}
 				{% endif %}
-				{% if payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}
-					Payment of {{ order.total_outstanding | money_without_trailing_zeros }} is due on fulfillment
+				{% if total_outstanding %}
+					{% assign outstanding_amount = total_outstanding %}
 				{% else %}
-					Payment of {{ order.total_outstanding | money_without_trailing_zeros }} is due {{ due_date | date: format: 'date' }}
+					{% assign outstanding_amount = order.total_outstanding %}
+				{% endif %}
+				{% if payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}
+					Payment of {{ outstanding_amount | money_without_trailing_zeros }} is due on fulfillment
+				{% else %}
+					Payment of {{ outstanding_amount | money_without_trailing_zeros }} is due {{ due_date | date: format: 'date' }}
 				{% endif %}
 				{% if custom_message != blank %}
 					{{ custom_message }}

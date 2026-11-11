@@ -9,8 +9,7 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Update on your stickers shipment{% endcapture %}
-	{% capture email_body %}We’ve got an update on your custom sticker order. Your shipment is in transit and making its way to you.{% endcapture %}
+	{% capture email_title %}Payment confirmed for order {{ order_number }}{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -19,17 +18,11 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `{{email_body}}<br/><br/>
-				{% if shipping_method.title contains 'Express' %}
-				You can track your order here:<br/>
-				{% else %}
-				Your package number:<br/>
-				{% endif %}`,
-        showOrderNumber: false,
-				showTrackingNumber: true,
+        description: "All good. The payment went through and designs are headed for print. We'll send an email as soon as they ship.",
+        showOrderNumber: true,
       })}
 
-			${OrderTable({ heading: 'Items in this shipment' })}
+			${OrderTable({ heading: 'Order summary' })}
 
 			${Total()}
 
@@ -37,7 +30,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "We’ve got an update on your custom sticker order.",
+	previewText: "Designs are headed for print.",
   })}
 `;
 }

@@ -10,7 +10,10 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Your payment has been confirmed for order: {{ order.name }} {% endcapture %}
+	{% capture email_title %} Payment issue for order {{ order_number }} {% endcapture %}
+	{% capture email_body %}
+	We couldn't complete the payment, so no charge was made and the order is on hold. Try paying again using the button below and we'll send designs to print right away.
+	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -19,7 +22,7 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: "Great news. Your payment has been successfully processed, and we’re moving ahead with your custom sticker order. Stay tuned for updates on your shipment.",
+        description: /*html*/ `{{ email_body }}<br />`,
         showOrderNumber: true,
       })}
 
@@ -29,9 +32,13 @@ export default function () {
 
 			${CustomerInfo()}
 
+			{% if checkout_payment_collection_url %}
+				${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
+			{% endif %}
+
 			${Footer()}
 	`,
-	previewText: "We’re moving ahead with your custom sticker order.",
+	previewText: "No payment was charged. Retry the payment to get the order moving.",
   })}
 `;
 }

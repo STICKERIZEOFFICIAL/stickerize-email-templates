@@ -58,7 +58,7 @@ export function OrderTable({
                       {% endif %}
 
                       <!-- Product title -->
-                      <p style=margin-bottom: 12px; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                      <p style="margin-bottom: 12px; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
                         <span class="order-list__item-title">{{ line_title }}</span>
                       </p>
 

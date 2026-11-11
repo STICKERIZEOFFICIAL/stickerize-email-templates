@@ -8,8 +8,8 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Welcome to {{ shop.name }}!{% endcapture %}
-	{% capture email_body %}We’re thrilled to have you on board. Your account is all set up, giving you access to exclusive features, faster checkouts, and more. Let’s start creating amazing custom stickers together.{% endcapture %}
+	{% capture email_title %}Your Stickerize account is ready{% endcapture %}
+	{% capture email_body %}Activate the account to reorder in a few clicks and use earned store credit right in the cart. It takes seconds.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -32,13 +32,13 @@ export default function () {
 				`,
       })}
 
-			{% if shop.url  %}
-				${Button({ url: '{{ shop.url }}', label: 'Visit our store', paddingTop: 0 })}
+			{% if customer.account_activation_url %}
+				${Button({ url: '{{ customer.account_activation_url }}', label: 'Activate your account', paddingTop: 0 })}
 			{% endif %}
 
-			${Footer()}
+			${Footer({ showLoginSection: false })}
 	`,
-	previewText: "Get ready to create high-quality custom stickers with ease. Let’s make something awesome together.",
+	previewText: "Reorder faster and use store credit.",
   })}
 `;
 }

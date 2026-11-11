@@ -8,8 +8,10 @@ import { Intro } from '~/components/shopify/Intro';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Confirm your Stickerize account{% endcapture %}
-	{% capture email_body %}Join the STICKERIZE© family. Set up your account to easily track orders, save designs, and enjoy exclusive perks. Click below to get started — it only takes a minute!{% endcapture %}
+	{% capture email_title %} Payment didn't go through {% endcapture %}
+	{% capture email_body %}
+	Something went wrong with your payment, and you haven't been charged. Designs are still in your cart. Try again, or switch to a different payment method, and you're good to go.
+	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -18,27 +20,21 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: null,
+        description: /*html*/ `{{email_body}}`,
         showOrderNumber: false,
       })}
 
 			${Description({
         description: /*html*/ `
-				{% if custom_message != blank %}
-					{{ custom_message }}
-				{% else %}
 					{{ email_body }}
-				{% endif %}
-				`,
+					`,
       })}
 
-			{% if customer.account_activation_url %}
-				${Button({ url: '{{ customer.account_activation_url }}', label: 'Activate your account', paddingTop: 0 })}
-			{% endif %}
+			${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
 
-			${Footer({ showLoginSection: false })}
+			${Footer()}
 	`,
-	previewText: "Confirm your Stickerize account",
+	previewText: "You haven't been charged, and your designs are still in your cart.",
   })}
 `;
 }
