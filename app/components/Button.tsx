@@ -16,6 +16,12 @@ export function Button({
   const link =
     "font-family:'Courier New', monospace; font-size: 13px; line-height: 18px; font-weight: 300; color:#fffffe; text-decoration:none; display: block; text-transform: uppercase;";
 
+  // The arrow needs its own size. At the label's 13px/300 the glyph renders
+  // thin and undersized next to the uppercase label — it reads as squashed
+  // rather than as a counterpart to the text.
+  const arrowLink =
+    "font-family:'Courier New', monospace; font-size: 20px; line-height: 18px; font-weight: 400; color:#fffffe; text-decoration:none; display: block; text-align: right;";
+
   return /*html*/ `
   <!-- Button -->
   <tr>
@@ -25,8 +31,8 @@ export function Button({
           <td class="l-white" align="left" valign="middle" style="mso-padding-alt: 23px 12px; padding: 23px 0 23px 12px; background-color: #000001;">
             <a href="${url}" target="_blank" rel="noopener" class="link" style="${link}">${label}</a>
           </td>
-          <td class="l-white" align="right" valign="middle" width="40" style="padding: 23px 12px 23px 0; background-color: #000001;">
-            <a href="${url}" target="_blank" rel="noopener" class="link" style="${link} text-align: right;">&rarr;</a>
+          <td class="l-white" align="right" valign="middle" width="44" style="padding: 21px 12px 21px 0; background-color: #000001;">
+            <a href="${url}" target="_blank" rel="noopener" class="link" style="${arrowLink}">&rarr;</a>
           </td>
         </tr>
       </table>
