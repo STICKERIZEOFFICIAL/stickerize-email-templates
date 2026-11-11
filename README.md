@@ -34,6 +34,60 @@ serves it as a standalone document for the iframes.
 - **Copy Liquid** / **Download** give you the *unrendered* source — that is what
   gets pasted into Shopify (Settings → Notifications → Customer notifications).
   The rendered HTML in the iframe is for looking at only.
+- Controls that change how the **email** renders — Desktop/Mobile, Light/Dark,
+  language — sit on the email frame itself. None of them touch the app around
+  it. See [Dark mode](#dark-mode).
+
+### Subject and preview text
+
+Two lines reach a recipient before they open anything, and they are authored in
+different places:
+
+| | Where it lives | In the preview |
+|---|---|---|
+| **Subject** | Shopify admin | copyable — it cannot travel with the pasted HTML |
+| **Preview text** | the template's `previewText` | shown only; it ships inside the Liquid |
+
+Each template page shows both, first as they read in an inbox, then as editable
+values labelled with where each is set.
+
+Subjects live in `subject` on each entry in `app/preview/registry.ts` — the one
+piece of copy the templates themselves do not contain. Use `{{ name }}` for the
+order number: it renders with the shop's prefix (`#1024`), where
+`{{ order_number }}` renders bare (`1024`).
+
+Preview text is read back out of the rendered email rather than duplicated
+here, so the two can never drift. Two templates ship with none at all
+(`return-request-declined`, `usps-return-label-created`); the preview marks
+them **Not set**, which means the client will scrape the top of the email
+instead.
+
+### Languages
+
+`app/preview/locales.ts` holds the variants. Only English exists today — the
+switcher on the email frame shows `EN` alone. The selected locale travels
+through the preview URL into the Liquid render as a `locale` variable, so
+adding a language is a data change: add an entry to `LOCALES`, then
+`translations: { xx: { subject, previewText } }` on the templates that have
+been translated. Anything untranslated falls back to English.
+
+### Dark mode
+
+Dark applies to the **email only** — the app around it stays as it is.
+
+These templates declare no `color-scheme` and carry no `prefers-color-scheme`
+rules, so mail clients that force dark mode (Outlook, Apple Mail, the Gmail
+app) do not get a designer-authored dark palette — they invert the colours
+themselves. The **Dark** view reproduces that: the whole document is inverted,
+then images are flipped back, which is how those clients treat them.
+
+It is a simulation. Every client inverts slightly differently, so use it to
+catch obvious breakage — unreadable text, boxes that vanish, logos that
+disappear into the background — rather than as an exact preview.
+
+If you ever want real dark-mode control instead of client inversion, that
+means adding `<meta name="color-scheme" content="light dark">` and
+`@media (prefers-color-scheme: dark)` rules to `app/components/Head.tsx`.
 
 ## Adding a template
 
