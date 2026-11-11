@@ -11,7 +11,7 @@ export function Footer({
       <td style="padding: ${paddingTop} 12px 32px;">
           <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
       ${showLoginSection ? `<tr>
-          <td  style="border-bottom: 1px solid #c8c7c4; padding-bottom: 24px;" align="left">
+          <td  style="border-bottom: 1px solid #000001; padding-bottom: 24px;" align="left">
               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                   <tr>
                       <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px;">
