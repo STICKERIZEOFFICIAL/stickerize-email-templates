@@ -19,7 +19,7 @@ export function Button({
   return /*html*/ `
   <!-- Button -->
   <tr>
-    <td style="padding: ${paddingTop}px 16px 32px;">
+    <td style="padding: ${paddingTop}px 12px 32px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" bgcolor="#000001" style="background-color: #000001;">
         <tr>
           <td class="l-white" align="left" valign="middle" style="mso-padding-alt: 23px 12px; padding: 23px 0 23px 12px; background-color: #000001;">

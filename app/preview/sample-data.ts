@@ -295,7 +295,9 @@ export const sampleData: Record<string, unknown> = {
     completed_at: null,
   },
   due_date: '2026-12-08T00:00:00-05:00',
-  po_number: 'PO-55120',
+  // Most orders have none, and the template already hides the box when it is
+  // absent ({%- if po_number %}). Set a value here to preview the B2B case.
+  po_number: null,
   company_location: { name: 'Brooklyn Studio', external_id: 'BK-1' },
   b2b: false,
 

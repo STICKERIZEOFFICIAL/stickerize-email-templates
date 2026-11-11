@@ -13,7 +13,7 @@ export function OrderTable({
     </td>
   </tr>
   <tr>
-    <td style="padding: 0 16px 14px;">
+    <td style="padding: 0 12px 14px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
         <!-- Item scenario 1 -->
         {% for line in subtotal_line_items %}
@@ -225,7 +225,7 @@ export function OrderTable({
           {% assign discount_keys = discount_keys_str | split: "," | uniq %}
           <tr class="order-list__item">
             <td class="order-list__item__cell">
-              <table>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                 <td class="mw-img-90" style="border-bottom: 1px solid #c8c7c4; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
                   {% if line_item_group.image %}
                     <table border="0" cellspacing="0" cellpadding="0" role="presentation">
