@@ -2,9 +2,15 @@ import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
 import { Link, json, useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
 import { renderLiquid } from '~/preview/liquid.server';
-import { TEMPLATES, getTemplate, neighbours, sourcePath } from '~/preview/registry';
-import { ThemeSwitch } from '~/preview/ThemeSwitch';
-import { previewSrc, useTheme } from '~/preview/theme';
+import { DEFAULT_LOCALE, LOCALES, type LocaleCode } from '~/preview/locales';
+import {
+  TEMPLATES,
+  getTemplate,
+  neighbours,
+  previewTextFor,
+  sourcePath,
+  subjectFor,
+} from '~/preview/registry';
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const template = getTemplate(params.slug);
@@ -13,22 +19,28 @@ export async function loader({ params }: LoaderFunctionArgs) {
   }
 
   const source = template.render();
-  // Rendered here only to surface Liquid errors in the toolbar; the iframe
-  // loads its own copy from /preview/shopify/:slug.
-  const { error } = await renderLiquid(source, template.data);
-  // Show the subject both as it is typed into Shopify and as it resolves, so
-  // the Liquid in it can be eyeballed before it is pasted.
-  const subjectPreview = await renderLiquid(template.subject, template.data);
+  const locale: LocaleCode = DEFAULT_LOCALE;
+
+  // Rendered here for two reasons: to surface Liquid errors in the toolbar,
+  // and because the preheader is read back out of the finished email. The
+  // iframe loads its own copy from /preview/shopify/:slug.
+  const { html, error } = await renderLiquid(source, { ...template.data, locale });
+
+  const subject = subjectFor(template, locale);
+  // Already Liquid-resolved: it comes out of the rendered email.
+  const previewText = previewTextFor(template, html, locale);
+  const subjectRender = await renderLiquid(subject, template.data);
+
   const { previous, next } = neighbours(template.slug);
 
   return json({
     slug: template.slug,
     label: template.label,
     group: template.group,
-    description: template.description,
     path: sourcePath(template.slug),
-    subject: template.subject,
-    subjectRendered: subjectPreview.error ? template.subject : subjectPreview.html,
+    subject,
+    subjectRendered: subjectRender.error ? subject : subjectRender.html.trim(),
+    previewText,
     source,
     error,
     previous: previous && { slug: previous.slug, label: previous.label },
@@ -43,16 +55,21 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => [
   { title: data ? `${data.label} — STICKERIZE templates` : 'Template not found' },
 ];
 
-type View = 'desktop' | 'mobile' | 'source';
+type Width = 'desktop' | 'mobile';
+type Scheme = 'light' | 'dark';
 
 export default function TemplatePreview() {
   const data = useLoaderData<typeof loader>();
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
-  const [view, setView] = useState<View>('desktop');
-  const [copied, setCopied] = useState<'subject' | 'liquid' | null>(null);
 
-  // Left/right arrows walk the lifecycle without reaching for the mouse.
+  const [showSource, setShowSource] = useState(false);
+  const [width, setWidth] = useState<Width>('desktop');
+  // Scheme and locale change only how the email renders — never the app around
+  // it. They live with the email frame, not in the page toolbar.
+  const [scheme, setScheme] = useState<Scheme>('light');
+  const [locale, setLocale] = useState<LocaleCode>(DEFAULT_LOCALE);
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null;
@@ -65,18 +82,20 @@ export default function TemplatePreview() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [data.previous, data.next, navigate]);
 
-  useEffect(() => {
-    setCopied(null);
-  }, [data.slug]);
+  useEffect(() => setCopied(false), [data.slug]);
 
-  async function copy(text: string, which: 'subject' | 'liquid') {
+  async function copySubject() {
     try {
-      await navigator.clipboard.writeText(text);
-      setCopied(which);
+      await navigator.clipboard.writeText(data.subject);
+      setCopied(true);
     } catch {
-      setCopied(null);
+      setCopied(false);
     }
   }
+
+  const frameSrc = `/preview/shopify/${data.slug}?locale=${locale}${
+    scheme === 'dark' ? '&theme=dark' : ''
+  }`;
 
   return (
     <div className="shell">
@@ -98,24 +117,13 @@ export default function TemplatePreview() {
             <NavButton to={data.next && `/shopify/${data.next.slug}`} label="Next ›" />
           </div>
 
-          <div className="segmented">
-            {(['desktop', 'mobile', 'source'] as const).map((name) => (
-              <button
-                key={name}
-                type="button"
-                className="btn"
-                aria-pressed={view === name}
-                onClick={() => setView(name)}
-              >
-                {name}
-              </button>
-            ))}
-          </div>
-
-          <ThemeSwitch theme={theme} setTheme={setTheme} />
-
-          <button type="button" className="btn" onClick={() => copy(data.source, 'liquid')}>
-            {copied === 'liquid' ? 'Copied ✓' : 'Copy Liquid'}
+          <button
+            type="button"
+            className="btn"
+            aria-pressed={showSource}
+            onClick={() => setShowSource((on) => !on)}
+          >
+            Source
           </button>
 
           <a
@@ -123,27 +131,62 @@ export default function TemplatePreview() {
             href={`/preview/shopify/${data.slug}?source=1`}
             download={`${data.slug}.liquid`}
           >
-            Download
+            Download Liquid
           </a>
         </div>
 
-        {/* Shopify keeps the subject in the admin, not in the template body,
-            so it has to be copied across separately from the HTML. */}
-        <div className="subject">
-          <div className="subject__label">
-            Subject
-            <span className="subject__hint">set in Shopify admin, not in the template</span>
+        {/* What lands in the inbox: the two lines a recipient reads before
+            opening anything. They come from different places — the subject
+            from Shopify's admin, the preheader from the template — so each is
+            labelled with where it is edited. */}
+        <section className="dispatch" aria-label="Inbox lines">
+          <div className="dispatch__inbox">
+            <span className="dispatch__eyebrow">As it lands in the inbox</span>
+            <div className="dispatch__row">
+              <span className="dispatch__sender">STICKERIZE©</span>
+              <p className="dispatch__subject">{data.subjectRendered}</p>
+              {data.previewText ? (
+                <p className="dispatch__preheader">{data.previewText}</p>
+              ) : (
+                <p className="dispatch__preheader dispatch__preheader--empty">
+                  No preview text — the client will scrape the top of the email instead
+                </p>
+              )}
+            </div>
           </div>
-          <div className="subject__value">
-            <code className="subject__raw">{data.subject}</code>
-            {data.subjectRendered !== data.subject ? (
-              <span className="subject__rendered">renders as “{data.subjectRendered}”</span>
-            ) : null}
-          </div>
-          <button type="button" className="btn" onClick={() => copy(data.subject, 'subject')}>
-            {copied === 'subject' ? 'Copied ✓' : 'Copy subject'}
-          </button>
-        </div>
+
+          <dl className="dispatch__fields">
+            <div className="field-row field-row--primary">
+              <dt>
+                Subject
+                <span className="field-row__where">Shopify admin</span>
+              </dt>
+              <dd>
+                <code className="field-row__value">{data.subject}</code>
+                <button type="button" className="btn btn--solid" onClick={copySubject}>
+                  {copied ? 'Copied ✓' : 'Copy subject'}
+                </button>
+              </dd>
+            </div>
+
+            <div className="field-row">
+              <dt>
+                Preview text
+                <span className="field-row__where">in the template</span>
+              </dt>
+              <dd>
+                {data.previewText ? (
+                  <code className="field-row__value">{data.previewText}</code>
+                ) : (
+                  <code className="field-row__value field-row__value--empty">Not set</code>
+                )}
+                <span className="field-row__note">
+                  travels with the Liquid — nothing to paste
+                </span>
+              </dd>
+            </div>
+          </dl>
+        </section>
 
         {data.error ? (
           <div className="banner">
@@ -152,29 +195,87 @@ export default function TemplatePreview() {
           </div>
         ) : null}
 
-        {view === 'source' ? (
-          <div className="source" style={{ paddingTop: 24 }}>
+        {showSource ? (
+          <div className="source">
             <pre>{data.source}</pre>
           </div>
         ) : (
           <div className="stage">
-            <div className={`stage__frame${view === 'mobile' ? ' stage__frame--mobile' : ''}`}>
+            <div className={`viewer${width === 'mobile' ? ' viewer--mobile' : ''}`}>
+              {/* Controls for how the email renders sit on the email, not in
+                  the page toolbar — none of them change the app around it. */}
+              <div className="viewer__bar">
+                <div className="segmented">
+                  {(['desktop', 'mobile'] as const).map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      className="btn btn--bare"
+                      aria-pressed={width === name}
+                      onClick={() => setWidth(name)}
+                    >
+                      {name === 'desktop' ? 'Desktop' : 'Mobile'}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="segmented">
+                  {(['light', 'dark'] as const).map((name) => (
+                    <button
+                      key={name}
+                      type="button"
+                      className="btn btn--bare"
+                      aria-pressed={scheme === name}
+                      title={
+                        name === 'dark'
+                          ? 'Simulate a mail client forcing dark mode'
+                          : 'Render as sent'
+                      }
+                      onClick={() => setScheme(name)}
+                    >
+                      {name === 'light' ? '☀ Light' : '☾ Dark'}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="viewer__spacer" />
+
+                <div className="segmented">
+                  {LOCALES.map((entry) => (
+                    <button
+                      key={entry.code}
+                      type="button"
+                      className="btn btn--bare"
+                      aria-pressed={locale === entry.code}
+                      title={
+                        LOCALES.length === 1
+                          ? `${entry.name} — the only variant so far`
+                          : entry.name
+                      }
+                      onClick={() => setLocale(entry.code)}
+                    >
+                      {entry.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <iframe
-                key={`${data.slug}-${view}-${theme}`}
-                src={previewSrc(data.slug, theme)}
+                key={`${data.slug}-${width}-${scheme}-${locale}`}
+                src={frameSrc}
                 title={`${data.label} preview`}
               />
             </div>
           </div>
         )}
 
-        {theme === 'dark' && view !== 'source' ? (
+        {scheme === 'dark' && !showSource ? (
           <p className="stage__note">
             Simulated dark mode. These templates declare no dark-mode support, so clients that
-            force it (Outlook, Apple Mail, the Gmail app) invert the colours themselves — that
-            inversion is what you are seeing. Images are flipped back, as those clients leave them
-            alone. Every client inverts a little differently, so treat this as a check for
-            unreadable text and vanishing boxes rather than an exact preview.
+            force it — Outlook, Apple Mail, the Gmail app — invert the colours themselves, and
+            that inversion is what you are seeing. Images are flipped back, as those clients
+            leave them alone. Treat it as a check for unreadable text and vanishing boxes rather
+            than an exact preview.
           </p>
         ) : null}
       </main>

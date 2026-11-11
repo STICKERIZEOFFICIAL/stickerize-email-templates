@@ -2,8 +2,6 @@ import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { useMemo, useState } from 'react';
 import { GROUPS, TEMPLATES, grouped, type Group } from '~/preview/registry';
-import { ThemeSwitch } from '~/preview/ThemeSwitch';
-import { previewSrc, useTheme } from '~/preview/theme';
 
 export const meta: MetaFunction = () => [
   { title: 'STICKERIZE email templates' },
@@ -13,7 +11,6 @@ export const meta: MetaFunction = () => [
 export default function Index() {
   const [query, setQuery] = useState('');
   const [group, setGroup] = useState<Group | 'All'>('All');
-  const { theme, setTheme } = useTheme();
 
   const buckets = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -38,7 +35,6 @@ export default function Index() {
             {total} of {TEMPLATES.length}
           </span>
           <div className="topbar__spacer" />
-          <ThemeSwitch theme={theme} setTheme={setTheme} />
           <div className="segmented">
             {(['All', ...GROUPS] as const).map((name) => (
               <button
@@ -95,8 +91,7 @@ export default function Index() {
                     >
                       <div className="card__thumb">
                         <iframe
-                          key={`${template.slug}-${theme}`}
-                          src={previewSrc(template.slug, theme)}
+                          src={`/preview/shopify/${template.slug}`}
                           title={`${template.label} preview`}
                           loading="lazy"
                           tabIndex={-1}

@@ -15,6 +15,10 @@
   --mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, 'Courier New', monospace;
   --sidebar-w: 268px;
   --topbar-h: 56px;
+  /* One step deeper than the page, for strips that hold controls. */
+  --apparatus: #f1ede7;
+  /* Shared measure for the inbox facsimile and the fields under it. */
+  --dispatch-w: 74ch;
 }
 
 * {
@@ -335,27 +339,6 @@ a {
   padding: 24px 20px 64px;
 }
 
-.stage__frame {
-  width: 100%;
-  max-width: 772px;
-  border: 1px solid var(--rule-strong);
-  background: var(--surface);
-  transition: max-width 0.18s ease;
-}
-
-.stage__frame--mobile {
-  max-width: 390px;
-}
-
-.stage__frame iframe {
-  display: block;
-  width: 100%;
-  height: 80vh;
-  min-height: 640px;
-  border: 0;
-  background: var(--paper);
-}
-
 .source {
   margin: 0 auto;
   max-width: 1100px;
@@ -389,103 +372,213 @@ a {
   word-break: break-word;
 }
 
-/* ---------- Dark ----------------------------------------------------------
-   Applied by the theme switch (data-theme on <html>), not by the OS, so the
-   choice sticks while you compare emails. Only tokens are redefined.        */
+/* ---------- Dispatch header ----------------------------------------------
+   The two lines a recipient reads before opening anything. They are authored
+   in different places, so each is labelled with where it is edited.        */
 
-:root[data-theme='dark'] {
-  --ink: #ece9e3;
-  --ink-soft: #9b968d;
-  --ink-faint: #6b665e;
-  --rule: #2c2b28;
-  --rule-strong: #403e3a;
-  --paper: #161513;
-  --surface: #1e1d1b;
-  --accent: #ece9e3;
-  --warn-bg: #2e2318;
-  --warn-ink: #e8b878;
-  --warn-rule: #5a4428;
-}
-
-:root[data-theme='dark'] .topbar {
-  background: rgba(22, 21, 19, 0.94);
-}
-
-/* Keep the inverted email readable against the dark chrome. */
-:root[data-theme='dark'] .stage__frame iframe,
-:root[data-theme='dark'] .card__thumb {
-  background: #000;
-}
-
-:root[data-theme='dark'] .btn:hover:not(:disabled),
-:root[data-theme='dark'] .btn[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-
-/* ---------- Subject line --------------------------------------------------
-   Shopify stores the subject in the admin rather than the template body, so
-   it is shown here to be copied across separately.                          */
-
-.subject {
-  display: flex;
-  align-items: flex-start;
+.dispatch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
-  padding: 12px 20px;
+  padding: 18px 20px 20px;
   border-bottom: 1px solid var(--rule);
   background: var(--surface);
 }
 
-.subject__label {
-  flex: 0 0 auto;
-  padding-top: 2px;
+.dispatch__eyebrow {
+  display: block;
+  margin-bottom: 8px;
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-faint);
 }
 
-.subject__hint {
+/* A facsimile of the inbox row, so subject and preheader can be read the way
+   they will actually be met — together, in that order. */
+.dispatch__row {
+  display: grid;
+  gap: 3px;
+  max-width: var(--dispatch-w);
+  padding: 12px 14px;
+  border-left: 2px solid var(--ink);
+  background: var(--apparatus);
+}
+
+.dispatch__sender {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.dispatch__subject {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.dispatch__preheader {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.dispatch__fields {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  max-width: var(--dispatch-w);
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+/* One object repeated: same label column, same baselines, same padding. The
+   only difference between the rows is weight and whether there is an action,
+   which is exactly the difference that matters. */
+.field-row {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: 11px 14px;
+  background: var(--surface);
+}
+
+.field-row dt {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.field-row__where {
   display: block;
-  margin-top: 2px;
+  margin-top: 3px;
   letter-spacing: 0;
   text-transform: none;
   font-size: 10px;
+  color: var(--ink-faint);
 }
 
-.subject__value {
-  flex: 1 1 auto;
+.field-row dd {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0;
   min-width: 0;
 }
 
-.subject__raw {
-  display: block;
+.field-row__value {
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
   word-break: break-word;
 }
 
-.subject__rendered {
+.field-row--primary dt {
+  color: var(--ink);
+}
+
+.field-row--primary .field-row__value {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.dispatch__preheader--empty,
+.field-row__value--empty {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.field-row__note {
+  flex: 0 0 auto;
+  color: var(--ink-faint);
+  font-size: 10px;
+}
+
+/* ---------- Email viewer --------------------------------------------------
+   The frame and the controls that change what is inside it are one object. */
+
+.viewer {
+  width: 100%;
+  max-width: 772px;
+  border: 1px solid var(--rule-strong);
+  background: var(--surface);
+  transition: max-width 0.18s ease;
+}
+
+.viewer--mobile {
+  max-width: 408px;
+}
+
+.viewer__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--apparatus);
+}
+
+.viewer__spacer {
+  flex: 1 1 auto;
+}
+
+.viewer iframe {
   display: block;
-  margin-top: 3px;
-  color: var(--ink-faint);
-  font-size: 11px;
+  width: 100%;
+  height: 78vh;
+  min-height: 620px;
+  border: 0;
+  background: var(--paper);
 }
 
-.stage__note {
-  max-width: 760px;
-  margin: -40px auto 48px;
-  padding: 0 20px;
-  color: var(--ink-faint);
-  font-size: 11px;
-  line-height: 1.6;
+/* Controls sitting on the apparatus strip read as instruments, not page
+   actions: no fill until they are the active one. */
+.btn--bare {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ink-soft);
 }
 
-@media (max-width: 640px) {
-  .subject {
+.btn--bare:hover:not(:disabled) {
+  background: var(--surface);
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+.btn--bare[aria-pressed='true'] {
+  background: var(--surface);
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+.segmented .btn--bare + .btn--bare {
+  border-left-color: transparent;
+}
+
+.btn--solid {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  .field-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .field-row dd {
     flex-wrap: wrap;
   }
 }

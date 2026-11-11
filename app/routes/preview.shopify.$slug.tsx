@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import { renderLiquid } from '~/preview/liquid.server';
+import { toLocale } from '~/preview/locales';
 import { getTemplate } from '~/preview/registry';
 
 /**
@@ -8,6 +9,7 @@ import { getTemplate } from '~/preview/registry';
  *
  *   /preview/shopify/order-confirmation             rendered with sample data
  *   /preview/shopify/order-confirmation?theme=dark  + dark mode simulation
+ *   /preview/shopify/order-confirmation?locale=en   language variant
  *   /preview/shopify/order-confirmation?source=1    raw Liquid source as text
  */
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -25,7 +27,8 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     });
   }
 
-  const { html, error } = await renderLiquid(source, template.data);
+  const locale = toLocale(url.searchParams.get('locale'));
+  const { html, error } = await renderLiquid(source, { ...template.data, locale });
   const body = error
     ? wrapError(template.slug, error, html)
     : url.searchParams.get('theme') === 'dark'

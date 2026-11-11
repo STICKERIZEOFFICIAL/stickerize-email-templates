@@ -1,3 +1,4 @@
+import { DEFAULT_LOCALE, type LocaleCode } from '~/preview/locales';
 import abandonedCheckout from '~/templates/shopify/abandoned-checkout';
 import contactCustomer from '~/templates/shopify/contact-customer';
 import customerAccountInvite from '~/templates/shopify/customer-account-invite';
@@ -62,6 +63,11 @@ export type Template = {
    * (#1024), unlike `{{ order_number }}` which renders bare (1024).
    */
   subject: string;
+  /**
+   * Per-locale overrides. Anything absent falls back to the English strings
+   * above. See locales.ts.
+   */
+  translations?: Partial<Record<LocaleCode, { subject?: string; previewText?: string }>>;
   /** Returns the template's Liquid + HTML source. */
   render: () => string;
   /**
@@ -290,6 +296,49 @@ export const TEMPLATES: Template[] = [
     },
   },
 ];
+
+/**
+ * The inbox preheader, pulled out of the *rendered* email rather than copied
+ * into this file, so the two can never drift and any Liquid in it is already
+ * resolved — which is what a recipient actually sees.
+ *
+ * `BodyWrapper` wraps it in these comments; they are the contract.
+ */
+const PREHEADER_BLOCK_RE = /<!--\s*Preview Text\s*-->([\s\S]*?)<!--\s*END Preview Text\s*-->/i;
+
+/**
+ * Padding BodyWrapper appends after the preheader so clients don't spill body
+ * copy into the inbox preview. `&nbsp;` is deliberately not in here: a spacer
+ * row of its own sits *before* the preheader, so splitting on it would return
+ * that empty prefix instead of the text.
+ */
+const PREHEADER_PADDING_RE = /&#8199;|&shy;/;
+
+export function extractPreheader(renderedHtml: string): string | null {
+  const block = PREHEADER_BLOCK_RE.exec(renderedHtml);
+  if (!block) return null;
+
+  const text = block[1]
+    .replace(/<[^>]*>/g, ' ')
+    .split(PREHEADER_PADDING_RE)[0]
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return text || null;
+}
+
+export function previewTextFor(
+  template: Template,
+  renderedHtml: string,
+  locale: LocaleCode = DEFAULT_LOCALE,
+): string {
+  return template.translations?.[locale]?.previewText ?? extractPreheader(renderedHtml) ?? '';
+}
+
+export function subjectFor(template: Template, locale: LocaleCode = DEFAULT_LOCALE): string {
+  return template.translations?.[locale]?.subject ?? template.subject;
+}
 
 export function getTemplate(slug: string | undefined): Template | undefined {
   return TEMPLATES.find((template) => template.slug === slug);
