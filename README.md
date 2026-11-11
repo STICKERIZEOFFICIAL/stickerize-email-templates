@@ -34,6 +34,37 @@ serves it as a standalone document for the iframes.
 - **Copy Liquid** / **Download** give you the *unrendered* source — that is what
   gets pasted into Shopify (Settings → Notifications → Customer notifications).
   The rendered HTML in the iframe is for looking at only.
+- **Light / Dark** switches the chrome and the email together. See
+  [Dark mode](#dark-mode) for what the dark rendering actually represents.
+
+### Subject lines
+
+Shopify stores each notification's **subject** in the admin, not in the
+template body, so it cannot travel with the pasted HTML. Every template page
+shows its subject in a bar under the toolbar with a **Copy subject** button,
+along with how it resolves against the sample order.
+
+Subjects live in `subject` on each entry in `app/preview/registry.ts` — they
+are the one piece of copy the templates themselves do not contain.
+
+Use `{{ name }}` for the order number in a subject. It renders with the shop's
+prefix (`#1024`); `{{ order_number }}` renders bare (`1024`).
+
+### Dark mode
+
+These templates declare no `color-scheme` and carry no `prefers-color-scheme`
+rules, so mail clients that force dark mode (Outlook, Apple Mail, the Gmail
+app) do not get a designer-authored dark palette — they invert the colours
+themselves. The **Dark** view reproduces that: the whole document is inverted,
+then images are flipped back, which is how those clients treat them.
+
+It is a simulation. Every client inverts slightly differently, so use it to
+catch obvious breakage — unreadable text, boxes that vanish, logos that
+disappear into the background — rather than as an exact preview.
+
+If you ever want real dark-mode control instead of client inversion, that
+means adding `<meta name="color-scheme" content="light dark">` and
+`@media (prefers-color-scheme: dark)` rules to `app/components/Head.tsx`.
 
 ## Adding a template
 

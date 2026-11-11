@@ -6,8 +6,9 @@ import { getTemplate } from '~/preview/registry';
  * Resource route serving a single template as a standalone document, so the
  * gallery and the preview stage can load it in an iframe.
  *
- *   /preview/shopify/order-confirmation            rendered with sample data
- *   /preview/shopify/order-confirmation?source=1   raw Liquid source as text
+ *   /preview/shopify/order-confirmation             rendered with sample data
+ *   /preview/shopify/order-confirmation?theme=dark  + dark mode simulation
+ *   /preview/shopify/order-confirmation?source=1    raw Liquid source as text
  */
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const template = getTemplate(params.slug);
@@ -16,18 +17,57 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const source = template.render();
+  const url = new URL(request.url);
 
-  if (new URL(request.url).searchParams.has('source')) {
+  if (url.searchParams.has('source')) {
     return new Response(source, {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   }
 
   const { html, error } = await renderLiquid(source, template.data);
+  const body = error
+    ? wrapError(template.slug, error, html)
+    : url.searchParams.get('theme') === 'dark'
+      ? simulateDarkMode(html)
+      : html;
 
-  return new Response(error ? wrapError(template.slug, error, html) : html, {
+  return new Response(body, {
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   });
+}
+
+/**
+ * Approximates what a mail client does to an email in dark mode.
+ *
+ * These templates declare no `color-scheme` and carry no
+ * `prefers-color-scheme` rules, so clients that force dark mode (Outlook,
+ * Apple Mail, the Gmail app) don't get to use a designer-authored dark
+ * palette — they invert the colours themselves. That inversion is what this
+ * reproduces: flip the whole document, then flip images back so photos and
+ * logos still read correctly, which is how those clients treat them.
+ *
+ * It is a simulation, not a guarantee: every client inverts slightly
+ * differently. Use it to catch the obvious breakages — unreadable text,
+ * boxes that vanish, logos that turn to mud.
+ */
+function simulateDarkMode(html: string): string {
+  const style = /* html */ `
+    <style id="preview-dark-simulation">
+      html {
+        background-color: #ffffff;
+        filter: invert(1) hue-rotate(180deg);
+      }
+      /* Flip media back so it is not shown as a negative. */
+      img, video {
+        filter: invert(1) hue-rotate(180deg);
+      }
+    </style>`;
+
+  if (html.includes('</head>')) {
+    return html.replace('</head>', `${style}\n</head>`);
+  }
+  return style + html;
 }
 
 /** Keep a Liquid failure visible inside the frame instead of silently blank. */

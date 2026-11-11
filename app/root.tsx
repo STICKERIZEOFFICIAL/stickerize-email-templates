@@ -11,6 +11,7 @@ import {
   useRouteError,
 } from '@remix-run/react';
 import previewStyles from '~/preview/preview.css';
+import { THEME_INIT_SCRIPT } from '~/preview/theme';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: previewStyles },
@@ -25,6 +26,9 @@ function Document({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        {/* Paint the stored colour scheme before first paint, so reloading in
+            dark mode doesn't flash a white page. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body>
         {children}

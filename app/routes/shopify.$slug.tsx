@@ -3,6 +3,8 @@ import { Link, json, useLoaderData, useNavigate } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
 import { renderLiquid } from '~/preview/liquid.server';
 import { TEMPLATES, getTemplate, neighbours, sourcePath } from '~/preview/registry';
+import { ThemeSwitch } from '~/preview/ThemeSwitch';
+import { previewSrc, useTheme } from '~/preview/theme';
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const template = getTemplate(params.slug);
@@ -14,6 +16,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
   // Rendered here only to surface Liquid errors in the toolbar; the iframe
   // loads its own copy from /preview/shopify/:slug.
   const { error } = await renderLiquid(source, template.data);
+  // Show the subject both as it is typed into Shopify and as it resolves, so
+  // the Liquid in it can be eyeballed before it is pasted.
+  const subjectPreview = await renderLiquid(template.subject, template.data);
   const { previous, next } = neighbours(template.slug);
 
   return json({
@@ -22,6 +27,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
     group: template.group,
     description: template.description,
     path: sourcePath(template.slug),
+    subject: template.subject,
+    subjectRendered: subjectPreview.error ? template.subject : subjectPreview.html,
     source,
     error,
     previous: previous && { slug: previous.slug, label: previous.label },
@@ -41,8 +48,9 @@ type View = 'desktop' | 'mobile' | 'source';
 export default function TemplatePreview() {
   const data = useLoaderData<typeof loader>();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
   const [view, setView] = useState<View>('desktop');
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<'subject' | 'liquid' | null>(null);
 
   // Left/right arrows walk the lifecycle without reaching for the mouse.
   useEffect(() => {
@@ -58,15 +66,15 @@ export default function TemplatePreview() {
   }, [data.previous, data.next, navigate]);
 
   useEffect(() => {
-    setCopied(false);
+    setCopied(null);
   }, [data.slug]);
 
-  async function copySource() {
+  async function copy(text: string, which: 'subject' | 'liquid') {
     try {
-      await navigator.clipboard.writeText(data.source);
-      setCopied(true);
+      await navigator.clipboard.writeText(text);
+      setCopied(which);
     } catch {
-      setCopied(false);
+      setCopied(null);
     }
   }
 
@@ -104,8 +112,10 @@ export default function TemplatePreview() {
             ))}
           </div>
 
-          <button type="button" className="btn" onClick={copySource}>
-            {copied ? 'Copied ✓' : 'Copy Liquid'}
+          <ThemeSwitch theme={theme} setTheme={setTheme} />
+
+          <button type="button" className="btn" onClick={() => copy(data.source, 'liquid')}>
+            {copied === 'liquid' ? 'Copied ✓' : 'Copy Liquid'}
           </button>
 
           <a
@@ -115,10 +125,24 @@ export default function TemplatePreview() {
           >
             Download
           </a>
+        </div>
 
-          <a className="btn" href={`/preview/shopify/${data.slug}`} target="_blank" rel="noreferrer">
-            Open ↗
-          </a>
+        {/* Shopify keeps the subject in the admin, not in the template body,
+            so it has to be copied across separately from the HTML. */}
+        <div className="subject">
+          <div className="subject__label">
+            Subject
+            <span className="subject__hint">set in Shopify admin, not in the template</span>
+          </div>
+          <div className="subject__value">
+            <code className="subject__raw">{data.subject}</code>
+            {data.subjectRendered !== data.subject ? (
+              <span className="subject__rendered">renders as “{data.subjectRendered}”</span>
+            ) : null}
+          </div>
+          <button type="button" className="btn" onClick={() => copy(data.subject, 'subject')}>
+            {copied === 'subject' ? 'Copied ✓' : 'Copy subject'}
+          </button>
         </div>
 
         {data.error ? (
@@ -136,13 +160,23 @@ export default function TemplatePreview() {
           <div className="stage">
             <div className={`stage__frame${view === 'mobile' ? ' stage__frame--mobile' : ''}`}>
               <iframe
-                key={`${data.slug}-${view}`}
-                src={`/preview/shopify/${data.slug}`}
+                key={`${data.slug}-${view}-${theme}`}
+                src={previewSrc(data.slug, theme)}
                 title={`${data.label} preview`}
               />
             </div>
           </div>
         )}
+
+        {theme === 'dark' && view !== 'source' ? (
+          <p className="stage__note">
+            Simulated dark mode. These templates declare no dark-mode support, so clients that
+            force it (Outlook, Apple Mail, the Gmail app) invert the colours themselves — that
+            inversion is what you are seeing. Images are flipped back, as those clients leave them
+            alone. Every client inverts a little differently, so treat this as a check for
+            unreadable text and vanishing boxes rather than an exact preview.
+          </p>
+        ) : null}
       </main>
     </div>
   );

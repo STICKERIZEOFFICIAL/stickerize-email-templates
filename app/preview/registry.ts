@@ -52,6 +52,16 @@ export type Template = {
   group: Group;
   /** One line on when Shopify sends this email. */
   description: string;
+  /**
+   * The email's subject line. Shopify stores this in the admin, NOT in the
+   * template body, so it cannot be pasted along with the HTML — it has to be
+   * typed into the notification's Subject field separately. It lives here so
+   * the preview can show it next to the email it belongs to.
+   *
+   * Use `{{ name }}` for the order number: it renders with the shop's prefix
+   * (#1024), unlike `{{ order_number }}` which renders bare (1024).
+   */
+  subject: string;
   /** Returns the template's Liquid + HTML source. */
   render: () => string;
   /**
@@ -68,6 +78,7 @@ export const TEMPLATES: Template[] = [
     label: 'Abandoned checkout',
     group: 'Checkout',
     description: 'Customer left items in the cart without paying.',
+    subject: 'Designs are still in cart',
     render: abandonedCheckout,
   },
   {
@@ -75,6 +86,7 @@ export const TEMPLATES: Template[] = [
     label: 'Order confirmation',
     group: 'Order',
     description: 'Sent immediately after an order is placed.',
+    subject: 'Order {{ name }} confirmed. Now we make it real.',
     render: orderConfirmation,
   },
   {
@@ -82,6 +94,7 @@ export const TEMPLATES: Template[] = [
     label: 'Order edited',
     group: 'Order',
     description: 'Line items or quantities changed after purchase.',
+    subject: 'Your order was updated',
     render: orderEdited,
   },
   {
@@ -89,6 +102,7 @@ export const TEMPLATES: Template[] = [
     label: 'Order invoice',
     group: 'Order',
     description: 'Invoice for a draft or unpaid order.',
+    subject: 'Invoice {{ name }}',
     render: orderInvoice,
   },
   {
@@ -96,6 +110,7 @@ export const TEMPLATES: Template[] = [
     label: 'Order canceled',
     group: 'Order',
     description: 'Order was canceled, with or without a refund.',
+    subject: 'Order {{ name }} has been canceled',
     render: orderCanceled,
   },
   {
@@ -103,6 +118,7 @@ export const TEMPLATES: Template[] = [
     label: 'Order refund',
     group: 'Order',
     description: 'A refund was issued against the order.',
+    subject: 'Refund for order {{ name }} is on its way',
     render: orderRefund,
     // Preview the full refund, which is the branch the copy was written for.
     // A partial refund keeps its own separate title.
@@ -113,6 +129,7 @@ export const TEMPLATES: Template[] = [
     label: 'Payment receipt',
     group: 'Payment',
     description: 'Receipt for a successful payment.',
+    subject: 'Payment received. Designs are next.',
     render: orderPaymentReceipt,
   },
   {
@@ -120,6 +137,7 @@ export const TEMPLATES: Template[] = [
     label: 'Payment reminder',
     group: 'Payment',
     description: 'Net-terms invoice is coming due.',
+    subject: 'Payment reminder for order {{ name }}',
     render: paymentReminder,
   },
   {
@@ -127,6 +145,7 @@ export const TEMPLATES: Template[] = [
     label: 'Payment error',
     group: 'Payment',
     description: 'Payment attempt was declined.',
+    subject: 'Payment didn\'t go through',
     render: paymentError,
   },
   {
@@ -134,6 +153,7 @@ export const TEMPLATES: Template[] = [
     label: 'Pending payment success',
     group: 'Payment',
     description: 'A delayed payment method finally cleared.',
+    subject: 'Payment confirmed for order {{ name }}',
     render: pendingPaymentSuccess,
   },
   {
@@ -141,6 +161,7 @@ export const TEMPLATES: Template[] = [
     label: 'Pending payment error',
     group: 'Payment',
     description: 'A delayed payment method failed to clear.',
+    subject: 'Payment issue for order {{ name }}',
     render: pendingPaymentError,
   },
   {
@@ -148,6 +169,7 @@ export const TEMPLATES: Template[] = [
     label: 'Payment method update',
     group: 'Payment',
     description: 'Asks the customer to update a stored card.',
+    subject: 'Update your payment method for {{ shop.name }}',
     render: customerPaymentMethodUpdateRequest,
   },
   {
@@ -155,6 +177,7 @@ export const TEMPLATES: Template[] = [
     label: 'Payment method restore',
     group: 'Payment',
     description: 'Asks the customer to restore a removed payment method.',
+    subject: 'Restore your payment method for {{ shop.name }}',
     render: customerPaymentMethodRestoreRequest,
   },
   {
@@ -162,6 +185,7 @@ export const TEMPLATES: Template[] = [
     label: 'Shipping confirmation',
     group: 'Shipping',
     description: 'Order has shipped, with tracking.',
+    subject: 'Order {{ name }} is on the move',
     render: shippingConfirmation,
   },
   {
@@ -169,6 +193,7 @@ export const TEMPLATES: Template[] = [
     label: 'Shipping update',
     group: 'Shipping',
     description: 'Tracking details changed after shipping.',
+    subject: 'Update on order {{ name }}',
     render: shippingUpdate,
   },
   {
@@ -176,6 +201,7 @@ export const TEMPLATES: Template[] = [
     label: 'Out for delivery',
     group: 'Shipping',
     description: 'Carrier is delivering the package today.',
+    subject: 'Heads up. Order {{ name }} arrives today.',
     render: outForDelivery,
   },
   {
@@ -183,6 +209,7 @@ export const TEMPLATES: Template[] = [
     label: 'Delivered',
     group: 'Shipping',
     description: 'Carrier marked the package as delivered.',
+    subject: 'It\'s arrived. Time to Stickerize everything.',
     render: delivered,
   },
   {
@@ -190,6 +217,7 @@ export const TEMPLATES: Template[] = [
     label: 'Return received',
     group: 'Returns',
     description: 'Customer submitted a return request.',
+    subject: 'Your return request was sent',
     render: returnRequestReceived,
   },
   {
@@ -197,6 +225,7 @@ export const TEMPLATES: Template[] = [
     label: 'Return approved',
     group: 'Returns',
     description: 'Return was approved, with shipping instructions.',
+    subject: 'Your return was approved',
     render: returnRequestApproved,
   },
   {
@@ -204,6 +233,7 @@ export const TEMPLATES: Template[] = [
     label: 'Return declined',
     group: 'Returns',
     description: 'Return was declined, with a reason.',
+    subject: 'Your return request was declined',
     render: returnRequestDeclined,
   },
   {
@@ -211,6 +241,7 @@ export const TEMPLATES: Template[] = [
     label: 'USPS return label',
     group: 'Returns',
     description: 'A prepaid USPS return label is ready.',
+    subject: 'Your return label is ready',
     render: uspsReturnLabelCreated,
   },
   {
@@ -218,6 +249,7 @@ export const TEMPLATES: Template[] = [
     label: 'Account invite',
     group: 'Account',
     description: 'Invitation to activate a customer account.',
+    subject: 'Your Stickerize account is ready',
     render: customerAccountInvite,
   },
   {
@@ -225,6 +257,7 @@ export const TEMPLATES: Template[] = [
     label: 'Account welcome',
     group: 'Account',
     description: 'Account was created successfully.',
+    subject: 'Welcome to {{ shop.name }}!',
     render: customerAccountWelcome,
   },
   {
@@ -232,6 +265,7 @@ export const TEMPLATES: Template[] = [
     label: 'Password reset',
     group: 'Account',
     description: 'Password reset link.',
+    subject: 'Reset your password',
     render: customerAccountPasswordReset,
   },
   {
@@ -239,6 +273,7 @@ export const TEMPLATES: Template[] = [
     label: 'Marketing confirmation',
     group: 'Account',
     description: 'Double opt-in for marketing emails.',
+    subject: 'One click and you\'re in',
     render: customerMarketingConfirmation,
   },
   {
@@ -246,6 +281,7 @@ export const TEMPLATES: Template[] = [
     label: 'Contact customer',
     group: 'Support',
     description: 'Free-form message sent from the Shopify admin.',
+    subject: '{{ email_title }}',
     render: contactCustomer,
     // This email is nothing but the staff note, so it needs one.
     data: {

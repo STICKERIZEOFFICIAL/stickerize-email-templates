@@ -389,6 +389,107 @@ a {
   word-break: break-word;
 }
 
+/* ---------- Dark ----------------------------------------------------------
+   Applied by the theme switch (data-theme on <html>), not by the OS, so the
+   choice sticks while you compare emails. Only tokens are redefined.        */
+
+:root[data-theme='dark'] {
+  --ink: #ece9e3;
+  --ink-soft: #9b968d;
+  --ink-faint: #6b665e;
+  --rule: #2c2b28;
+  --rule-strong: #403e3a;
+  --paper: #161513;
+  --surface: #1e1d1b;
+  --accent: #ece9e3;
+  --warn-bg: #2e2318;
+  --warn-ink: #e8b878;
+  --warn-rule: #5a4428;
+}
+
+:root[data-theme='dark'] .topbar {
+  background: rgba(22, 21, 19, 0.94);
+}
+
+/* Keep the inverted email readable against the dark chrome. */
+:root[data-theme='dark'] .stage__frame iframe,
+:root[data-theme='dark'] .card__thumb {
+  background: #000;
+}
+
+:root[data-theme='dark'] .btn:hover:not(:disabled),
+:root[data-theme='dark'] .btn[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ---------- Subject line --------------------------------------------------
+   Shopify stores the subject in the admin rather than the template body, so
+   it is shown here to be copied across separately.                          */
+
+.subject {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.subject__label {
+  flex: 0 0 auto;
+  padding-top: 2px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.subject__hint {
+  display: block;
+  margin-top: 2px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 10px;
+}
+
+.subject__value {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.subject__raw {
+  display: block;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+
+.subject__rendered {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-faint);
+  font-size: 11px;
+}
+
+.stage__note {
+  max-width: 760px;
+  margin: -40px auto 48px;
+  padding: 0 20px;
+  color: var(--ink-faint);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .subject {
+    flex-wrap: wrap;
+  }
+}
+
 @media (max-width: 860px) {
   .shell {
     grid-template-columns: minmax(0, 1fr);
