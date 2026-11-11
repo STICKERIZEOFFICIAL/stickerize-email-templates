@@ -8,10 +8,10 @@ export function Footer({
     return /*html*/ `
     <!-- Footer -->
     <tr>
-      <td style="padding: ${paddingTop} 16px 32px;">
+      <td style="padding: ${paddingTop} 12px 32px;">
           <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
       ${showLoginSection ? `<tr>
-          <td  style="border-bottom: 1px solid #c8c7c4; padding-bottom: 24px;" align="left">
+          <td  style="border-bottom: 1px solid #000001; padding-bottom: 24px;" align="left">
               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                   <tr>
                       <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px;">
@@ -66,7 +66,7 @@ export function Footer({
   </tr>
   <tr>
   <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 12px; padding-right: 12px;">
-  <a href="{{shop.url}}" target="_blank" rel="noopener"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="700" height="110" border="0" alt="" /></a>
+  <a href="{{shop.url}}" target="_blank" rel="noopener"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="708" height="111" border="0" alt="STICKERIZE" style="width: 100%; max-width: 708px; height: auto; display: block;" /></a>
   </td>
   </tr>
   <!-- END Footer -->`;

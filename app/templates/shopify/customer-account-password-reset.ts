@@ -20,6 +20,7 @@ export default function () {
         heading: `{{ email_title }}`,
         description: null,
         showOrderNumber: false,
+        showImage: false,
       })}
 
 			${Description({

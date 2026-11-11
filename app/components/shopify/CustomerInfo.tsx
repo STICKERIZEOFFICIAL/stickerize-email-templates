@@ -4,7 +4,7 @@ export function CustomerInfo({
   return /*html*/ `
   <!-- Customer info -->
   <tr>
-    <td class="mpx-0" style="padding: 0 16px 24px;">
+    <td class="mpx-0" style="padding: 0 12px 24px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#efeae4">
         <tr>
           <td style="padding: 16px 16px 0;">

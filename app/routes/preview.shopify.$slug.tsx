@@ -55,11 +55,23 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
  * boxes that vanish, logos that turn to mud.
  */
 function simulateDarkMode(html: string): string {
+  // Gmail lands light email grounds on #262422 rather than pure black. The
+  // whole document is filtered, so the ground has to start at this colour to
+  // come out there: #dcdad8 is the pre-image of #262422 through
+  // invert(1) hue-rotate(180deg). Changing one means recomputing the other.
+  const GROUND_BEFORE_FILTER = '#dcdad8'; // -> #262422 once filtered
+
   const style = /* html */ `
     <style id="preview-dark-simulation">
       html {
-        background-color: #ffffff;
+        background-color: ${GROUND_BEFORE_FILTER};
         filter: invert(1) hue-rotate(180deg);
+      }
+      /* The email paints its own light ground in a few places; remap those
+         too, or they filter to black and the page reads as two tones. */
+      body,
+      [bgcolor="#fbf9f6"] {
+        background-color: ${GROUND_BEFORE_FILTER} !important;
       }
       /* Flip media back so it is not shown as a negative. */
       img, video {

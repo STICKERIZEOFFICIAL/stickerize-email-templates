@@ -24,6 +24,7 @@ export default function () {
         heading: `{{ email_title }}`,
         description: /*html*/ `{{ email_body }}<br />`,
         showOrderNumber: true,
+        showImage: false,
       })}
 
 			${OrderTable({ heading: 'Order summary' })}
