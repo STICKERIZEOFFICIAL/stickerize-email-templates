@@ -68,6 +68,7 @@ export default function () {
         heading: `{{ email_title }}`,
         description: '{{ email_body }}<br />',
         showOrderNumber: true,
+        showImage: false,
       })}
 
 			${OrderTable({ heading: 'Removed Items' })}

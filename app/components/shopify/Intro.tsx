@@ -3,16 +3,23 @@ export function Intro({
   description,
   showOrderNumber,
   showTrackingNumber,
+  showImage = true,
 }: {
   heading: string;
   description: string | null;
   showOrderNumber: boolean;
   showTrackingNumber?: boolean;
+  /**
+   * The packaging photo under the intro. Defaults to true so templates that
+   * keep it need no change; the notifications listed in
+   * docs/shopify-notification-images.md pass false.
+   */
+  showImage?: boolean;
 }) {
   return /*html*/ `
     <!-- Intro -->
     <tr>
-      <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Arial Black', Arial, sans-serif; text-align:left; font-size: 18px; line-height: 22px; padding-top: 24px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
+      <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-top: 24px; padding-bottom: 20px; padding-left: 12px; padding-right: 12px;">
         ${heading}
       </td>
     </tr>
@@ -163,10 +170,15 @@ export function Intro({
       `
       : ""
   }
- <tr>
-    <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-top: 4px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
-      <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/241121_Stickerize_packaging_6.jpg?v=1740917483" width="700" height="450" border="0" alt="" />
-    </td>
-  </tr>
+  ${
+    showImage
+      ? /*html*/ `
+        <tr>
+          <td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-top: 4px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
+            <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/241121_Stickerize_packaging_6.jpg?v=1740917483" width="700" height="450" border="0" alt="" />
+          </td>
+        </tr>`
+      : ""
+  }
   <!-- END Intro -->`;
 }

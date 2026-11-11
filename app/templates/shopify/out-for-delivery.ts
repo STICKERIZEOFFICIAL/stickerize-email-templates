@@ -45,6 +45,7 @@ export default function () {
 				Your package number:
 				{% endif %}`,
         showOrderNumber: false,
+        showImage: false,
         showTrackingNumber: true,
       })}
 

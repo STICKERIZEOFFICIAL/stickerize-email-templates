@@ -166,7 +166,9 @@ const transaction = {
 export const sampleData: Record<string, unknown> = {
   // --- Shop -----------------------------------------------------------------
   shop: {
-    name: 'STICKERIZE©',
+    // Mirrors the store name in Shopify's settings — whatever is set there is
+    // what {{ shop.name }} prints. No © unless the store name itself has one.
+    name: 'Stickerize',
     email: 'help@stickerize.com',
     url: 'https://stickerize.com',
     domain: 'stickerize.com',
@@ -186,6 +188,10 @@ export const sampleData: Record<string, unknown> = {
     orders_count: 3,
     total_spent: 11200,
     default_address: shippingAddress,
+    // The account emails gate their button on these, so without them the CTA
+    // never renders in the preview.
+    account_activation_url: 'https://stickerize.com/account/activate/sample',
+    reset_password_url: 'https://stickerize.com/account/reset/sample',
   },
 
   // --- Order ----------------------------------------------------------------

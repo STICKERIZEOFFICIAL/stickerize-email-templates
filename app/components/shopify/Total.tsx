@@ -116,8 +116,8 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           <td style="padding-top: 16px;"></td>
         </tr>
         <tr>
-            <td style="border-top: 2px solid #dedede; padding-bottom: 16px;"></td>
-            <td style="border-top: 2px solid #dedede; padding-bottom: 16px;"></td>
+            <td style="border-top: 1px solid #000001; padding-bottom: 16px;"></td>
+            <td style="border-top: 1px solid #000001; padding-bottom: 16px;"></td>
         </tr>
         
           {% for transaction in transactions %}

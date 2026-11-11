@@ -7,22 +7,26 @@ export function Button({
   label: string;
   paddingTop?: 0 | 24;
 }) {
+  // Two cells: label left, arrow right. The arrow is the text character rather
+  // than an image — it inherits the link colour, so it survives the colour
+  // inversion Gmail and Outlook force in dark mode, and it cannot skew.
+  //
+  // The outer padding matches the body copy either side of it, so the button
+  // lines up with the text instead of running the full width.
+  const link =
+    "font-family:'Courier New', monospace; font-size: 13px; line-height: 18px; font-weight: 300; color:#fffffe; text-decoration:none; display: block; text-transform: uppercase;";
+
   return /*html*/ `
   <!-- Button -->
   <tr>
-    <td style="padding: ${paddingTop}px 0 32px;">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000001">
+    <td style="padding: ${paddingTop}px 16px 32px;">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" bgcolor="#000001" style="background-color: #000001;">
         <tr>
-          <td class="btn l-white ff-j"
-            style="mso-padding-alt:22px 12px; font-size: 14px; text-transform: uppercase; line-height: 18px; color:#fffffe; text-align:left; font-family:'JetBrainsMono','Courier New',monospace; font-weight: 300;">
-            <a href="${url}" target="_blank" class="link" rel="noopener"
-              style="display: block; padding: 22px 12px; text-decoration:none; color:#fffffe;">
-              ${label} 
-              <!-- Black arrow for desktop -->
-              <img class="m-hide" src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/ico_arrow.png?v=1734347584" align="right"  style="vertical-align: top; font-size:14px; line-height:18px; color:#000001; font-family:'Courier New', monospace; text-align:left;" width="10" height="12" border="0" alt="" />
-              <!-- White arrow for mobile -->
-              <img class="m-block" src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/ico_arrow_black.png?v=1735909071" align="right"  style="vertical-align: top; font-size:14px; line-height:18px; color:#000001; font-family:'Courier New', monospace; text-align:left; display: none;" width="10" height="12" border="0" alt="" />
-            </a>
+          <td class="l-white" align="left" valign="middle" style="mso-padding-alt: 23px 12px; padding: 23px 0 23px 12px; background-color: #000001;">
+            <a href="${url}" target="_blank" rel="noopener" class="link" style="${link}">${label}</a>
+          </td>
+          <td class="l-white" align="right" valign="middle" width="40" style="padding: 23px 12px 23px 0; background-color: #000001;">
+            <a href="${url}" target="_blank" rel="noopener" class="link" style="${link} text-align: right;">&rarr;</a>
           </td>
         </tr>
       </table>

@@ -26,6 +26,7 @@ export default function () {
 				Your package number:<br/>
 				{% endif %}`,
         showOrderNumber: false,
+        showImage: false,
 				showTrackingNumber: true,
       })}
 

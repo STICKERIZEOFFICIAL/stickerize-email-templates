@@ -38,6 +38,7 @@ export default function () {
 				<br/>
 				Tracking number:`,
         showOrderNumber: false,
+        showImage: false,
         showTrackingNumber: true,
       })}
 

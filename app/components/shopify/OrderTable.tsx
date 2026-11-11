@@ -8,7 +8,7 @@ export function OrderTable({
   return /*html*/ `
   <!-- Order table -->
   <tr>
-    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Arial Black', Arial, sans-serif; text-align:left; font-size: 18px; line-height: 22px; padding-bottom: 10px; padding-left: 12px; padding-right: 12px;">
+    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 10px; padding-left: 12px; padding-right: 12px;">
       ${heading}
     </td>
   </tr>
