@@ -58,6 +58,50 @@ If a template fails to parse, the preview shows the Liquid error in a banner
 instead of rendering — so the preview doubles as a syntax check before you
 paste anything into Shopify.
 
+## Deploying to Vercel
+
+Import the repo and use these settings:
+
+| Setting | Value |
+|---|---|
+| Framework Preset | **Remix** |
+| Root Directory | **`./`** (repo root, where `package.json` lives — *not* `app/`) |
+| Build Command | leave default (`remix build`) |
+| Output Directory | leave default |
+| Install Command | leave default |
+| Node version | 18.19+ (repo default is fine) |
+
+Vercel deploys Remix v2 with zero configuration, so nothing beyond the preset
+needs setting.
+
+### Password protection
+
+The deployed preview is private. `middleware.ts` at the repo root is Vercel
+Routing Middleware: it runs before any request reaches the app, so it covers
+the pages, the `/preview/shopify/*` documents the iframes load, and the built
+JS/CSS. There is no route it can be forgotten on.
+
+**Add one environment variable in the Vercel project** (Settings →
+Environment Variables), for every environment you want protected:
+
+```
+PREVIEW_PASSWORD = <the shared password>
+```
+
+Then redeploy. Visitors get a password screen once and a signed, HttpOnly
+cookie keeps them in for 30 days. The cookie stores a salted SHA-256 of the
+password, never the password itself, so changing `PREVIEW_PASSWORD` instantly
+invalidates every existing session.
+
+If `PREVIEW_PASSWORD` is missing the site serves a 503 rather than falling
+open, so a misconfigured deployment can never quietly become public.
+
+The middleware does **not** run under `yarn dev`, so local development stays
+unauthenticated.
+
+To change the password: update the variable in Vercel and redeploy. To remove
+the gate entirely: delete `middleware.ts`.
+
 ## Scripts
 
 | | |

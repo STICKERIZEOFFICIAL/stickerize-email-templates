@@ -7,6 +7,9 @@
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    // Standard in Remix templates; also stops dependency .d.ts files (e.g. the
+    // `ws` types reached via @vercel/functions) from failing our typecheck.
+    "skipLibCheck": true,
     "target": "ES2022",
     "strict": true,
     "allowJs": true,
