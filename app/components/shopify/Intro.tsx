@@ -100,20 +100,15 @@ export function Intro({
     showTrackingNumber
       ? /*html*/ `
         {% if fulfillment.tracking_numbers.size > 0 %}
-          {% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_company and
-          fulfillment.tracking_url %}
+          {% if fulfillment.tracking_numbers.size == 1 and fulfillment.tracking_url %}
           <tr>
             <td style="padding: 0 12px 16px;" align="left">
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
-                    {% if shipping_method.title contains 'Express' %}
-                    <a href="{{ fulfillment.tracking_url }}">
+                    <a href="{{ fulfillment.tracking_url }}" target="_blank" rel="noopener">
                       {{ fulfillment.tracking_numbers.first }}
                     </a>
-                    {% else %}
-                      {{ fulfillment.tracking_numbers.first }}
-                    {% endif %}
                   </td>
                 </tr>
               </table>
@@ -139,13 +134,9 @@ export function Intro({
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td  style="border: 1px solid #000001; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 19px; padding-top: 5px; padding-bottom: 5px; padding-left: 15px; padding-right: 15px;">
-                    {% if shipping_method.title contains 'Express' %}
-                    <a href="{{ fulfillment.tracking_urls[forloop.index0] }}">
+                    <a href="{{ fulfillment.tracking_urls[forloop.index0] }}" target="_blank" rel="noopener">
                       {{ tracking_number }}
                     </a>
-                    {% else %}
-                      {{ tracking_number }}
-                    {% endif %}
                   </td>
                 </tr>
               </table>

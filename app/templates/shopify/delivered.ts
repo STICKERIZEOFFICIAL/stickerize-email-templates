@@ -36,7 +36,7 @@ export default function () {
 		Laptop, water bottle, notebook, phone. Your call. Show us where they end up: post it and tag @stickerizee. We feature our favourites.<br /><br />
 				Not seeing your package? <a href="mailto:{{ shop.email }}">Let us know</a> and we'll track it down.
 				<br/>
-				Tracking number:`,
+				{% if fulfillment.tracking_numbers.size > 0 %}Tracking number:{% endif %}`,
         showOrderNumber: false,
         showImage: false,
         showTrackingNumber: true,

@@ -39,9 +39,9 @@ export default function () {
 					{{ email_emphasis }}
 					<br />
 				{% endif %}
-				{% if shipping_method.title contains 'Express' %}
+				{% if fulfillment.tracking_url %}
 				You can track your order here:
-				{% else %}
+				{% elsif fulfillment.tracking_numbers.size > 0 %}
 				Your package number:
 				{% endif %}`,
         showOrderNumber: false,
