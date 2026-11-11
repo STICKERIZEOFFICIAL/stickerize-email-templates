@@ -79,12 +79,14 @@ function page({ status, title, body }: { status: number; title: string; body: st
   p { margin: 0 0 20px; color: #6d6a64; font-size: 12px; }
   label { display: block; margin-bottom: 6px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #6d6a64; }
   input {
-    width: 100%; padding: 9px 10px; border: 1px solid #c8c7c4; border-radius: 0;
-    background: #fff; color: inherit; font: inherit;
+    width: 100%; padding: 10px; border: 1px solid #c8c7c4; border-radius: 0;
+    background: #fff; color: inherit; font-family: inherit;
+    /* 16px: anything smaller and iOS zooms the page when the field is focused. */
+    font-size: 16px; line-height: 1.3;
   }
   input:focus-visible { outline: 2px solid #111110; outline-offset: -1px; }
   button {
-    width: 100%; margin-top: 10px; padding: 10px; border: 1px solid #111110; border-radius: 0;
+    width: 100%; margin-top: 10px; padding: 13px 10px; border: 1px solid #111110; border-radius: 0;
     background: #111110; color: #fbf9f6; font: inherit; cursor: pointer;
     text-transform: uppercase; letter-spacing: 0.06em; font-size: 11px;
   }
@@ -101,7 +103,7 @@ function loginPage(redirectTo: string, failed: boolean) {
     status: failed ? 401 : 401,
     title: 'STICKERIZE email templates',
     body: /* html */ `
-      <h1>STICKERIZE© templates</h1>
+      <h1>Stickerize templates</h1>
       <p>This preview is private. Enter the password to continue.</p>
       ${failed ? '<p class="error">That password is not right. Try again.</p>' : ''}
       <form method="POST" action="${SUBMIT_PATH}">

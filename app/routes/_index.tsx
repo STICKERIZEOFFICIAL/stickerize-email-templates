@@ -30,7 +30,7 @@ export default function Index() {
     <div className="shell shell--wide">
       <main>
         <div className="topbar">
-          <strong className="topbar__title">STICKERIZE© / Shopify notifications</strong>
+          <strong className="topbar__title">Stickerize / Shopify notifications</strong>
           <span className="topbar__meta">
             {total} of {TEMPLATES.length}
           </span>
@@ -54,7 +54,7 @@ export default function Index() {
             </span>
             <input
               className="field"
-              style={{ width: 220 }}
+              style={{ width: 220, maxWidth: '100%' }}
               type="search"
               placeholder="Search templates…"
               value={query}
