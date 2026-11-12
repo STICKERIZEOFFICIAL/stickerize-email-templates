@@ -88,14 +88,21 @@ export default function () {
             <td align="center">
                 <table class="container" width="732" border="0" cellspacing="0" cellpadding="0">
                   <!-- Header Section -->
-                    <!-- The 1px black rule is the header's own bottom border,
-                         as everywhere else, rather than a separate div with an
-                         arbitrary 37px margin under it. -->
+                    <!-- The 1px black rule sits on an inner cell so it is
+                         inset by 12px like every other divider. A cell's
+                         border spans its own padding, so with the border on
+                         the padded cell the line ran the full width. -->
                     <tr>
-                      <td style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px; padding-left: 12px; padding-right: 12px;">
-                        <a href="##shopUrl##">
-                          <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" alt="Stickerize" width="188" height="30" border="0" style="display: block;">
-                        </a>
+                      <td style="padding-left: 12px; padding-right: 12px;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                          <tr>
+                            <td style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;">
+                              <a href="##shopUrl##">
+                                <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" alt="Stickerize" width="188" height="30" border="0" style="display: block;">
+                              </a>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
                     </tr>
 

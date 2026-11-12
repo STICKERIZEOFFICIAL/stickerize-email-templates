@@ -57,9 +57,16 @@ export function riseStyles() {
         max-width: 732px !important;
     }
 
+    /* The rule moves to an inner element so it is inset by 12px like every
+       other divider. A cell's border spans its own padding, so with the
+       border out here the line ran the full width of the column. */
     .header {
+        padding: 0 12px;
+    }
+
+    .header-inner {
         border-bottom: 1px solid #000001;
-        padding: 12px;
+        padding-bottom: 12px;
     }
 
     .body {
@@ -151,7 +158,7 @@ export function riseStyles() {
     }
 
     .powered-by {
-        margin-top: 20px;
+        margin-top: 24px;
         font-size: 13px;
         line-height: 17px;
         color: #000001;
@@ -211,7 +218,7 @@ export function riseStyles() {
             color: #fffffe !important;
         }
 
-        .header {
+        .header-inner {
             border-bottom-color: #fffffe !important;
         }
 
@@ -239,7 +246,7 @@ export function riseStyles() {
         }
     }
 
-    [data-ogsc] .header { border-bottom-color: #fffffe !important; }
+    [data-ogsc] .header-inner { border-bottom-color: #fffffe !important; }
     [data-ogsc] .dm-line { background-color: #fffffe !important; }
     [data-ogsc] .dm-btn-table, [data-ogsc] .dm-btn { background-color: #fffffe !important; }
     [data-ogsc] .dm-btn { color: #000001 !important; }
@@ -259,9 +266,15 @@ export default function globalTheme({ body }: { body?: string } = {}) {
                         <thead>
                             <tr>
                                 <th class="header" rise-template="header">
-                                    <a rise-template="logo-link" href="{{shop_url}}" style="text-align: left; display: block;">
-                                        <img rise-template="logo" class="dm-invert" src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Frame_Logo_-_Stickerize_Emails.png?v=1765294871" width="168" height="26" border="0" alt="{{shop_name}}" style="display: block;" />
-                                    </a>
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
+                                        <tr>
+                                            <td class="header-inner" style="border-bottom: 1px solid #000001; padding-bottom: 12px;">
+                                                <a rise-template="logo-link" href="{{shop_url}}" style="text-align: left; display: block;">
+                                                    <img rise-template="logo" class="dm-invert" src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Frame_Logo_-_Stickerize_Emails.png?v=1765294871" width="168" height="26" border="0" alt="{{shop_name}}" style="display: block;" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </th>
                             </tr>
                         </thead>

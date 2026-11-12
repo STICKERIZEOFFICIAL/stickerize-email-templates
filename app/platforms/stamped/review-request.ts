@@ -527,7 +527,7 @@ export default function () {
                   <!-- Header -->
                   <tr>
                     <td
-                      style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 10px; line-height: 14px; padding-bottom: 40px; padding-left: 16px; padding-right: 16px;">
+                      style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 10px; line-height: 14px; padding-bottom: 40px; padding-left: 12px; padding-right: 12px;">
                       <p style="line-height:12px;text-align:center;"><strong>{{label_trouble_with_form}}</strong>
                         <a href="{{review_url}}" class="link-u"
                           style="color:#000001; text-decoration:underline;">{{label_review_online_link_text}}</a>
@@ -535,14 +535,23 @@ export default function () {
                     </td>
                   </tr>
                   <!-- Additional info removed -->
+                  <!-- Same logo as the Shopify emails, without the copyright
+                       mark, and the 1px rule inset by 12px on an inner cell
+                       rather than running the full width. -->
                   <tr>
-                    <td
-                      style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 28px; padding-left: 16px; padding-right: 16px;">
-                      <a href="{{shop.url}}" target="_blank">
-                        <img
-                          src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_e1564c50-5faf-4022-9c16-fff8a8cb746b.png?v=1734345195"
-                          width="192" height="28" border="0" alt="" />
-                      </a>
+                    <td style="padding-left: 12px; padding-right: 12px;">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+                        <tr>
+                          <td
+                            style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;">
+                            <a href="{{shop.url}}" target="_blank">
+                              <img
+                                src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195"
+                                width="188" height="30" border="0" alt="STICKERIZE" style="display: block;" />
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
                     </td>
                   </tr>
                   <!-- END Header -->
@@ -550,13 +559,13 @@ export default function () {
                   <!-- Intro -->
                   <tr>
                     <td class="mlh-17"
-                      style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 5px; padding-left: 16px; padding-right: 16px;">
+                      style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-top: 24px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
                       Hey ##customerName##, what did you think of STICKERIZE?
                     </td>
                   </tr>
                   <tr>
                     <td
-                      style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px; padding-left: 16px; padding-right: 16px;">
+                      style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
                       We would be grateful to hear your feedback.<br />
                       ##message##
                     </td>
@@ -1272,7 +1281,7 @@ export default function () {
                       <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                           <td
-                            style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: 24px; padding-bottom: 32px; padding-left: 16px; padding-right: 16px;">
+                            style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: 24px; padding-bottom: 32px; padding-left: 12px; padding-right: 12px;">
                             By submitting this review, you accept our <a href="#" target="_blank" class="link-u"
                               style="color:#000001; text-decoration:underline;"><span class="link-u"
                                 style="color:#000001; text-decoration:underline;">privacy policy</span></a> and <a
@@ -1390,7 +1399,7 @@ export default function () {
                   </tr>
                   <tr>
                     <td class="fluid-img"
-                      style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 16px; padding-right: 16px;">
+                      style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 12px; padding-right: 12px;">
                       <img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195"
                         width="700" height="110" border="0" alt="" />
                     </td>

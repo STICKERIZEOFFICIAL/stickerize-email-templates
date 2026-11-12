@@ -173,7 +173,7 @@ export default function () {
 	<center>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 0; padding: 0; width: 100%; height: 100%; background:#F5F3F0;" bgcolor="#fffffe" class="bg-beigef5">
 			<tr>
-				<td style="margin: 0; padding: 0; width: 100%; height: 100%; background-image: url(images/bg.png); background-size: auto; background-position: center center; background-repeat: repeat;" align="center" valign="top">
+				<td style="margin: 0; padding: 0; width: 100%; height: 100%; background-image: url(https://cdn.shopify.com/s/files/1/0729/1394/4840/files/bg_img_1.png?v=1734347875); background-size: auto; background-position: center center; background-repeat: repeat;" align="center" valign="top">
 					<table width="724" border="0" cellspacing="0" cellpadding="0" class="m-shell">
 						<tr>
 							<td class="td bg-beigefb" bgcolor="#FBF9F6" style="width:724px; min-width:724px; font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; background:#FBF9F6;">
@@ -201,9 +201,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left;">
-															<a href="https://www.stickerize.com/" target="_blank"><img src="images/logo.png" width="724" height="auto" border="0" alt="Stickerize" /></a>
-														</td>
+														<td style="padding-left: 12px; padding-right: 12px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation"><tr><td style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;"><a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="188" height="30" border="0" alt="STICKERIZE" style="display: block;" /></a></td></tr></table></td>
 													</tr>
 												</table>
 											</div>
@@ -223,7 +221,7 @@ export default function () {
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td class="fluid-img" width="343" style="font-size:0pt; line-height:0pt; text-align:left;">
-																		<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_1.png" width="700" height="auto" border="0" alt="" /></a>
+																		<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/241121_Stickerize_packaging_6.jpg?v=1740917483" width="700" height="auto" border="0" alt="" /></a>
 																	</td>
 																</tr>
 															</table>
@@ -247,11 +245,11 @@ export default function () {
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td class="fluid-img mw-49p" width="343" style="font-size:0pt; line-height:0pt; text-align:left;">
-																		<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_2.png" width="343" height="auto" border="0" alt="" /></a>
+																		<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Email_3_Section_2_1.jpg?v=1775045331" width="343" height="auto" border="0" alt="" /></a>
 																	</td>
 																	<td class="mw-2p" width="10" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
 																	<td class="fluid-img mw-49p" width="343" style="font-size:0pt; line-height:0pt; text-align:left;">
-																		<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_2.png" width="343" height="auto" border="0" alt="" /></a>
+																		<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Email_3_Section_2_1.jpg?v=1775045331" width="343" height="auto" border="0" alt="" /></a>
 																	</td>
 																</tr>
 															</table>
@@ -275,15 +273,15 @@ export default function () {
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td class="fluid-img mw-32p" width="226" style="font-size:0pt; line-height:0pt; text-align:left;">
-																		<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_3.png" width="226" height="auto" border="0" alt="" /></a>
+																		<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Email_3_Section_2_2.jpg?v=1775045331" width="226" height="auto" border="0" alt="" /></a>
 																	</td>
 																	<td class="mw-2p" width="10" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
 																	<td class="fluid-img mw-32p" width="226" style="font-size:0pt; line-height:0pt; text-align:left;">
-																		<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_3.png" width="226" height="auto" border="0" alt="" /></a>
+																		<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Email_3_Section_2_2.jpg?v=1775045331" width="226" height="auto" border="0" alt="" /></a>
 																	</td>
 																	<td class="mw-2p" width="10" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
 																	<td class="fluid-img mw-32p" width="226" style="font-size:0pt; line-height:0pt; text-align:left;">
-																		<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_3.png" width="226" height="auto" border="0" alt="" /></a>
+																		<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Email_3_Section_2_2.jpg?v=1775045331" width="226" height="auto" border="0" alt="" /></a>
 																	</td>
 																</tr>
 															</table>
@@ -310,11 +308,11 @@ export default function () {
 																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																			<tr>
 																				<td class="fluid-img mw-49p" width="167" style="font-size:0pt; line-height:0pt; text-align:left;">
-																					<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_4.png" width="167" height="auto" border="0" alt="" /></a>
+																					<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Left_Image.jpg?v=1765296929" width="167" height="auto" border="0" alt="" /></a>
 																				</td>
 																				<td class="mw-2p" width="10" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
 																				<td class="fluid-img mw-49p" width="167" style="font-size:0pt; line-height:0pt; text-align:left;">
-																					<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_4.png" width="167" height="auto" border="0" alt="" /></a>
+																					<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Left_Image.jpg?v=1765296929" width="167" height="auto" border="0" alt="" /></a>
 																				</td>
 																			</tr>
 																		</table>
@@ -324,11 +322,11 @@ export default function () {
 																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																			<tr>
 																				<td class="fluid-img mw-49p" width="167" style="font-size:0pt; line-height:0pt; text-align:left;">
-																					<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_4.png" width="167" height="auto" border="0" alt="" /></a>
+																					<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Left_Image.jpg?v=1765296929" width="167" height="auto" border="0" alt="" /></a>
 																				</td>
 																				<td class="mw-2p" width="10" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
 																				<td class="fluid-img mw-49p" width="167" style="font-size:0pt; line-height:0pt; text-align:left;">
-																					<a href="https://www.stickerize.com/" target="_blank"><img src="images/img_4.png" width="167" height="auto" border="0" alt="" /></a>
+																					<a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Left_Image.jpg?v=1765296929" width="167" height="auto" border="0" alt="" /></a>
 																				</td>
 																			</tr>
 																		</table>
@@ -406,7 +404,7 @@ export default function () {
 																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																			<tr>
 																				<td  style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;">
-																					<img src="images/ico_globe.png" width="20" height="auto" border="0" alt="" />
+																					<img src="https://d3k81ch9hvuctc.cloudfront.net/company/Td2hz3/images/images_ico_globebbc48.png" width="20" height="auto" border="0" alt="" />
 																				</td>
 																			</tr>
 																			<tr>
@@ -421,7 +419,7 @@ export default function () {
 																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																			<tr>
 																				<td  style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;">
-																					<img src="images/ico_editor.png" width="20" height="auto" border="0" alt="" />
+																					<img src="https://d3k81ch9hvuctc.cloudfront.net/company/Td2hz3/images/images_ico_editorb1313.png" width="20" height="auto" border="0" alt="" />
 																				</td>
 																			</tr>
 																			<tr>
@@ -436,7 +434,7 @@ export default function () {
 																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																			<tr>
 																				<td  style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;">
-																					<img src="images/ico_delivery.png" width="20" height="auto" border="0" alt="" />
+																					<img src="https://d3k81ch9hvuctc.cloudfront.net/company/Td2hz3/images/images_ico_delivery52a94.png" width="20" height="auto" border="0" alt="" />
 																				</td>
 																			</tr>
 																			<tr>
@@ -499,71 +497,49 @@ export default function () {
 								<!-- END CTA -->
 
 								<!-- Footer -->
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
-												<table width="100%" border="0" cellspacing="0" cellpadding="0">
-													<tr>
-														<td  style="padding-left: 12px; padding-right: 12px; padding-top: 22px; padding-bottom: 22px;">
-															<table width="100%" border="0" cellspacing="0" cellpadding="0">
-																<tr>
-																	<td  style="border-top: 1px solid #000001; color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;">
-																		<a href="https://www.stickerize.com/" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">GO TO STICKERIZE</span></a>
-																	</td>
-																</tr>
-																<tr>
-																	<td  style="border-top: 1px solid #000001; color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;">
-																		<a href="mailto:HELLO@STICKERIZE.COM" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">HELLO@STICKERIZE.COM</span></a>
-																	</td>
-																</tr>
-																<tr>
-																	<td  style="border-top: 1px solid #000001; color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;">
-																		<a href="{% web_view_link %}" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">VIEW IN BROWSER</span></a>
-																	</td>
-																</tr>
-																<tr>
-																	<td  style="border-top: 1px solid #000001; color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;">
-																		<a href="{% unsubscribe_link %}" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">UNSUBSCRIBE</span></a>
-																	</td>
-																</tr>
-																<tr>
-																	<td  style="border-top: 1px solid #000001; padding-top: 16px; padding-bottom: 16px;">
-																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-																			<tr>
-																				<td  style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
-																					FOLLOW US
-																				</td>
-																				<td  width="12" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
-																				<td align="right">
-																					<table border="0" cellspacing="0" cellpadding="0">
-																						<tr>
-																							<td  width="16" style="font-size:0pt; line-height:0pt; text-align:left;">
-																								<a href="https://www.facebook.com/profile.php?id=61572302414815" target="_blank"><img src="images/ico_facebook.png" width="16" height="auto" border="0" alt="" /></a>
-																							</td>
-																							<td  width="12" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
-																							<td  width="16" style="font-size:0pt; line-height:0pt; text-align:left;">
-																								<a href="https://www.instagram.com/stickerizee" target="_blank"><img src="images/ico_instagram.png" width="16" height="auto" border="0" alt="" /></a>
-																							</td>
-																							<td  width="12" style="font-size:0pt; line-height:0pt; text-align:left;"></td>
-																							<td  width="16" style="font-size:0pt; line-height:0pt; text-align:left;">
-																								<a href="https://www.linkedin.com/company/stickerize/" target="_blank"><img src="images/ico_linkedin.png" width="16" height="auto" border="0" alt="" /></a>
-																							</td>
-																						</tr>
-																					</table>
-																				</td>
-																			</tr>
-																		</table>
-																	</td>
-																</tr>
-															</table>
-														</td>
-													</tr>
-												</table>
-											</div>
-										</td>
-									</tr>
-								</table>
+<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+<tbody>
+<tr>
+<td style="padding: 0 12px 32px;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+<tr>
+<th class="column-top" width="288" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td class="mpb-16" style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px;">
+Tomtebogatan 34, 11338 Stockholm, Sweden
+</td>
+</tr>
+<tr>
+<td style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
+For information about how we <br class="m-hide" />process data and monitor <br class="m-hide" />communications please see our <br class="m-hide" /><a href="https://stickerize.com/pages/privacy-policy" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="https://stickerize.com/pages/terms-of-service" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; <br class="m-hide" />Conditions</span></a>
+</td>
+</tr>
+</table>
+</th>
+<th class="column mpb-16" width="16" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">&nbsp;</th>
+<th class="column-top" width="396" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
+<a href="mailto:help@stickerize.com" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">HELP@STICKERIZE.COM</span></a><br />
+<a href="{% unsubscribe_link %}" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">UNSUBSCRIBE</span></a><br />
+<a href="{% web_view_link %}" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">VIEW IN BROWSER</span></a>
+</td>
+</tr>
+</table>
+</th>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 12px; padding-right: 12px;">
+<a href="https://stickerize.com" target="_blank" rel="noopener"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="708" height="111" border="0" alt="STICKERIZE" style="width: 100%; max-width: 708px; height: auto; display: block;" /></a>
+</td>
+</tr>
+</tbody>
+</table>
 								<!-- END Footer -->
 							</td>
 						</tr>

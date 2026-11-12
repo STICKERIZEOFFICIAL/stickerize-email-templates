@@ -85,6 +85,11 @@ diverge from what was supplied; the other ten are byte-identical.
 - **Welcome, Store credits received, Refund to credit** — the gap between a
   heading and its body was 12px throughout; it is now 24px, with 12px kept
   between sibling blocks and between an eyebrow and its heading. 7 gaps.
+- **Header rule** — moved onto an inner cell so it is inset by 12px like every
+  other divider. A cell's border spans its own padding, so with the border on
+  the padded cell the line ran the full width of the column. The dark-mode
+  rules follow it to `.header-inner`. Same fix in the Shopify `Header` and both
+  Stamped templates.
 
 ### Stamped
 
@@ -104,7 +109,10 @@ diverge from what was supplied; the other ten are byte-identical.
   - divider 2px `#ececec` → 1px `#000001`.
   - footer email `hello@` → `help@stickerize.com`.
   - unsubscribe `#ccc` → `#999999` with an underline.
-- **Review request** — 61 mechanical type replacements: `letter-gothic-std`
+- **Review request** — the logo is now the Shopify one without the copyright
+  mark, at 188×30, with the inset rule; the section heading gained the 24px
+  gap above and below it that it was missing entirely; and four 16px insets
+  became 12px. 61 mechanical type replacements: `letter-gothic-std`
   dropped from 42 font stacks (it is never loaded in this template, so all 42
   already rendered as the Courier New fallback), 9 Arial Black 18/22 headings →
   Courier 13/13 `#000001`, 10 body sizes 15/18 → 13/17. The submit button's
@@ -116,6 +124,24 @@ diverge from what was supplied; the other ten are byte-identical.
 
 ### Klaviyo
 
+The kit was exported with a local `images/` folder beside it, so every `src`
+was relative — `images/logo.png`, `images/img_1.png` — and resolved nowhere
+once the file moved. Nothing in it rendered. Photos now point at our own CDN
+and the small UI icons at Klaviyo's, which is where a campaign would host them
+anyway. The page background in a CSS `url()` was the last one.
+
+- **Footer** — rebuilt on the Shopify footer rather than restyled. Klaviyo's
+  was a different object: one stacked column of links separated by hairlines,
+  a "FOLLOW US" social row and `hello@stickerize.com`. It is now the Shopify
+  two-column 288 / 16 / 396 layout with the wordmark beneath. Three deliberate
+  differences: no account block (its copy is about orders and invoices, wrong
+  for a campaign), UNSUBSCRIBE and VIEW IN BROWSER under the contact address
+  via Klaviyo's own tags, and no social row.
+- **Masthead** — was the 724px footer wordmark used as a header. Now the
+  system header: the 188×30 logo with the 1px rule inset by 12px.
+- **Block rhythm** — every block owns 12px top and bottom, so two stacked
+  blocks sit 24px apart. Five components were on 9px or 0/24 and are now
+  aligned to that.
 - **CTA**, in both the standalone block and the kit — the arrow image on
   Klaviyo's CDN became the text `→`, the label font moved from JetBrains Mono
   to Courier New (matching every other block in the same kit), padding to

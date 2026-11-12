@@ -1,62 +1,67 @@
 /**
- * Ported verbatim from `other emails/klaviyo/footer.html`.
+ * Rebuilt on the Shopify footer rather than ported from Klaviyo's export.
  *
- * Pure HTML with the platform's own variable syntax — no Liquid, no engine.
- * The preview substitutes tokens for display only; Source and Download emit
- * this string untouched, because that is what gets pasted into the platform.
+ * What Klaviyo supplied was a different object entirely: a single stacked
+ * column of links, each separated by a `1px #e1e0dd` hairline, with a
+ * "FOLLOW US" social row and `hello@stickerize.com`. The Shopify footer is two
+ * columns — 288 / 16 / 396 — with the address and policy links on the left,
+ * the contact address on the right, and the wordmark beneath.
+ *
+ * Differences from the Shopify footer, and why:
+ *
+ *   - No account block. Shopify's opens with "If you'd like to manage your
+ *     orders or download invoices" — copy about orders, which does not belong
+ *     in a marketing email.
+ *   - UNSUBSCRIBE and VIEW IN BROWSER sit under the contact address. Shopify's
+ *     transactional footer carries neither; a Klaviyo campaign needs both.
+ *     Placed the way the Rise.ai brief places unsubscribe, under the email.
+ *   - No social row. Nothing else in the system has one.
+ *
+ * `{% unsubscribe_link %}` and `{% web_view_link %}` are Klaviyo's own tags and
+ * are resolved by Klaviyo at send time, not here.
  */
 export default function () {
-  return /*html*/ `<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tbody><tr><td style="padding-left:12px;padding-right:12px;padding-top:9px;padding-bottom:9px;word-break:break-word;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tbody><tr><td class="kl-text" style="word-break:break-word;"><div>
-
- <table border="0" width="100%" cellspacing="0" cellpadding="0">
+  return /*html*/ `<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
 <tbody>
 <tr>
-<td>
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-<tbody>
+<td style="padding: 0 12px 32px;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
 <tr>
-<td style="border-top: 1px solid #000001; color: #000001; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;"><a class="link" href="https://www.stickerize.com/" style="color: #000001; text-decoration: none;" target="_blank" rel="noopener"><span class="link" style="color: #000001; text-decoration: none;">GO TO STICKERIZE</span></a></td>
+<th class="column-top" width="288" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td class="mpb-16" style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 24px;">
+Tomtebogatan 34, 11338 Stockholm, Sweden
+</td>
 </tr>
 <tr>
-<td style="border-top: 1px solid #000001; color: #000001; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;"><a class="link" href="mailto:HELP@STICKERIZE.COM" style="color: #000001; text-decoration: none;" target="_blank" rel="noopener"><span class="link" style="color: #000001; text-decoration: none;">HELP@STICKERIZE.COM</span></a></td>
+<td style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
+For information about how we <br class="m-hide" />process data and monitor <br class="m-hide" />communications please see our <br class="m-hide" /><a href="https://stickerize.com/pages/privacy-policy" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Privacy Policy</span></a> and <a href="https://stickerize.com/pages/terms-of-service" rel="noopener" target="_blank" class="link" style="color:#000001; text-decoration:none;"><span class="link" style="color:#000001; text-decoration:none;">Terms &amp; <br class="m-hide" />Conditions</span></a>
+</td>
 </tr>
+</table>
+</th>
+<th class="column mpb-16" width="16" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">&nbsp;</th>
+<th class="column-top" width="396" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td style="border-top: 1px solid #000001; color: #000001; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;"><a class="link" href="{% web_view_link %}" style="color: #000001; text-decoration: none;" target="_blank" rel="noopener"><span class="link" style="color: #000001; text-decoration: none;">VIEW IN BROWSER</span></a></td>
+<td style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
+<a href="mailto:help@stickerize.com" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">HELP@STICKERIZE.COM</span></a><br />
+<a href="{% unsubscribe_link %}" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">UNSUBSCRIBE</span></a><br />
+<a href="{% web_view_link %}" target="_blank" class="link-u" style="color:#000001; text-decoration:underline;"><span class="link-u" style="color:#000001; text-decoration:underline;">VIEW IN BROWSER</span></a>
+</td>
 </tr>
-<tr>
-<td style="border-top: 1px solid #000001; color: #000001; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-size: 13px; line-height: 17px; padding-top: 16px; padding-bottom: 16px;"><a class="link" href="{% unsubscribe_link %}" style="color: #000001; text-decoration: none;" target="_blank" rel="noopener"><span class="link" style="color: #000001; text-decoration: none;">UNSUBSCRIBE</span></a></td>
+</table>
+</th>
 </tr>
-<tr>
-<td style="border-top: 1px solid #000001; padding-top: 16px; padding-bottom: 16px;">
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td style="color: #000001; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-size: 13px; line-height: 17px;">FOLLOW US</td>
-<td style="font-size: 0pt; line-height: 0pt; text-align: left;" width="12">&#8203;</td>
-<td align="right">
-<table border="0" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td style="font-size: 0pt; line-height: 0pt; text-align: left;" width="16"><a href="https://www.facebook.com/profile.php?id=61572302414815" target="_blank" rel="noopener"> <img src="https://d3k81ch9hvuctc.cloudfront.net/company/Td2hz3/images/images_ico_facebookb805a.png" alt="" width="16" height="auto" border="0"></a></td>
-<td style="font-size: 0pt; line-height: 0pt; text-align: left;" width="12">&#8203;</td>
-<td style="font-size: 0pt; line-height: 0pt; text-align: left;" width="16"><a href="https://www.instagram.com/stickerizee" target="_blank" rel="noopener"> <img src="https://d3k81ch9hvuctc.cloudfront.net/company/Td2hz3/images/images_ico_instagrambae9e.png" alt="" width="16" height="auto" border="0"></a></td>
-<td style="font-size: 0pt; line-height: 0pt; text-align: left;" width="12">&#8203;</td>
-<td style="font-size: 0pt; line-height: 0pt; text-align: left;" width="16"><a href="https://www.linkedin.com/company/stickerize/" target="_blank" rel="noopener"> <img src="https://d3k81ch9hvuctc.cloudfront.net/company/Td2hz3/images/images_ico_linkedinb1177.png" alt="" width="16" height="auto" border="0"></a></td>
-</tr>
-</tbody>
 </table>
 </td>
 </tr>
-</tbody>
-</table>
+<tr>
+<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 16px; padding-left: 12px; padding-right: 12px;">
+<a href="https://stickerize.com" target="_blank" rel="noopener"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="708" height="111" border="0" alt="STICKERIZE" style="width: 100%; max-width: 708px; height: auto; display: block;" /></a>
 </td>
 </tr>
 </tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table> 
-
-</div></td></tr></tbody></table></td></tr></tbody></table>`;
+</table>`;
 }
