@@ -21,7 +21,7 @@ export default function () {
 
 			<tr>
 				<td
-					style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+					style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
 					Customer information
 				</td>
 			</tr>
@@ -31,7 +31,7 @@ export default function () {
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td
-								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+								style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
 								Billing Address<br />
 								{{ billing_address | format_address }}
 							</td>
@@ -39,7 +39,7 @@ export default function () {
 							{% assign transaction_count = transactions | size %}
 							{% if transaction_count > 0 %}
 							<td valign="top"
-								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+								style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
 								Payment<br />
 								{% for transaction in transactions %}
 								{% if transaction.id == transaction_id %}
@@ -76,7 +76,7 @@ export default function () {
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td
-								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+								style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
 								Location<br />
 								<p>{{ company_location.name }}</p>
 							</td>

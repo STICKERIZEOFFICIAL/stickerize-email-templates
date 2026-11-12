@@ -1,6 +1,5 @@
 import { BodyWrapper } from '~/components/BodyWrapper';
 import { Button } from '~/components/Button';
-import { Description } from '~/components/Description';
 import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
@@ -19,16 +18,13 @@ export default function () {
 			${Header()}
 
 			${Intro({
+        // email_body appears here and nowhere else. It used to be rendered a
+        // second time through Description immediately below, so the whole
+        // paragraph showed twice.
         heading: `{{ email_title }}`,
         description: /*html*/ `{{email_body}}`,
         showOrderNumber: false,
         showImage: false,
-      })}
-
-			${Description({
-        description: /*html*/ `
-					{{ email_body }}
-					`,
       })}
 
 			${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}

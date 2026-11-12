@@ -32,14 +32,15 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: /*html*/ `
-		Laptop, water bottle, notebook, phone. Your call. Show us where they end up: post it and tag @stickerizee. We feature our favourites.<br /><br />
-				Not seeing your package? <a href="mailto:{{ shop.email }}">Let us know</a> and we'll track it down.
-				<br/>
-				{% if fulfillment.tracking_numbers.size > 0 %}Tracking number:{% endif %}`,
+        description: [
+          'Laptop, water bottle, notebook, phone. Your call. Show us where they end up: post it and tag @stickerizee. We feature our favourites.',
+          /*html*/ `Not seeing your package? <a href="mailto:{{ shop.email }}">Let us know</a> and we'll track it down.`,
+        ],
         showOrderNumber: false,
         showImage: false,
-        showTrackingNumber: true,
+        // The tracking number display is gone: the parcel has arrived, so a
+        // tracking number is no longer something to act on.
+        showTrackingNumber: false,
       })}
 
 			${OrderTable({ heading: 'Items in this shipment' })}

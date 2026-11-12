@@ -22,7 +22,7 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: /*html*/ `{{ email_body }}<br />`,
+        description: /*html*/ `{{ email_body }}`,
         showOrderNumber: true,
         showImage: false,
       })}

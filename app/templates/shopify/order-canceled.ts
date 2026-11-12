@@ -66,12 +66,12 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: '{{ email_body }}<br />',
+        description: '{{ email_body }}',
         showOrderNumber: true,
         showImage: false,
       })}
 
-			${OrderTable({ heading: 'Removed Items' })}
+			${OrderTable({ heading: 'Removed items' })}
 
 			${Total()}
 

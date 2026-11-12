@@ -19,11 +19,10 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `{{email_body}}<br/><br/>
-				{% if fulfillment.tracking_url %}
-				You can track your order here:<br/>
-				{% elsif fulfillment.tracking_numbers.size > 0 %}
-				Your package number:<br/>
+        // Same duplicate-tracking-copy fix as Shipping Confirmation.
+        description: /*html*/ `<div>{{email_body}}</div>
+				{% if fulfillment.tracking_url == blank and fulfillment.tracking_numbers.size > 0 %}
+				<div style="padding-top: 12px;">Your package number:</div>
 				{% endif %}`,
         showOrderNumber: false,
         showImage: false,

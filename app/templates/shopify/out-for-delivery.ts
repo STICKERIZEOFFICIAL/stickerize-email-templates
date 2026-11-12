@@ -37,8 +37,10 @@ export default function () {
         description: /*html*/ `
 				{% if fulfillment.estimated_delivery_at %}
 					{{ email_emphasis }}
-					<br />
-				{% endif %}
+				{% endif %}`,
+        // A row of its own below the body text, 12px above the tracking box,
+        // with the shipment link kept.
+        trackingLabel: /*html*/ `
 				{% if fulfillment.tracking_url %}
 				You can track your order here:
 				{% elsif fulfillment.tracking_numbers.size > 0 %}

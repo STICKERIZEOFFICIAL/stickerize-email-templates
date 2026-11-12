@@ -22,7 +22,7 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `Your return request was sent and is being reviewed. We'll email you once it's been completed.<br />`,
+        description: `Your return request was sent and is being reviewed. We'll email you once it's been completed.`,
         showOrderNumber: true,
       })}
 

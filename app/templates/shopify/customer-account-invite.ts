@@ -1,6 +1,5 @@
 import { BodyWrapper } from '~/components/BodyWrapper';
 import { Button } from '~/components/Button';
-import { Description } from '~/components/Description';
 import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
@@ -17,13 +16,10 @@ export default function () {
 			${Header()}
 
 			${Intro({
+        // Same images as Account Welcome, after the introductory paragraph —
+        // which means the copy belongs in Intro rather than in a Description
+        // block below it. The title carries no exclamation mark.
         heading: `{{ email_title }}`,
-        description: null,
-        showOrderNumber: false,
-        showImage: false,
-      })}
-
-			${Description({
         description: /*html*/ `
 				{% if custom_message != blank %}
 					{{ custom_message }}
@@ -31,6 +27,8 @@ export default function () {
 					{{ email_body }}
 				{% endif %}
 				`,
+        showOrderNumber: false,
+        showImage: true,
       })}
 
 			{% if customer.account_activation_url %}

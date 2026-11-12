@@ -2,7 +2,10 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
   return /*html*/ `
   <!-- Total -->
   <tr>
-    <td style="padding: 0 12px 30px; font-size: 0pt; line-height: 0pt;">
+    <!-- 32px, not 36: every summary row carries a 4px bottom trailer for the
+         row rhythm, including whichever one Liquid renders last, and that
+         trailer lands inside this cell. 32 + 4 is the 36px section gap. -->
+    <td style="padding: 0 12px 32px; font-size: 0pt; line-height: 0pt;">
     {% assign order_discount_count = 0 %}
     {% assign total_order_discount_amount = 0 %}
     {% assign has_shipping_discount = false %}
@@ -23,10 +26,10 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         {% if total_order_discount_amount > epsilon %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            discount
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Discount
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
             -{{ total_order_discount_amount | money_without_trailing_zeros }}
           </td>
         </tr>
@@ -34,10 +37,10 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
 
         {% if delivery_method == 'pick-up' %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            pickup
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Pickup
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
             {{ shipping_price | money_without_trailing_zeros }}
           </td>
         </tr>
@@ -48,19 +51,19 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% endif %}
         {% if shipping_amount_due < epsilon %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            shipping
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Shipping
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
-            free
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
+            Free
           </td>
         </tr>
         {% else %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            shipping
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Shipping
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
             {{ shipping_amount_due | money_without_trailing_zeros }}
           </td>
         </tr>
@@ -81,27 +84,27 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% if payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b?%}
           {% assign due_at_date = payment_terms.next_payment.due_at | date: "%b %d, %Y" %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            today’s total (vat incl.)
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Today’s total (VAT incl.)
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
             {{ transaction_amount | money_without_trailing_zeros }}
           </td>
         </tr>
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            total due {{ due_at_date }}
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Total due {{ due_at_date }}
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
             {{ payment_terms.next_payment.amount_due | money_without_trailing_zeros }}
           </td>
         </tr>
         {% else %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-            today’s total (vat incl.)
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+            Today’s total (VAT incl.)
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
             {{ total_price | money_without_trailing_zeros }}
           </td>
         </tr>
@@ -134,10 +137,10 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% endif %}
         
           <tr>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-              {{transaction_name | downcase}}
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+              {{ transaction_name }}
             </td>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
               {{ transaction.amount | money_without_trailing_zeros }}
             </td>
           </tr>
@@ -152,12 +155,12 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% assign refund_method_title = transaction.gateway %}
           {% endif %}
           <tr>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 4px;">
-              refund
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 4px;">
+              Refund
               <br>
-              <small>{{ refund_method_title | replace: '_', ' ' | downcase }}</small>
+              <small>{{ refund_method_title | replace: '_', ' ' | capitalize }}</small>
             </td>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 4px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 4px;">
               - {{ transaction.amount | money_without_trailing_zeros }}
             </td>
           </tr>

@@ -39,11 +39,13 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `{{ email_body}} <br /> <br />
-				{% if fulfillment.tracking_url %}
-				You can track your order here:<br/>
-				{% elsif fulfillment.tracking_numbers.size > 0 %}
-				Your package number:<br/>
+        // No "You can track your order here:" line: Shopify's own email_body
+        // already says to use the link below, so this was the second sentence
+        // telling the customer the same thing. The tracking box itself stays,
+        // and so does its link.
+        description: /*html*/ `<div>{{ email_body}}</div>
+				{% if fulfillment.tracking_url == blank and fulfillment.tracking_numbers.size > 0 %}
+				<div style="padding-top: 12px;">Your package number:</div>
 				{% endif %}`,
         showOrderNumber: false,
         showImage: false,
