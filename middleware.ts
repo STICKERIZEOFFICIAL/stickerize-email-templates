@@ -4,9 +4,9 @@ import { next } from '@vercel/functions';
  * Password gate for the deployed preview.
  *
  * This is Vercel Routing Middleware: it runs on Vercel before any request
- * reaches the app, so it covers the pages, the `/preview/shopify/*` documents
- * the iframes load, and the built JS/CSS alike. There is no route it can be
- * forgotten on.
+ * reaches the app, so it covers the pages, the `/preview/*` documents the
+ * iframes load — Shopify and the other platforms alike — and the built JS/CSS.
+ * There is no route it can be forgotten on.
  *
  * It does NOT run under `yarn dev`, so local development stays unauthenticated.
  *

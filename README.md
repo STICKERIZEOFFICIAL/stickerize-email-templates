@@ -19,18 +19,41 @@ app/components/                   shared chunks (Head, Header, OrderTable, …)
 app/preview/registry.ts           the list of templates, their groups and copy
 app/preview/sample-data.ts        fake order used to render the previews
 app/preview/liquid.server.ts      LiquidJS + Shopify's custom filters
-app/routes/                       the browser UI (3 routes, nothing else)
+app/routes/                       the browser UI
 ```
 
 The templates are **not** Remix routes. They are plain modules that the preview
 imports; `app/routes/preview.shopify.$slug.tsx` renders one through Liquid and
 serves it as a standalone document for the iframes.
 
+Spacing and capitalisation follow
+[docs/shopify-email-scope.md](docs/shopify-email-scope.md). Gaps are 12px within
+a text container, 24px from a heading to its body, 36px between sections — and
+**one side owns each gap**, a block's bottom padding, so adjacent paddings can
+never sum into a number nobody intended.
+[docs/shopify-spacing-and-capitalisation.md](docs/shopify-spacing-and-capitalisation.md)
+records that pass.
+
+### The other platforms
+
+Stickerize also sends email from Rise.ai, Stamped and Klaviyo. Those live in a
+**separate compartment** under `app/platforms/`, sharing nothing with the
+Shopify side — no registry, no components, no render path — because they are
+pure HTML with each platform's own variable syntax rather than Liquid.
+
+A tab bar on every gallery switches between the four. See
+[docs/other-platform-emails.md](docs/other-platform-emails.md) for what is in
+each tab, what was changed to bring them onto the design system, and what is
+still waiting on a decision.
+
 ## Using the preview
 
-- `/` — gallery of all templates, grouped by lifecycle stage, with search.
+- `/` — gallery of all Shopify templates, grouped by lifecycle stage, with
+  search. The tab bar switches to the other platforms.
 - `/shopify/<slug>` — one template, with a sidebar, desktop/mobile toggle, and
   the raw Liquid under **Source**. `←` / `→` step through the lifecycle.
+- `/platforms/<platform>` and `/platforms/<platform>/<slug>` — the same two
+  views for Rise.ai, Stamped and Klaviyo.
 - **Copy Liquid** / **Download** give you the *unrendered* source — that is what
   gets pasted into Shopify (Settings → Notifications → Customer notifications).
   The rendered HTML in the iframe is for looking at only.
