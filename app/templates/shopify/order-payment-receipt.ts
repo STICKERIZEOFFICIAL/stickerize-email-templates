@@ -14,14 +14,14 @@ export default function () {
 
 			${Intro({
         heading: `Payment received. Designs are next.`,
-        description: /*html*/ `Thanks, we've received the payment for order {{ order_number }}. Designs are lined up for print and we'll send an email as soon as they ship.`,
+        description: /*html*/ `Thanks, we've received the payment for order {{ name }}. Designs are lined up for print and we'll send an email as soon as they ship.`,
         showOrderNumber: true,
         showImage: false,
       })}
 
 			<tr>
 				<td
-					style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+					style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 24px; padding-left: 12px; padding-right: 12px;">
 					Customer information
 				</td>
 			</tr>
@@ -31,15 +31,15 @@ export default function () {
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td
-								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
-								Billing Address<br />
+								style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 36px; padding-left: 12px; padding-right: 12px;">
+								Billing address<br />
 								{{ billing_address | format_address }}
 							</td>
 
 							{% assign transaction_count = transactions | size %}
 							{% if transaction_count > 0 %}
 							<td valign="top"
-								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+								style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 36px; padding-left: 12px; padding-right: 12px;">
 								Payment<br />
 								{% for transaction in transactions %}
 								{% if transaction.id == transaction_id %}
@@ -76,7 +76,7 @@ export default function () {
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
 							<td
-								style="color:#000001; font-family:'letter-gothic-std', 'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;">
+								style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 36px; padding-left: 12px; padding-right: 12px;">
 								Location<br />
 								<p>{{ company_location.name }}</p>
 							</td>

@@ -9,52 +9,52 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Order {{ order_number }} has been canceled{% endcapture %}
+	{% capture email_title %}Order {{ name }} has been canceled{% endcapture %}
 	{% capture email_body %}
 		{% if financial_status == 'voided' %}
 			{% case cancel_reason %}
 			{% when 'customer' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'inventory' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'fraud' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'declined' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'staff' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'other' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% endcase %}
 		{% elsif financial_status == 'refunded' %}
 			{% case cancel_reason %}
 			{% when 'customer' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'inventory' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'fraud' %}
 				The order was canceled because of unforeseen circumstances and your payment has been refunded.
 			{% when 'declined' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'staff' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'other' %}
-				Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+				Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% endcase %}
 		{% elsif financial_status == 'paid' %}
 			{% case cancel_reason %}
 			{% when 'customer' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'inventory' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'fraud' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'declined' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'staff' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% when 'other' %}
-			Order {{ order_number }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
+			Order {{ name }} has been canceled and nothing will be printed. Payment has been refunded, and you'll get a separate email when the refund goes through. Didn't mean to cancel, or want to tweak your design and order again? Just reply and we'll help you get it right.
 			{% endcase %}
 		{% endif %}
 	{% endcapture %}
@@ -66,12 +66,12 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: '{{ email_body }}<br />',
+        description: '{{ email_body }}',
         showOrderNumber: true,
         showImage: false,
       })}
 
-			${OrderTable({ heading: 'Removed Items' })}
+			${OrderTable({ heading: 'Removed items' })}
 
 			${Total()}
 
@@ -79,7 +79,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "Order {{ order_number }} has been canceled and payment refunded.",
+	previewText: "Order {{ name }} has been canceled and payment refunded.",
   })}
 `;
 }

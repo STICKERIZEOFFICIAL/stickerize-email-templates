@@ -1,6 +1,7 @@
 import type { MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { useMemo, useState } from 'react';
+import { PlatformTabs } from '~/platforms/PlatformTabs';
 import { GROUPS, TEMPLATES, grouped, type Group } from '~/preview/registry';
 
 export const meta: MetaFunction = () => [
@@ -35,6 +36,10 @@ export default function Index() {
             {total} of {TEMPLATES.length}
           </span>
           <div className="topbar__spacer" />
+          {/* The switcher between this gallery and the other-platform ones.
+              The only thing this route takes from app/platforms — it touches
+              no template, component or render path on either side. */}
+          <PlatformTabs current="shopify" />
           <div className="segmented">
             {(['All', ...GROUPS] as const).map((name) => (
               <button

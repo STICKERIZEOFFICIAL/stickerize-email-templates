@@ -4,26 +4,26 @@ export function CustomerInfo({
   return /*html*/ `
   <!-- Customer info -->
   <tr>
-    <td class="mpx-0" style="padding: 0 12px 24px;">
+    <td class="mpx-0" style="padding: 0 12px 36px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#efeae4">
         <tr>
           <td style="padding: 16px 16px 0;">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
-                  order number
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
+                  Order number
                 </td>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: lowercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
                   {{ order_name }}
                 </td>
               </tr>
 
               {%- if po_number %}
               <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
                   PO number
                 </td>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: lowercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
                   #{{ po_number }}
                 </td>
               </tr>
@@ -34,10 +34,10 @@ export function CustomerInfo({
                   ? /*html*/ `
               {% if consolidated_estimated_delivery_time %}
               <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
                   Estimated delivery
                 </td>
-                <td class="mfz-14 mlh-17 mmfz-13" valign="top" style="text-transform: lowercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;">
+                <td class="mfz-14 mlh-17 mmfz-13" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;">
                   {{ consolidated_estimated_delivery_time | date: '%B %d, %Y' }}
                 </td>
               </tr>
@@ -48,10 +48,10 @@ export function CustomerInfo({
 
               {% if requires_shipping and shipping_address %}
               <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
-                  shipping&nbsp;address
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
+                  Shipping&nbsp;address
                 </td>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: lowercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
                   {{ shipping_address | format_address }}
                 </td>
               </tr>
@@ -59,10 +59,10 @@ export function CustomerInfo({
 
               {% if company_location %}
               <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
                   Location
                 </td>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: lowercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
                   {{ company_location.name }}
                 </td>
               </tr>
@@ -70,10 +70,10 @@ export function CustomerInfo({
 
               {% if transaction_size > 0 or payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b? %}
               <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 15px; line-height: 18px; padding-bottom: 16px;" valign="top">
-                  payment method
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
+                  Payment method
                 </td>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: lowercase; color:#000001; font-family:'Courier New', monospace; font-size: 15px; line-height: 18px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                <td class="mfz-14 mlh-17 mmfz-13" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
                   {% if payment_terms %}
                     {% assign due_date = payment_terms.next_payment.due_at | default: nil %}
                     {% if payment_terms.type == 'receipt' or payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}

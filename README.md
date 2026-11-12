@@ -19,18 +19,41 @@ app/components/                   shared chunks (Head, Header, OrderTable, …)
 app/preview/registry.ts           the list of templates, their groups and copy
 app/preview/sample-data.ts        fake order used to render the previews
 app/preview/liquid.server.ts      LiquidJS + Shopify's custom filters
-app/routes/                       the browser UI (3 routes, nothing else)
+app/routes/                       the browser UI
 ```
 
 The templates are **not** Remix routes. They are plain modules that the preview
 imports; `app/routes/preview.shopify.$slug.tsx` renders one through Liquid and
 serves it as a standalone document for the iframes.
 
+Spacing and capitalisation follow
+[docs/shopify-email-scope.md](docs/shopify-email-scope.md). Gaps are 12px within
+a text container, 24px from a heading to its body, 36px between sections — and
+**one side owns each gap**, a block's bottom padding, so adjacent paddings can
+never sum into a number nobody intended.
+[docs/shopify-spacing-and-capitalisation.md](docs/shopify-spacing-and-capitalisation.md)
+records that pass.
+
+### The other platforms
+
+Stickerize also sends email from Rise.ai, Stamped and Klaviyo. Those live in a
+**separate compartment** under `app/platforms/`, sharing nothing with the
+Shopify side — no registry, no components, no render path — because they are
+pure HTML with each platform's own variable syntax rather than Liquid.
+
+A tab bar on every gallery switches between the four. See
+[docs/other-platform-emails.md](docs/other-platform-emails.md) for what is in
+each tab, what was changed to bring them onto the design system, and what is
+still waiting on a decision.
+
 ## Using the preview
 
-- `/` — gallery of all templates, grouped by lifecycle stage, with search.
+- `/` — gallery of all Shopify templates, grouped by lifecycle stage, with
+  search. The tab bar switches to the other platforms.
 - `/shopify/<slug>` — one template, with a sidebar, desktop/mobile toggle, and
   the raw Liquid under **Source**. `←` / `→` step through the lifecycle.
+- `/platforms/<platform>` and `/platforms/<platform>/<slug>` — the same two
+  views for Rise.ai, Stamped and Klaviyo.
 - **Copy Liquid** / **Download** give you the *unrendered* source — that is what
   gets pasted into Shopify (Settings → Notifications → Customer notifications).
   The rendered HTML in the iframe is for looking at only.
@@ -52,9 +75,23 @@ Each template page shows both, first as they read in an inbox, then as editable
 values labelled with where each is set.
 
 Subjects live in `subject` on each entry in `app/preview/registry.ts` — the one
-piece of copy the templates themselves do not contain. Use `{{ name }}` for the
-order number: it renders with the shop's prefix (`#1024`), where
+piece of copy the templates themselves do not contain.
+
+### The order number
+
+Always `{{ name }}`, never `{{ order_number }}`. The two are not
+interchangeable: `{{ name }}` renders with the shop's prefix (`#1024`), where
 `{{ order_number }}` renders bare (`1024`).
+
+The subjects used `{{ name }}` from the start but the bodies used
+`{{ order_number }}`, so the same email arrived as "Order #1024 confirmed" in
+the inbox and "ORDER 1024 CONFIRMED" once opened. All 48 body occurrences now
+use `{{ name }}`.
+
+The sample fixture keeps both as Shopify sends them — `order_number: 1024`
+bare, `name: '#1024'` — so the preview shows the real difference rather than
+papering over it. Faking the `#` in the fixture would make every preview lie
+about what lands in the inbox.
 
 Preview text is read back out of the rendered email rather than duplicated
 here, so the two can never drift. Two templates ship with none at all

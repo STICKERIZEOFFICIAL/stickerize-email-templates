@@ -1,6 +1,5 @@
 import { BodyWrapper } from '~/components/BodyWrapper';
 import { Button } from '~/components/Button';
-import { Description } from '~/components/Description';
 import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
@@ -17,12 +16,10 @@ export default function () {
 			${Header()}
 
 			${Intro({
+        // The copy moves into Intro so the images land after it: the brief's
+        // order is logo → heading → introductory paragraph → image. Supplied
+        // through Description, the body rendered *below* the photos.
         heading: `{{ email_title }}`,
-        description: null,
-        showOrderNumber: false,
-      })}
-
-			${Description({
         description: /*html*/ `
 				{% if custom_message != blank %}
 					{{ custom_message }}
@@ -30,6 +27,8 @@ export default function () {
 					{{ email_body }}
 				{% endif %}
 				`,
+        showOrderNumber: false,
+        showImage: true,
       })}
 
 			{% if shop.url  %}

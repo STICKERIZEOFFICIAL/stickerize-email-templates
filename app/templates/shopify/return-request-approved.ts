@@ -27,7 +27,7 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `We sent you a return shipping label, or you will receive one soon. Once you receive your return shipping label, follow the instructions to complete your return.<br />`,
+        description: `We sent you a return shipping label, or you will receive one soon. Once you receive your return shipping label, follow the instructions to complete your return.`,
         showOrderNumber: true,
       })}
 

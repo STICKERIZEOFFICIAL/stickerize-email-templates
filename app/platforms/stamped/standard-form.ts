@@ -1,0 +1,172 @@
+/**
+ * Ported verbatim from `app/components/stamped/standard_form.html`.
+ *
+ * Pure HTML with the platform's own variable syntax — no Liquid, no engine.
+ * The preview substitutes tokens for display only; Source and Download emit
+ * this string untouched, because that is what gets pasted into the platform.
+ */
+export default function () {
+  return /*html*/ `<form
+  action="https://stamped.io/api/ReviewSubmission?guid=00000000-0000-0000-0000-000000000000&amp;shop=304798&amp;pubKey=304798&amp;templateId=#%23templateId%23%23"
+  method="get" target="_blank">
+  <table class="m_-8174327514227747202table">
+    <tbody>
+      <tr>
+        <td>
+          <table cellpadding="2" cellspacing="0">
+            <tbody>
+              <tr>
+                <td> <input type="radio" name="ratingIndicator" value="5" id="m_-8174327514227747202rating5" checked="">
+                </td>
+                <td>
+                  <font style="font-family:Arial,sans serif;font-size:83%"> <label
+                      for="m_-8174327514227747202rating5"><span
+                        style="font-size:27px;line-height:23px;color:#ffd700">★★★★★</span></label> </font>
+                </td>
+                <td style="color:#000000!important">Excellent: I would definitely buy from you again.</td>
+              </tr>
+              <tr>
+                <td> <input type="radio" name="ratingIndicator" value="4" id="m_-8174327514227747202rating4"> </td>
+                <td>
+                  <font style="font-family:Arial,sans serif;font-size:83%"> <label
+                      for="m_-8174327514227747202rating4"><span
+                        style="font-size:27px;line-height:23px;color:#ffd700">★★★★<span
+                          style="color:#aaa">☆</span></span></label> </font>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td> <input type="radio" name="ratingIndicator" value="3" id="m_-8174327514227747202rating3"> </td>
+                <td>
+                  <font style="font-family:Arial,sans serif;font-size:83%"> <label
+                      for="m_-8174327514227747202rating3"><span
+                        style="font-size:27px;line-height:23px;color:#ffd700">★★★<span
+                          style="color:#aaa">☆☆</span></span></label> </font>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td> <input type="radio" name="ratingIndicator" value="2" id="m_-8174327514227747202rating2"> </td>
+                <td>
+                  <font style="font-family:Arial,sans serif;font-size:83%"> <label
+                      for="m_-8174327514227747202rating2"><span
+                        style="font-size:27px;line-height:23px;color:#ffd700">★★<span
+                          style="color:#aaa">☆☆☆</span></span></label> </font>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td> <input type="radio" name="ratingIndicator" value="1" id="m_-8174327514227747202rating1"> </td>
+                <td>
+                  <font style="font-family:Arial,sans serif;font-size:83%"> <label
+                      for="m_-8174327514227747202rating1"><span
+                        style="font-size:27px;line-height:23px;color:#ffd700">★<span
+                          style="color:#aaa">☆☆☆☆</span></span></label> </font>
+                </td>
+                <td style="color:#000000!important">Poor</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="color:#000000!important"> <br> Title of Review </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <ul style="margin:0;padding:0"> <input type="text" name="reviewTitle"
+              style="font-size:1em;padding-left:3px;min-height:30px;width:99%;border:solid 1px #bababa;font-family:inherit">
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="color:#000000!important"> <br> How was your overall experience using the item? </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <ul style="margin:0;padding:0"> <textarea name="reviewMessage" rows="5" cols="75"
+              style="font-size:1em;padding-left:3px;min-height:60px;width:99%;border:solid 1px #bababa;font-family:inherit"></textarea>
+            <br>
+            <p></p>
+          </ul> <br>
+          <div><label>Gender</label><br><input type="hidden" name="opt+-+Gender+-+0+-+1+-+34274" value=" "><label><input
+                type="radio" name="opt+-+Gender+-+0+-+1+-+34274" value="Female"> Female</label><br><label><input
+                type="radio" name="opt+-+Gender+-+0+-+1+-+34274" value="Male"> Male</label><br><label><input
+                type="radio" name="opt+-+Gender+-+0+-+1+-+34274" value="Other"> Other</label><br><label><input
+                type="radio" name="opt+-+Gender+-+0+-+1+-+34274" value="Prefer not to say"> Prefer not to
+              say</label><br><br><label>Age</label><br><input type="hidden" name="opt+-+Age+-+0+-+1+-+34275"
+              value=" "><label><input type="radio" name="opt+-+Age+-+0+-+1+-+34275" value="18-24">
+              18-24</label><br><label><input type="radio" name="opt+-+Age+-+0+-+1+-+34275" value="25-34">
+              25-34</label><br><label><input type="radio" name="opt+-+Age+-+0+-+1+-+34275" value="35-49">
+              35-49</label><br><label><input type="radio" name="opt+-+Age+-+0+-+1+-+34275" value="50-69">
+              50-69</label><br><label><input type="radio" name="opt+-+Age+-+0+-+1+-+34275" value="70 or above"> 70 or
+              above</label><br><br><label>What's most important to you in a deodorant?</label><br><input type="hidden"
+              name="opt+-+What%27s+most+important+to+you+in+a+deodorant%3f+-+0+-+1+-+34276" value=" "><label><input
+                type="radio" name="opt+-+What%27s+most+important+to+you+in+a+deodorant%3f+-+0+-+1+-+34276"
+                value="Effectiveness"> Effectiveness</label><br><label><input type="radio"
+                name="opt+-+What%27s+most+important+to+you+in+a+deodorant%3f+-+0+-+1+-+34276" value="Ingredients">
+              Ingredients</label><br><label><input type="radio"
+                name="opt+-+What%27s+most+important+to+you+in+a+deodorant%3f+-+0+-+1+-+34276" value="Non-irritating">
+              Non-irritating</label><br><label><input type="radio"
+                name="opt+-+What%27s+most+important+to+you+in+a+deodorant%3f+-+0+-+1+-+34276" value="Scent">
+              Scent</label><br><label><input type="radio"
+                name="opt+-+What%27s+most+important+to+you+in+a+deodorant%3f+-+0+-+1+-+34276" value="Product/packaging">
+              Product/packaging</label><br><br><label>How would you rate your Swoop experience?</label><br><input
+              type="hidden" name="opt+-+How+would+you+rate+your+Swoop+experience%3f+-+0+-+1+-+34610"
+              value=" "><label><input type="radio"
+                name="opt+-+How+would+you+rate+your+Swoop+experience%3f+-+0+-+1+-+34610" value="Excellent">
+              Excellent</label><br><label><input type="radio"
+                name="opt+-+How+would+you+rate+your+Swoop+experience%3f+-+0+-+1+-+34610" value="Good">
+              Good</label><br><label><input type="radio"
+                name="opt+-+How+would+you+rate+your+Swoop+experience%3f+-+0+-+1+-+34610" value="OK">
+              OK</label><br><label><input type="radio"
+                name="opt+-+How+would+you+rate+your+Swoop+experience%3f+-+0+-+1+-+34610" value="Bad">
+              Bad</label><br><label><input type="radio"
+                name="opt+-+How+would+you+rate+your+Swoop+experience%3f+-+0+-+1+-+34610" value="Poor">
+              Poor</label><br><br><label>What did you think about the scent?</label><br><input type="hidden"
+              name="opt+-+What+did+you+think+about+the+scent%3f+-+0+-+1+-+34611" value=" "><label><input type="radio"
+                name="opt+-+What+did+you+think+about+the+scent%3f+-+0+-+1+-+34611" value="Very satisfied"> Very
+              satisfied</label><br><label><input type="radio"
+                name="opt+-+What+did+you+think+about+the+scent%3f+-+0+-+1+-+34611" value="Satisfied">
+              Satisfied</label><br><label><input type="radio"
+                name="opt+-+What+did+you+think+about+the+scent%3f+-+0+-+1+-+34611" value="Neutral">
+              Neutral</label><br><label><input type="radio"
+                name="opt+-+What+did+you+think+about+the+scent%3f+-+0+-+1+-+34611" value="Dissatisfied">
+              Dissatisfied</label><br><label><input type="radio"
+                name="opt+-+What+did+you+think+about+the+scent%3f+-+0+-+1+-+34611" value="Very dissatisfied"> Very
+              dissatisfied</label><br><br><label>How long till you felt confident in the Swoop's
+              effectiveness?</label><br><input type="hidden"
+              name="opt+-+How+long+till+you+felt+confident+in+the+Swoop%27s+effectiveness%3f+-+0+-+1+-+34612"
+              value=" "><label><input type="radio"
+                name="opt+-+How+long+till+you+felt+confident+in+the+Swoop%27s+effectiveness%3f+-+0+-+1+-+34612"
+                value="Immediately"> Immediately</label><br><label><input type="radio"
+                name="opt+-+How+long+till+you+felt+confident+in+the+Swoop%27s+effectiveness%3f+-+0+-+1+-+34612"
+                value="After a few hours"> After a few hours</label><br><label><input type="radio"
+                name="opt+-+How+long+till+you+felt+confident+in+the+Swoop%27s+effectiveness%3f+-+0+-+1+-+34612"
+                value="After a full day"> After a full day</label><br><label><input type="radio"
+                name="opt+-+How+long+till+you+felt+confident+in+the+Swoop%27s+effectiveness%3f+-+0+-+1+-+34612"
+                value="I didn't notice it working"> I didn't notice it working</label><br><br><label>Would you recommend
+              our deodorant to friends or family?</label><br><input type="hidden"
+              name="opt+-+Would+you+recommend+our+deodorant+to+friends+or+family%3f+-+0+-+1+-+34613"
+              value=" "><label><input type="radio"
+                name="opt+-+Would+you+recommend+our+deodorant+to+friends+or+family%3f+-+0+-+1+-+34613" value="Yes">
+              Yes</label><br><label><input type="radio"
+                name="opt+-+Would+you+recommend+our+deodorant+to+friends+or+family%3f+-+0+-+1+-+34613" value="No">
+              No</label><br><br><label>Title of Review</label><br><input type="hidden"
+              name="opt+-+Title+of+Review+-+0+-+1+-+34614" value=" "><input type="text"
+              name="opt+-+Title+of+Review+-+0+-+1+-+34614" value=""
+              style="font-size:1em;padding-left:3px;min-height:30px;width:99%;border:solid 1px #bababa;font-family:inherit"><br><br><label>Tell
+              us more</label><br><input type="hidden" name="opt+-+Tell+us+more+-+0+-+1+-+34615" value=" "><input
+              type="text" name="opt+-+Tell+us+more+-+0+-+1+-+34615" value=""
+              style="font-size:1em;padding-left:3px;min-height:30px;width:99%;border:solid 1px #bababa;font-family:inherit"><br><br>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table> <input type="hidden" name="guid" value="00000000-0000-0000-0000-000000000000"> <input type="hidden"
+    name="shop" value="304798"> <input type="hidden" name="pubKey" value="304798">
+  <div style="text-align:center"><button type="submit"
+      style="background-color:#fdc501;background:#fdc501;color:#555555;padding:9px 22px;height:initial;font-size:14px;border:none;border-radius:4px;margin:auto;font-family:inherit">Publish
+      your review</button></div>
+</form>`;
+}

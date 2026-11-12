@@ -248,7 +248,12 @@ export const sampleData: Record<string, unknown> = {
   delivery_method: { instructions: null },
   shipping_address: shippingAddress,
   billing_address: billingAddress,
-  consolidated_estimated_delivery_time: 'Nov 14 - Nov 18',
+  // A date, not a pre-formatted string: Shopify hands this over as a date and
+  // the template runs `| date: '%B %d, %Y'` on it. As the literal
+  // "Nov 14 - Nov 18" the filter had nothing to parse and passed it straight
+  // through, so the preview showed an abbreviated month and never exercised
+  // the "render November 14" rule.
+  consolidated_estimated_delivery_time: '2026-11-14T00:00:00-05:00',
   estimated_delivery_at: '2026-11-16T00:00:00-05:00',
 
   fulfillment: {

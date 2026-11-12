@@ -10,15 +10,29 @@ import { Total } from "~/components/shopify/Total";
 export default function () {
   return /*html*/ `
 	
-	${Head({ title: "Order {{ order_number }} confirmed. Now we make it real." })}
+	${Head({ title: "Order {{ name }} confirmed. Now we make it real." })}
 	${BodyWrapper({
     children: /*html*/ `
 			${Header()}
 
 			${Intro({
-        heading: "Order {{ order_number }} confirmed. Now we make it real.<br />",
-        description:
-          "The order is in, and designs are headed for print. Here's what happens next:<br /><br />1. We print and cut the order.<br />2. We ship it and send tracking information.<br />3. You Stickerize everything.<br /><br />Spotted a typo in your design or picked the wrong size? Reply to this email as soon as you can and we'll try to fix it before it hits the printer.<br />",
+        heading: 'Order {{ name }} confirmed. Now we make it real.',
+        // One entry per deliberate new line, so each sits 12px below the last.
+        // As a single string with <br /><br /> these ran at ~18px, the numbered
+        // steps had no separation at all, and the trailing <br /> added an
+        // empty line on top of the 36px gap to "Your order".
+        description: [
+          "The order is in, and designs are headed for print. Here's what happens next:",
+          // One block: the steps run at the normal line-height, like a wrapped
+          // sentence. 12px sits above the list and 12px below it, not between
+          // its items — that spacing made the three steps read as detached.
+          [
+            '1. We print and cut the order.',
+            '2. We ship it and send tracking information.',
+            '3. You Stickerize everything.',
+          ],
+          "Spotted a typo in your design or picked the wrong size? Reply to this email as soon as you can and we'll try to fix it before it hits the printer.",
+        ],
         showOrderNumber: false,
         showImage: false,
       })}

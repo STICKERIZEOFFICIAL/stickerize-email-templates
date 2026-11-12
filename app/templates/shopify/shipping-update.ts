@@ -9,7 +9,7 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Update on order {{ order_number }}{% endcapture %}
+	{% capture email_title %}Update on order {{ name }}{% endcapture %}
 	{% capture email_body %}Quick update: there's movement on your order. The shipment is in transit and making its way to you. Check the latest status using the link below.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -19,11 +19,10 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `{{email_body}}<br/><br/>
-				{% if fulfillment.tracking_url %}
-				You can track your order here:<br/>
-				{% elsif fulfillment.tracking_numbers.size > 0 %}
-				Your package number:<br/>
+        // Same duplicate-tracking-copy fix as Shipping Confirmation.
+        description: /*html*/ `<div>{{email_body}}</div>
+				{% if fulfillment.tracking_url == blank and fulfillment.tracking_numbers.size > 0 %}
+				<div style="padding-top: 12px;">Your package number:</div>
 				{% endif %}`,
         showOrderNumber: false,
         showImage: false,
@@ -38,7 +37,7 @@ export default function () {
 
 			${Footer()}
 	`,
-	previewText: "New tracking info for order {{ order_number }}.",
+	previewText: "New tracking info for order {{ name }}.",
   })}
 `;
 }

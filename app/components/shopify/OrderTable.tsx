@@ -7,13 +7,16 @@ export function OrderTable({
 }) {
   return /*html*/ `
   <!-- Order table -->
+  <!-- The heading contributes no bottom padding and the wrapper none on top:
+       the 24px gap down to the first item is the line item cell's own
+       padding-top, and nothing else. Those three used to sum to 34px. -->
   <tr>
-    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 10px; padding-left: 12px; padding-right: 12px;">
+    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 0; padding-left: 12px; padding-right: 12px;">
       ${heading}
     </td>
   </tr>
   <tr>
-    <td style="padding: 0 12px 14px;">
+    <td style="padding: 0 12px 36px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
         <!-- Item scenario 1 -->
         {% for line in subtotal_line_items %}
@@ -58,7 +61,7 @@ export function OrderTable({
                       {% endif %}
 
                       <!-- Product title -->
-                      <p style="margin-bottom: 12px; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                      <p style="margin-bottom: 0; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
                         <span class="order-list__item-title">{{ line_title }}</span>
                       </p>
 
@@ -248,7 +251,7 @@ export function OrderTable({
                 <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                 <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                   <!-- Product title -->
-                  <p style="margin-bottom: 12px; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
+                  <p style="margin-bottom: 0; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
                     <span class="order-list__item-title">{{ line_item_group.title }}&nbsp;&times;&nbsp;{{ line_item_group.quantity }}</span>
                   </p>
 

@@ -9,15 +9,15 @@ import { Intro } from '~/components/shopify/Intro';
 export default function () {
   return /*html*/ `
 		{% if payment_schedule.overdue? and payment_schedule.number_of_days_overdue == 0 %}
-		{% capture email_title %}Payment reminder for order {{ order_number }}{% endcapture %}
+		{% capture email_title %}Payment reminder for order {{ name }}{% endcapture %}
 		{% elsif payment_schedule.due_later? and payment_schedule.due_in_days == 0 %}
-		{% capture email_title %}Payment reminder for order {{ order_number }}{% endcapture %}
+		{% capture email_title %}Payment reminder for order {{ name }}{% endcapture %}
 		{% elsif payment_schedule.overdue? and payment_schedule.number_of_days_overdue == 1 %}
-		{% capture email_title %}Payment reminder for order {{ order_number }}{% endcapture %}
+		{% capture email_title %}Payment reminder for order {{ name }}{% endcapture %}
 		{% elsif payment_schedule.due_later? and payment_schedule.due_in_days == 1 %}
-		{% capture email_title %}Payment reminder for order {{ order_number }}{% endcapture %}
+		{% capture email_title %}Payment reminder for order {{ name }}{% endcapture %}
 		{% elsif payment_schedule.due_later? and payment_schedule.due_in_days > 1 %}
-		{% capture email_title %}Payment reminder for order {{ order_number }}{% endcapture %}
+		{% capture email_title %}Payment reminder for order {{ name }}{% endcapture %}
 		{% else %}
 		{% capture email_title %}Your payment is {{ payment_schedule.number_of_days_overdue }} days overdue{% endcapture %}
 		{% endif %}
@@ -41,13 +41,13 @@ export default function () {
 				{% else %}
 					{% if payment_schedule.overdue? and payment_schedule.number_of_days_overdue == 0 %}
 					Friendly reminder: payment of {{ payment_schedule.amount_due |
-						money_with_currency }} for order {{ order_number }} is due today. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
+						money_with_currency }} for order {{ name }} is due today. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
 					{% elsif payment_schedule.due_later? %}
 					Friendly reminder: payment of {{ payment_schedule.amount_due | money_with_currency }}
-						for order {{ order_number }} is due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
+						for order {{ name }} is due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
 					{% else %}
 					Friendly reminder: payment of {{ payment_schedule.amount_due | money_with_currency }}
-						for order {{ order_number }} was due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
+						for order {{ name }} was due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
 					{% endif %}
 				{% endif %}`,
       })}

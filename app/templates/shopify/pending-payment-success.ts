@@ -9,7 +9,7 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Payment confirmed for order {{ order_number }}{% endcapture %}
+	{% capture email_title %}Payment confirmed for order {{ name }}{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
