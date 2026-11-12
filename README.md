@@ -75,9 +75,23 @@ Each template page shows both, first as they read in an inbox, then as editable
 values labelled with where each is set.
 
 Subjects live in `subject` on each entry in `app/preview/registry.ts` — the one
-piece of copy the templates themselves do not contain. Use `{{ name }}` for the
-order number: it renders with the shop's prefix (`#1024`), where
+piece of copy the templates themselves do not contain.
+
+### The order number
+
+Always `{{ name }}`, never `{{ order_number }}`. The two are not
+interchangeable: `{{ name }}` renders with the shop's prefix (`#1024`), where
 `{{ order_number }}` renders bare (`1024`).
+
+The subjects used `{{ name }}` from the start but the bodies used
+`{{ order_number }}`, so the same email arrived as "Order #1024 confirmed" in
+the inbox and "ORDER 1024 CONFIRMED" once opened. All 48 body occurrences now
+use `{{ name }}`.
+
+The sample fixture keeps both as Shopify sends them — `order_number: 1024`
+bare, `name: '#1024'` — so the preview shows the real difference rather than
+papering over it. Faking the `#` in the fixture would make every preview lie
+about what lands in the inbox.
 
 Preview text is read back out of the rendered email rather than duplicated
 here, so the two can never drift. Two templates ship with none at all

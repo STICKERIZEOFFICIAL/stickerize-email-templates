@@ -10,13 +10,13 @@ import { Total } from "~/components/shopify/Total";
 export default function () {
   return /*html*/ `
 	
-	${Head({ title: "Order {{ order_number }} confirmed. Now we make it real." })}
+	${Head({ title: "Order {{ name }} confirmed. Now we make it real." })}
 	${BodyWrapper({
     children: /*html*/ `
 			${Header()}
 
 			${Intro({
-        heading: 'Order {{ order_number }} confirmed. Now we make it real.',
+        heading: 'Order {{ name }} confirmed. Now we make it real.',
         // One entry per deliberate new line, so each sits 12px below the last.
         // As a single string with <br /><br /> these ran at ~18px, the numbered
         // steps had no separation at all, and the trailing <br /> added an

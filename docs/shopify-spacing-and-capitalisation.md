@@ -155,6 +155,22 @@ introductory paragraph — `Order **#1024**` — across the eleven templates tha
 used to draw a bordered box. The PO number follows the same pattern, and the
 pending-payment instructions block is untouched.
 
+## The order number
+
+`{{ name }}` and `{{ order_number }}` are not interchangeable: the first
+renders with the shop's prefix (`#1024`), the second bare (`1024`). The subject
+lines used `{{ name }}`, the bodies used `{{ order_number }}` — so the same
+email read "Order #1024 confirmed" in the inbox and "ORDER 1024 CONFIRMED" once
+opened. All 48 body occurrences across ten templates now use `{{ name }}`.
+
+The preview fixture deliberately keeps both as Shopify sends them —
+`order_number: 1024`, `name: '#1024'` — so the difference is visible rather
+than hidden. Putting the `#` into the fixture would have made every preview
+lie about what actually lands in the inbox.
+
+A check over all 28 rendered templates confirms no bare order number survives
+anywhere in visible copy.
+
 ## Per-email fixes
 
 | Email | Change |

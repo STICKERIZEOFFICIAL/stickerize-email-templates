@@ -10,22 +10,22 @@ import { Total } from '~/components/shopify/Total';
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-		{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
+		{% capture email_title %}Heads up. Order {{ name }} arrives today.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ name }} arrives today.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ name }} arrives today.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ name }} arrives today.{% endcapture %}
 		{% else %}
-			{% capture email_title %}Heads up. Order {{ order_number }} arrives today.{% endcapture %}
+			{% capture email_title %}Heads up. Order {{ name }} arrives today.{% endcapture %}
 		{% endif %}
 	{% endif %}
 
-	{% capture email_emphasis %}Order {{ order_number }} is out for delivery and should land with you today. Start choosing where to place it.{% endcapture %}
+	{% capture email_emphasis %}Order {{ name }} is out for delivery and should land with you today. Start choosing where to place it.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({

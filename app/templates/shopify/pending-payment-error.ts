@@ -10,7 +10,7 @@ import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} Payment issue for order {{ order_number }} {% endcapture %}
+	{% capture email_title %} Payment issue for order {{ name }} {% endcapture %}
 	{% capture email_body %}
 	We couldn't complete the payment, so no charge was made and the order is on hold. Try paying again using the button below and we'll send designs to print right away.
 	{% endcapture %}
