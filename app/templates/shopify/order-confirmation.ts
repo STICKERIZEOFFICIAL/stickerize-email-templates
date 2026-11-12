@@ -23,9 +23,14 @@ export default function () {
         // empty line on top of the 36px gap to "Your order".
         description: [
           "The order is in, and designs are headed for print. Here's what happens next:",
-          '1. We print and cut the order.',
-          '2. We ship it and send tracking information.',
-          '3. You Stickerize everything.',
+          // One block: the steps run at the normal line-height, like a wrapped
+          // sentence. 12px sits above the list and 12px below it, not between
+          // its items — that spacing made the three steps read as detached.
+          [
+            '1. We print and cut the order.',
+            '2. We ship it and send tracking information.',
+            '3. You Stickerize everything.',
+          ],
           "Spotted a typo in your design or picked the wrong size? Reply to this email as soon as you can and we'll try to fix it before it hits the printer.",
         ],
         showOrderNumber: false,

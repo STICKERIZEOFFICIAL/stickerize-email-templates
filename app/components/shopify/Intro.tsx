@@ -1,4 +1,4 @@
-import { renderBody } from "~/components/BodyCopy";
+import { renderBody, type BodyBlock } from "~/components/BodyCopy";
 
 /**
  * Spacing rules from docs/shopify-email-scope.md, applied here rather than
@@ -37,7 +37,7 @@ export function Intro({
   showImage = false,
 }: {
   heading: string;
-  description: string | readonly string[] | null;
+  description: string | readonly BodyBlock[] | null;
   /**
    * Renders the order number in bold at the end of the introductory
    * paragraph. It used to draw a bordered box of its own; the box is gone.

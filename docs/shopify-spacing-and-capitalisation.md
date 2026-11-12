@@ -8,7 +8,7 @@ brief's rules.
 
 | Gap | Where |
 |---|---|
-| **12px** | Between blocks inside one body text container — a paragraph and the list under it, one list item and the next, any line that deliberately starts a new line rather than wrapping. |
+| **12px** | Between blocks inside one body text container — a paragraph and the list under it, a paragraph and the next paragraph. **Not** between the lines of a list: those run at the normal line-height, like a wrapped sentence. Spacing them apart makes a list read as detached statements. |
 | **24px** | Between elements of a section — the heading and its body, the body and the images, the images and the tracking box. |
 | **36px** | Between distinct sections. |
 
@@ -33,10 +33,21 @@ computed from which blocks that instance actually renders, so a block can never
 guess what follows it.
 
 **2. `<br />` cannot express a 12px gap.** It emits a line box of exactly one
-line-height, so blocks separated by `<br /><br />` landed ~18px apart and a
-numbered list read as a solid run with no separation at all. Body copy is now
-passed as an array of blocks and rendered by `BodyCopy.tsx`, where each block
-after the first owns `padding-top: 12px`.
+line-height, so blocks separated by `<br /><br />` landed ~18px apart. Body
+copy is now passed as blocks and rendered by `BodyCopy.tsx`, where each block
+after the first owns `padding-top: 12px`. A block is either a paragraph or a
+run of tight lines:
+
+```ts
+description: [
+  "Here's what happens next:",
+  ['1. We print and cut.', '2. We ship it.', '3. You Stickerize everything.'],
+  'Spotted a typo? Reply to this email.',
+]
+```
+
+The nested array is one block: 12px above it and 12px below it, nothing
+between its lines.
 
 **3. A trailing `<br />` added a whole empty line.** Five templates ended their
 copy with one. That empty line box sits *inside* the cell, above its
@@ -65,7 +76,7 @@ Order Confirmation, as declared:
 | "Your order" → first line item | 24 | 24px |
 | Line-item title → its detail list | 12 | 12px |
 | Last line item → summary | 36 | 36px |
-| Summary → info box | 36 | 32px + the 4px row trailer |
+| Summary → info box | 36 | 36px |
 | Manage-orders sentence → "Go to account" | 12 | 12px |
 
 Account Welcome, Account Invite and Marketing Confirmation:
@@ -169,9 +180,9 @@ pending-payment instructions block is untouched.
 - **Account Welcome** is recorded as inactive after the customer account
   migration. It is still editable and has been fixed, but confirm whether it
   should ship.
-- The summary rows in `Total.tsx` use a 4px rhythm and the info box in
-  `CustomerInfo.tsx` a 16px one. Neither is named in the brief; both were left
-  as they were.
+- The info box in `CustomerInfo.tsx` has a 16px internal inset. That is the
+  tinted box's own padding rather than a gap between elements, it is not named
+  in the brief, and it was left as it was.
 - `GoToAccount.tsx` is imported by nothing — the account block that ships lives
   in `Footer.tsx`. It was corrected rather than deleted.
 - **Seven emails lost their images** as a consequence of making `showImage`

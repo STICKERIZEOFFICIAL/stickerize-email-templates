@@ -1,4 +1,4 @@
-import { renderBody } from '~/components/BodyCopy';
+import { renderBody, type BodyBlock } from '~/components/BodyCopy';
 
 /**
  * A body-copy block, used by the notifications whose copy does not come
@@ -26,7 +26,7 @@ export function Description({
    * then sits 12px below the last, which is what a deliberate new line, a
    * list item or a bullet is supposed to get. See `BodyCopy.tsx`.
    */
-  description: string | readonly string[];
+  description: string | readonly BodyBlock[];
   gap?: 12 | 24 | 36;
 }) {
   return /*html*/ `
