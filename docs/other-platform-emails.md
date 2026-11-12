@@ -109,16 +109,21 @@ diverge from what was supplied; the other ten are byte-identical.
   - divider 2px `#ececec` → 1px `#000001`.
   - footer email `hello@` → `help@stickerize.com`.
   - unsubscribe `#ccc` → `#999999` with an underline.
-- **Review request** — the logo is now the Shopify one without the copyright
-  mark, at 188×30, with the inset rule; the section heading gained the 24px
+- **Review request** — the submit button was a fixed 732px, the full width of
+  the column, while the copy around it sat on the 12px inset, so it read as
+  wider than everything else; it is 708px now and aligns. Its padding and face
+  also moved to the system's 23px and Courier New. The logo is now the Shopify
+  one without the copyright mark, at 188×30, with the inset rule; the section heading gained the 24px
   gap above and below it that it was missing entirely; and four 16px insets
   became 12px. 61 mechanical type replacements: `letter-gothic-std`
   dropped from 42 font stacks (it is never loaded in this template, so all 42
   already rendered as the Courier New fallback), 9 Arial Black 18/22 headings →
   Courier 13/13 `#000001`, 10 body sizes 15/18 → 13/17. The submit button's
   arrow image became the text `→`. Two sentences were capitalised.
-- **Review request (previous)** — deliberately **not** touched. It is kept as
-  the exact earlier export, for comparison only. Do not paste it into Stamped.
+- **Review request (previous)** — removed from the preview. It was a test
+  review request carrying an older logo. The untouched original is still in
+  the repo at `app/components/stamped/review.html`, imported by nothing, if it
+  is ever needed again.
 - **Standard / Custom review form** — not touched; they are forms embedded in
   the review request, not emails.
 
@@ -139,9 +144,13 @@ anyway. The page background in a CSS `url()` was the last one.
   via Klaviyo's own tags, and no social row.
 - **Masthead** — was the 724px footer wordmark used as a header. Now the
   system header: the 188×30 logo with the 1px rule inset by 12px.
-- **Block rhythm** — every block owns 12px top and bottom, so two stacked
-  blocks sit 24px apart. Five components were on 9px or 0/24 and are now
-  aligned to that.
+- **Block rhythm** — every block carried `padding: 12px` all round, so each
+  gap was the sum of two halves and every gap in the email came out at 24px
+  regardless of what it separated. Same bug the Shopify side had. One side now
+  owns each gap: `padding-top: 0`, and a `padding-bottom` that says what the
+  block is separated from — 24px for an element of a section, 36px on the CTA
+  that closes one. Four components were also on an 18px side inset; every
+  inset is 12px now.
 - **CTA**, in both the standalone block and the kit — the arrow image on
   Klaviyo's CDN became the text `→`, the label font moved from JetBrains Mono
   to Courier New (matching every other block in the same kit), padding to

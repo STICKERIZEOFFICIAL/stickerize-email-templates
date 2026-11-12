@@ -6,7 +6,7 @@
  * this string untouched, because that is what gets pasted into the platform.
  */
 export default function () {
-  return /*html*/ `<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tbody><tr><td style="padding-left:12px;padding-right:12px;padding-top:12px;padding-bottom:12px;word-break:break-word;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tbody><tr><td class="kl-text" style="word-break:break-word;"><div>
+  return /*html*/ `<table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tbody><tr><td style="padding-left:12px;padding-right:12px;padding-top:0;padding-bottom:36px;word-break:break-word;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%"><tbody><tr><td class="kl-text" style="word-break:break-word;"><div>
 
  <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tbody>

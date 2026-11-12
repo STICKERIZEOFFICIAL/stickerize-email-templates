@@ -15,7 +15,6 @@ import riseStoreCredits from '~/platforms/rise-ai/store-credits-received';
 import riseWelcome from '~/platforms/rise-ai/welcome';
 import stampedCoupon from '~/platforms/stamped/coupon';
 import stampedCustomForm from '~/platforms/stamped/custom-form';
-import stampedReviewRequestPrevious from '~/platforms/stamped/review-request-previous';
 import stampedReviewRequest from '~/platforms/stamped/review-request';
 import stampedStandardForm from '~/platforms/stamped/standard-form';
 import type { PlatformId } from '~/platforms/tokens';
@@ -216,22 +215,8 @@ const STAMPED: PlatformTemplate[] = [
     subjectStatus: 'proposed',
     previewTextStatus: 'platform',
     notes: [
-      'The current export, copied from Stamped. Kept alongside the earlier version below for comparison.',
+      'The current export, copied from Stamped.',
       'Stamped owns the subject line in its own admin, the same way Shopify does.',
-    ],
-  },
-  {
-    slug: 'review-request-previous',
-    label: 'Review request (previous)',
-    group: 'Emails',
-    description: 'The earlier export, kept for comparison until the new one is signed off.',
-    file: 'app/platforms/stamped/review-request-previous.ts',
-    render: stampedReviewRequestPrevious,
-    subjectStatus: 'none',
-    previewTextStatus: 'none',
-    notes: [
-      'Was app/components/stamped/review.html, imported by nothing. Copied here; the original is left untouched.',
-      'Reference only — do not paste this into Stamped.',
     ],
   },
   {

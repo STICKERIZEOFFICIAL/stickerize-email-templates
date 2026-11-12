@@ -1272,7 +1272,7 @@ export default function () {
                         <input type="hidden" name="shop" value="##shopId##">
                         <div class="hideOutlook div m-block" style="text-align:center; mso-hide:all;">
                           <button class="mw-100p" type="submit"
-                            style="display: block; width: 732px; cursor: pointer; background-color: #000001; background: #000001; color: #fffffe; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding: 22px 12px; height: initial; font-size: 13px; line-height: 18px; border:none; margin:auto; font-family: 'JetBrainsMono','Courier New',monospace; font-weight: 300; text-align:left;"
+                            style="display: block; width: 708px; max-width: 708px; cursor: pointer; background-color: #000001; background: #000001; color: #fffffe; -webkit-appearance: none; -moz-appearance: none; appearance: none; padding: 23px 12px; height: initial; font-size: 13px; line-height: 18px; border:none; margin:auto; font-family: 'Courier New', monospace; font-weight: 300; text-align:left;"
                             ##disabledbutton##="">SUBMIT <span
                               style="float: right; font-size: 20px; line-height: 18px; font-weight: 400; color: #fffffe; font-family: 'Courier New', monospace;"
                               aria-hidden="true">&rarr;</span></button>

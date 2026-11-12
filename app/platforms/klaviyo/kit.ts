@@ -201,7 +201,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td style="padding-left: 12px; padding-right: 12px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation"><tr><td style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;"><a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="188" height="30" border="0" alt="STICKERIZE" style="display: block;" /></a></td></tr></table></td>
+														<td style="padding: 0 12px 24px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation"><tr><td style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;"><a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="188" height="30" border="0" alt="STICKERIZE" style="display: block;" /></a></td></tr></table></td>
 													</tr>
 												</table>
 											</div>
@@ -217,7 +217,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td class="fluid-img" width="343" style="font-size:0pt; line-height:0pt; text-align:left;">
@@ -241,7 +241,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td class="fluid-img mw-49p" width="343" style="font-size:0pt; line-height:0pt; text-align:left;">
@@ -269,7 +269,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td class="fluid-img mw-32p" width="226" style="font-size:0pt; line-height:0pt; text-align:left;">
@@ -301,7 +301,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<th class="column-top" valign="top" width="344" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
@@ -349,7 +349,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td  style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
@@ -373,7 +373,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<td  style="color:#000001; font-family:'Courier New', Arial, sans-serif; text-align:left; font-size: 13px; line-height: 17px;">
@@ -397,7 +397,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 24px;">
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
 																	<th class="column-top" valign="top" width="221" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
@@ -462,7 +462,7 @@ export default function () {
 											<div class="klaviyo-block klaviyo-text-block">
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
-														<td  style="padding: 12px;">
+														<td  style="padding: 0 12px 36px;">
 															<!-- Button -->
 															<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																<tr>
@@ -500,7 +500,7 @@ export default function () {
 <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
 <tbody>
 <tr>
-<td style="padding: 0 12px 32px;">
+<td style="padding: 0 12px 36px;">
 <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
 <tr>
 <th class="column-top" width="288" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;">
