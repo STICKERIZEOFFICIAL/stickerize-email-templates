@@ -5,14 +5,15 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %} Payment issue for order {{ name }} {% endcapture %}
+	{% capture email_title %}Payment issue with your order{% endcapture %}
 	{% capture email_body %}
-	We couldn't complete the payment, so no charge was made and the order is on hold. Try paying again using the button below and we'll send designs to print right away.
+	We couldn't complete the payment for order ${ORDER_NUMBER}, so no charge was made and the order is on hold. Try paying again using the button below and we'll send designs to print right away.
 	{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
@@ -23,11 +24,11 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: /*html*/ `{{ email_body }}`,
-        showOrderNumber: true,
+        showPendingPayment: true,
         showImage: false,
       })}
 
-			${OrderTable({ heading: 'Order summary' })}
+			${OrderTable({ heading: 'Order summary', gapBottom: 24 })}
 
 			${Total()}
 

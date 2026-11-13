@@ -28,6 +28,37 @@ function productImage(label: string, fill: string) {
 
 const THUMB = productImage('STKR', '#d9f5e3');
 
+/**
+ * A discount allocated to one line item. It renders against that item, and the
+ * order summary deliberately ignores it.
+ */
+const ITEM_DISCOUNT = {
+  title: 'WELCOME10',
+  type: 'discount_code',
+  target_type: 'line_item',
+  target_selection: 'entitled',
+  total_allocated_amount: 400,
+};
+
+/**
+ * An order-wide merchandise discount: the one kind that earns the summary's
+ * "Order discount" row.
+ *
+ * Not in the default fixture — most orders have no such discount, and the
+ * common case is the one worth seeing first. The preview's Discount toggle
+ * layers this on top (`?discount=1`), so both states can be compared.
+ */
+export const ORDER_WIDE_DISCOUNT = {
+  title: 'SPRING15',
+  type: 'discount_code',
+  target_type: 'line_item',
+  target_selection: 'all',
+  total_allocated_amount: 500,
+};
+
+/** The fixture's discounts with an order-wide one layered on. */
+export const DISCOUNTED_APPLICATIONS = [ITEM_DISCOUNT, ORDER_WIDE_DISCOUNT];
+
 const shippingAddress = {
   first_name: 'Mia',
   last_name: 'Kowalski',
@@ -231,15 +262,11 @@ export const sampleData: Record<string, unknown> = {
   line_item_groups: lineItemGroups,
 
   // --- Discounts ------------------------------------------------------------
-  discount_applications: [
-    {
-      title: 'WELCOME10',
-      type: 'discount_code',
-      target_type: 'line_item',
-      target_selection: 'entitled',
-      total_allocated_amount: 400,
-    },
-  ],
+  // Item-level only by default: `target_selection: 'entitled'` means it hangs
+  // off the line it applies to and never reaches the order summary. The
+  // order-wide one lives in `ORDER_WIDE_DISCOUNT` above, so the preview can
+  // switch the summary's "Order discount" row on and off.
+  discount_applications: [ITEM_DISCOUNT],
 
   // --- Shipping / fulfillment ----------------------------------------------
   requires_shipping: true,

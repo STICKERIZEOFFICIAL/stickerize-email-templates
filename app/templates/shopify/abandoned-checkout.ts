@@ -43,7 +43,7 @@ export default function () {
 					{% else %}
 					{{ email_body }}
 					{% endif %}`,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: false,
       })}
 

@@ -31,7 +31,7 @@ const GAP = {
 export function Intro({
   heading,
   description,
-  showOrderNumber,
+  showPendingPayment,
   showTrackingNumber,
   trackingLabel,
   showImage = false,
@@ -39,10 +39,17 @@ export function Intro({
   heading: string;
   description: string | readonly BodyBlock[] | null;
   /**
-   * Renders the order number in bold at the end of the introductory
-   * paragraph. It used to draw a bordered box of its own; the box is gone.
+   * The buyer's pending-payment instructions — how to pay for an order whose
+   * payment is still outstanding — when the payment gateway supplies them.
+   *
+   * This block used to be bundled with a standalone order-number row, which
+   * the brief removes: the number left printed twice in every template whose
+   * copy already named the order, and printed bare, with no sentence around
+   * it, in the ones whose copy did not. It now appears once, in bold, inside
+   * the body paragraph. The PO number went with it, to the customer
+   * information panel, which already lists it.
    */
-  showOrderNumber: boolean;
+  showPendingPayment: boolean;
   showTrackingNumber?: boolean;
   /**
    * A line introducing the tracking box, on a row of its own above it,
@@ -71,7 +78,7 @@ export function Intro({
   // Built as a list so a block can never guess what follows it.
   const blocks = [
     description ? 'description' : null,
-    showOrderNumber ? 'orderNumber' : null,
+    showPendingPayment ? 'pendingPayment' : null,
     trackingLabel ? 'trackingLabel' : null,
     showTrackingNumber ? 'tracking' : null,
     showImage ? 'image' : null,
@@ -79,8 +86,22 @@ export function Intro({
 
   const isLast = (name: string) => blocks[blocks.length - 1] === name;
 
-  /** Bottom padding: the section gap when last, else the element gap. */
-  const gapAfter = (name: string) => (isLast(name) ? GAP.SECTION : GAP.ELEMENT);
+  /**
+   * Bottom padding: the section gap when last, else the element gap.
+   *
+   * `pendingPayment` is the one block whose presence is only known at send
+   * time — most orders are paid, and carry no instructions. So the block in
+   * front of it has to ask the same question Liquid does: 24px down to the
+   * instructions when they are there, and the full section gap when they are
+   * not and this block turns out to be the last thing in the intro.
+   */
+  const gapAfter = (name: string) => {
+    const next = blocks[blocks.indexOf(name) + 1];
+    if (next === 'pendingPayment' && isLast('pendingPayment')) {
+      return `{% if has_pending_payment %}${GAP.ELEMENT}{% else %}${GAP.SECTION}{% endif %}`;
+    }
+    return isLast(name) ? GAP.SECTION : GAP.ELEMENT;
+  };
 
   // Always the heading gap, never the section gap — including when Intro
   // renders nothing but the heading. Ten templates supply their body through
@@ -90,6 +111,21 @@ export function Intro({
 
   return /*html*/ `
     <!-- Intro -->
+    ${
+      showPendingPayment
+        ? /*html*/ `
+    {%- comment -%}
+      Resolved before the copy above it, because the gap under that copy
+      depends on whether these instructions render at all.
+    {%- endcomment -%}
+    {%- assign has_pending_payment = false -%}
+    {%- for transaction in transactions -%}
+      {%- if transaction.show_buyer_pending_payment_instructions? -%}
+        {%- assign has_pending_payment = true -%}
+      {%- endif -%}
+    {%- endfor -%}`
+        : ''
+    }
     <tr>
       <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-top: 24px; padding-bottom: ${GAP.ELEMENT}px; padding-left: 12px; padding-right: 12px;">
         ${heading}
@@ -108,26 +144,17 @@ export function Intro({
         : ""
     }
   ${
-    showOrderNumber
+    showPendingPayment
       ? /*html*/ `
-        <!-- Order number, in bold inside the intro copy rather than in a box
-             of its own. Same for the PO number below it. -->
-        <tr>
-          <td style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 18px; padding-bottom: ${gapAfter(
-            'orderNumber',
-          )}px; padding-left: 12px; padding-right: 12px;">
-            Order
-            <strong>{% if order_name %}{{ order_name }}{% else %}{{ order.name }}{% endif %}</strong>
-            {%- if po_number %}<br />PO number <strong>#{{ po_number }}</strong>{%- endif %}
-          </td>
-        </tr>
+        <!-- Pending payment instructions. Nothing renders, and no gap is left
+             behind, when the gateway supplies none. -->
         {% if transactions.size > 0 %}
           {% for transaction in transactions %}
             {% if transaction.show_buyer_pending_payment_instructions? %}
             <tr>
-              <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 18px; padding-bottom: ${
-                GAP.ELEMENT
-              }px; padding-left: 12px; padding-right: 12px;">
+              <td  style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 18px; padding-bottom: ${gapAfter(
+                'pendingPayment',
+              )}px; padding-left: 12px; padding-right: 12px;">
                 <p>{{transaction.buyer_pending_payment_notice}}</p>
                 <table class="row">
                   <tr>

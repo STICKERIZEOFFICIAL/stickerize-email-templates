@@ -109,6 +109,12 @@ export function Head({ title }: { title: string }) {
 	
 				.mw-10 { width: 10px !important; }
 	
+				/* The gap between the thumbnail's outer border and the line-item
+				   description is 24px, on mobile as well as on desktop. It used to
+				   share .mw-10 with the gap in front of the price column and
+				   narrowed to 10px on phones. */
+				.mw-24 { width: 24px !important; }
+	
 				.mw-img-90,
 				.mw-img-90 img { width: 90px !important; height: auto !important; }
 			}

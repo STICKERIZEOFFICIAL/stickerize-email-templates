@@ -4,13 +4,14 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Update on order {{ name }}{% endcapture %}
-	{% capture email_body %}Quick update: there's movement on your order. The shipment is in transit and making its way to you. Check the latest status using the link below.{% endcapture %}
+	{% capture email_title %}Update on your order{% endcapture %}
+	{% capture email_body %}Quick update: there's movement on order ${ORDER_NUMBER}. The shipment is in transit and making its way to you. Check the latest status using the link below.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -24,12 +25,12 @@ export default function () {
 				{% if fulfillment.tracking_url == blank and fulfillment.tracking_numbers.size > 0 %}
 				<div style="padding-top: 12px;">Your package number:</div>
 				{% endif %}`,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: false,
 				showTrackingNumber: true,
       })}
 
-			${OrderTable({ heading: 'Items in this shipment' })}
+			${OrderTable({ heading: 'Items in this shipment', gapBottom: 24 })}
 
 			${Total()}
 

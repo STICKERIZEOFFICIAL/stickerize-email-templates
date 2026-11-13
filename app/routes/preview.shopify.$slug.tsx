@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node';
 import { renderLiquid } from '~/preview/liquid.server';
 import { toLocale } from '~/preview/locales';
 import { getTemplate } from '~/preview/registry';
+import { DISCOUNTED_APPLICATIONS } from '~/preview/sample-data';
 
 /**
  * Resource route serving a single template as a standalone document, so the
@@ -10,6 +11,7 @@ import { getTemplate } from '~/preview/registry';
  *   /preview/shopify/order-confirmation             rendered with sample data
  *   /preview/shopify/order-confirmation?theme=dark  + dark mode simulation
  *   /preview/shopify/order-confirmation?locale=en   language variant
+ *   /preview/shopify/order-confirmation?discount=1  + an order-wide discount
  *   /preview/shopify/order-confirmation?source=1    raw Liquid source as text
  */
 export async function loader({ params, request }: LoaderFunctionArgs) {
@@ -28,7 +30,16 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   }
 
   const locale = toLocale(url.searchParams.get('locale'));
-  const { html, error } = await renderLiquid(source, { ...template.data, locale });
+  // The order summary's "Order discount" row renders only for an order-wide
+  // merchandise discount, which the default fixture deliberately has none of.
+  // This layers one on so both states of that row — and the spacing around
+  // it — can be seen without editing the fixture.
+  const discounted = url.searchParams.get('discount') === '1';
+  const { html, error } = await renderLiquid(source, {
+    ...template.data,
+    ...(discounted ? { discount_applications: DISCOUNTED_APPLICATIONS } : {}),
+    locale,
+  });
   const body = error
     ? wrapError(template.slug, error, html)
     : url.searchParams.get('theme') === 'dark'

@@ -22,7 +22,7 @@ export default function () {
         // between the heading and its own body.
         heading: `{{ email_title }}`,
         description: /*html*/ `{{ email_body }}`,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: true,
       })}
 

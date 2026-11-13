@@ -4,6 +4,7 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 
 export default function () {
   return /*html*/ `
@@ -14,8 +15,8 @@ export default function () {
 
 			${Intro({
         heading: `Payment received. Designs are next.`,
-        description: /*html*/ `Thanks, we've received the payment for order {{ name }}. Designs are lined up for print and we'll send an email as soon as they ship.`,
-        showOrderNumber: true,
+        description: /*html*/ `Thanks, we've received the payment for order ${ORDER_NUMBER}. Designs are lined up for print and we'll send an email as soon as they ship.`,
+        showPendingPayment: true,
         showImage: false,
       })}
 

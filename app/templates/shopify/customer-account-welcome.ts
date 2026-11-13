@@ -27,7 +27,7 @@ export default function () {
 					{{ email_body }}
 				{% endif %}
 				`,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: true,
       })}
 

@@ -4,12 +4,13 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
-	{% capture email_title %}Payment confirmed for order {{ name }}{% endcapture %}
+	{% capture email_title %}Payment confirmed{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -18,12 +19,12 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: "All good. The payment went through and designs are headed for print. We'll send an email as soon as they ship.",
-        showOrderNumber: true,
+        description: `All good. The payment for order ${ORDER_NUMBER} went through and designs are headed for print. We'll send an email as soon as they ship.`,
+        showPendingPayment: true,
         showImage: false,
       })}
 
-			${OrderTable({ heading: 'Order summary' })}
+			${OrderTable({ heading: 'Order summary', gapBottom: 24 })}
 
 			${Total()}
 

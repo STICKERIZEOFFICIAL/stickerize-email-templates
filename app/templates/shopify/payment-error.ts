@@ -23,7 +23,7 @@ export default function () {
         // paragraph showed twice.
         heading: `{{ email_title }}`,
         description: /*html*/ `{{email_body}}`,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: false,
       })}
 
