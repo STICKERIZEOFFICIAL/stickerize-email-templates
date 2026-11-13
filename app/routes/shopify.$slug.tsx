@@ -35,8 +35,15 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const { previous, next } = neighbours(template.slug);
 
+  // Only the templates that render the order summary have an "Order discount"
+  // row to show, so only they get the toggle. Detected from the Liquid rather
+  // than listed by hand, so a template that gains or loses `Total` cannot
+  // drift out of step with the toolbar.
+  const hasOrderSummary = source.includes('total_order_discount_amount');
+
   return json({
     slug: template.slug,
+    hasOrderSummary,
     label: template.label,
     group: template.group,
     path: sourcePath(template),
@@ -71,6 +78,9 @@ export default function TemplatePreview() {
   // it. They live with the email frame, not in the page toolbar.
   const [scheme, setScheme] = useState<Scheme>('light');
   const [locale, setLocale] = useState<LocaleCode>(DEFAULT_LOCALE);
+  // Whether the sample order carries an order-wide discount. Off by default:
+  // most orders have none, so that is the view worth landing on.
+  const [discounted, setDiscounted] = useState(false);
   const [copied, setCopied] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -116,7 +126,7 @@ export default function TemplatePreview() {
 
   const frameSrc = `/preview/shopify/${data.slug}?locale=${locale}${
     scheme === 'dark' ? '&theme=dark' : ''
-  }`;
+  }${discounted ? '&discount=1' : ''}`;
 
   return (
     <div className={`shell${navOpen ? ' shell--nav-open' : ''}`}>
@@ -280,6 +290,27 @@ export default function TemplatePreview() {
                   ))}
                 </div>
 
+                {data.hasOrderSummary ? (
+                  <div className="segmented">
+                    {([false, true] as const).map((on) => (
+                      <button
+                        key={String(on)}
+                        type="button"
+                        className="btn btn--bare"
+                        aria-pressed={discounted === on}
+                        title={
+                          on
+                            ? 'Add an order-wide discount, so the summary shows its Order discount row'
+                            : 'No order-wide discount — the common case'
+                        }
+                        onClick={() => setDiscounted(on)}
+                      >
+                        {on ? 'With discount' : 'No discount'}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+
                 <div className="viewer__spacer" />
 
                 <div className="segmented">
@@ -303,7 +334,7 @@ export default function TemplatePreview() {
               </div>
 
               <iframe
-                key={`${data.slug}-${renderWidth}-${scheme}-${locale}`}
+                key={`${data.slug}-${renderWidth}-${scheme}-${locale}-${discounted}`}
                 src={frameSrc}
                 title={`${data.label} preview`}
               />
