@@ -4,29 +4,30 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 import { Total } from '~/components/shopify/Total';
 
 export default function () {
   return /*html*/ `
 	{% if fulfillment.item_count == item_count %} 
-  {% capture email_title %}Order {{ name }} is on the move{% endcapture %}
-  {% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
+  {% capture email_title %}Your order is on the move{% endcapture %}
+  {% capture email_body %}Order ${ORDER_NUMBER} is packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 	{% elsif fulfillment.item_count > 1 %} 
 		{% if fulfillment_status == 'fulfilled' %}
-		{% capture email_title %}Order {{ name }} is on the move{% endcapture %}
-		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
+		{% capture email_title %}Your order is on the move{% endcapture %}
+		{% capture email_body %}Order ${ORDER_NUMBER} is packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% else %}
-		{% capture email_title %}Order {{ name }} is on the move{% endcapture %}
-		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
+		{% capture email_title %}Your order is on the move{% endcapture %}
+		{% capture email_body %}Order ${ORDER_NUMBER} is packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% endif %}
 	{% else %} 
 		{% if fulfillment_status == 'fulfilled' %}
-		{% capture email_title %}Order {{ name }} is on the move{% endcapture %}
-		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
+		{% capture email_title %}Your order is on the move{% endcapture %}
+		{% capture email_body %}Order ${ORDER_NUMBER} is packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% else %}
-		{% capture email_title %}Order {{ name }} is on the move{% endcapture %}
-		{% capture email_body %}Packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
+		{% capture email_title %}Your order is on the move{% endcapture %}
+		{% capture email_body %}Order ${ORDER_NUMBER} is packed, shipped and heading your way. Track your package with the link below.{% endcapture %}
 		{% endif %}
 	{% endif %}
 
@@ -47,12 +48,12 @@ export default function () {
 				{% if fulfillment.tracking_url == blank and fulfillment.tracking_numbers.size > 0 %}
 				<div style="padding-top: 12px;">Your package number:</div>
 				{% endif %}`,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: false,
         showTrackingNumber: true,
       })}
 
-			${OrderTable({ heading: 'Items in this shipment' })}
+			${OrderTable({ heading: 'Items in this shipment', gapBottom: 24 })}
 
 			${Total()}
 

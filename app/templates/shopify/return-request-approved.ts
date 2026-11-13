@@ -5,6 +5,7 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 
 export default function () {
@@ -27,8 +28,8 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `We sent you a return shipping label, or you will receive one soon. Once you receive your return shipping label, follow the instructions to complete your return.`,
-        showOrderNumber: true,
+        description: `We sent you a return shipping label for order ${ORDER_NUMBER}, or you will receive one soon. Once you receive your return shipping label, follow the instructions to complete your return.`,
+        showPendingPayment: true,
       })}
 
 			${OrderTable({ heading: 'Return summary' })}

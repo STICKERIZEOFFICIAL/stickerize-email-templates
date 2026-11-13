@@ -1,3 +1,29 @@
+/**
+ * The order summary: the rows that follow the line items — Shipping, the
+ * optional order-wide discount, and the total.
+ *
+ * Spacing, from the brief. One side owns each gap, as everywhere else: a row's
+ * `padding-top` is the whole of the gap above it, and the order table above
+ * contributes nothing beyond its own 24px.
+ *
+ *   final item or bundle -> Shipping         24px  (OrderTable's `gapBottom`)
+ *   Shipping             -> Order discount   24px  (when the row shows)
+ *   Shipping             -> Today's total    36px  (when it does not)
+ *   Order discount       -> Today's total    36px
+ *
+ * The discount row used to sit above Shipping, 4px from it like every other
+ * row. It now sits between Shipping and the total, and the 36px before the
+ * total holds whether it renders or not — when it is skipped, its gap goes
+ * with it rather than leaving a spacer behind.
+ */
+
+/** Gap above a further row of the summary — today, the discount. */
+const ROW_GAP = 24;
+/** Gap immediately before Today's total, always. */
+const TOTAL_GAP = 36;
+/** Rows that belong with the one above them: the payment breakdown. */
+const TIGHT_GAP = 4;
+
 export function Total({ showRefund }: { showRefund?: boolean } = {}) {
   return /*html*/ `
   <!-- Total -->
@@ -9,6 +35,12 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
     {% assign shipping_amount = 0 %}
     {% assign epsilon = 0.00001 %}
 
+    {% comment %}
+      The order-wide merchandise discount, and only that. target_selection
+      'all' excludes a discount allocated to specific items — those already
+      show against the line item — and target_type 'line_item' excludes a
+      shipping discount, which is netted off the Shipping row instead.
+    {% endcomment %}
     {% for discount_application in discount_applications %}
       {% if discount_application.target_selection == 'all' and discount_application.target_type == 'line_item' %}
         {% assign order_discount_count = order_discount_count | plus: 1 %}
@@ -20,56 +52,48 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% assign shipping_amount = shipping_amount | plus: discount_application.total_allocated_amount %}
       {% endif %}
     {% endfor %}
-      {% assign summary_row_gap = 0 %}
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        {% if total_order_discount_amount > epsilon %}
-        <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
-            Discount
-          </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
-            -{{ total_order_discount_amount | money_without_trailing_zeros }}
-          </td>
-        </tr>
-        {% assign summary_row_gap = 4 %}
-        {% endif %}
-
+        <!-- Shipping, or Pickup. The first row of the summary, so nothing on
+             top: the 24px down from the last item is the order table's. -->
         {% if delivery_method == 'pick-up' %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: 0;">
             Pickup
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: 0;">
             {{ shipping_price | money_without_trailing_zeros }}
           </td>
         </tr>
-        {% assign summary_row_gap = 4 %}
         {% else %}
         {% assign shipping_amount_due = shipping_price %}
         {% if has_shipping_discount %}
           {% assign shipping_amount_due = shipping_price | minus: shipping_amount %}
         {% endif %}
-        {% if shipping_amount_due < epsilon %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: 0;">
             Shipping
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
-            Free
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: 0;">
+            {% if shipping_amount_due < epsilon %}
+              Free
+            {% else %}
+              {{ shipping_amount_due | money_without_trailing_zeros }}
+            {% endif %}
           </td>
         </tr>
-        {% assign summary_row_gap = 4 %}
-        {% else %}
-        <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
-            Shipping
-          </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
-            {{ shipping_amount_due | money_without_trailing_zeros }}
-          </td>
-        </tr>
-        {% assign summary_row_gap = 4 %}
         {% endif %}
+
+        <!-- Order discount: shown only for a confirmed, positive, order-wide
+             merchandise discount. No row, no gap, when there is none. -->
+        {% if total_order_discount_amount > epsilon %}
+        <tr>
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
+            Order discount
+          </td>
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
+            -{{ total_order_discount_amount | money_without_trailing_zeros }}
+          </td>
+        </tr>
         {% endif %}
 
         {% assign transaction_size = 0 %}
@@ -86,50 +110,45 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% if payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b?%}
           {% assign due_at_date = payment_terms.next_payment.due_at | date: "%b %d, %Y" %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TOTAL_GAP}px;">
             Today’s total (VAT incl.)
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TOTAL_GAP}px;">
             {{ transaction_amount | money_without_trailing_zeros }}
           </td>
         </tr>
-        {% assign summary_row_gap = 4 %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TIGHT_GAP}px;">
             Total due {{ due_at_date }}
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TIGHT_GAP}px;">
             {{ payment_terms.next_payment.amount_due | money_without_trailing_zeros }}
           </td>
         </tr>
-        {% assign summary_row_gap = 4 %}
         {% else %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TOTAL_GAP}px;">
             Today’s total (VAT incl.)
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TOTAL_GAP}px;">
             {{ total_price | money_without_trailing_zeros }}
           </td>
         </tr>
-        {% assign summary_row_gap = 4 %}
         {% endif %}
 
         ${
           showRefund
             ? /*html*/ `{% unless payment_terms %}
-        {% if transaction_size > 1 or transaction_amount < total_price %} 
+        {% if transaction_size > 1 or transaction_amount < total_price %}
         <tr>
           <td style="padding-top: 16px;"></td>
           <td style="padding-top: 16px;"></td>
         </tr>
-        {% assign summary_row_gap = 4 %}
         <tr>
             <td style="border-top: 1px solid #000001; padding-bottom: 16px;"></td>
             <td style="border-top: 1px solid #000001; padding-bottom: 16px;"></td>
         </tr>
-        {% assign summary_row_gap = 4 %}
-        
+
           {% for transaction in transactions %}
           {% if transaction.status == "success" and transaction.kind == "capture" or transaction.kind == "sale"
           %}
@@ -142,18 +161,16 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% else %}
           {% capture transaction_name %}{{ transaction.gateway_display_name }}{% endcapture %}
           {% endif %}
-        
+
           <tr>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TIGHT_GAP}px;">
               {{ transaction_name }}
             </td>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TIGHT_GAP}px;">
               {{ transaction.amount | money_without_trailing_zeros }}
             </td>
           </tr>
-          {% assign summary_row_gap = 4 %}
-        {% assign summary_row_gap = 4 %}
-        
+
           {% endif %}
           {% if transaction.kind == 'refund' %}
           {% if transaction.payment_details.gift_card_last_four_digits %}
@@ -164,17 +181,15 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% assign refund_method_title = transaction.gateway %}
           {% endif %}
           <tr>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ summary_row_gap }}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TIGHT_GAP}px;">
               Refund
               <br>
               <small>{{ refund_method_title | replace: '_', ' ' | capitalize }}</small>
             </td>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ summary_row_gap }}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TIGHT_GAP}px;">
               - {{ transaction.amount | money_without_trailing_zeros }}
             </td>
           </tr>
-          {% assign summary_row_gap = 4 %}
-        {% assign summary_row_gap = 4 %}
           {% endif %}
           {% endfor %}
           {% endif %}

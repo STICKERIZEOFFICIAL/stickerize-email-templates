@@ -21,7 +21,7 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: null,
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: false,
       })}
 

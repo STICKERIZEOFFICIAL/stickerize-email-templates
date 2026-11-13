@@ -1,9 +1,26 @@
 export function OrderTable({
   heading,
   hidePrices,
+  /**
+   * Gap below the last line item.
+   *
+   * 24px when the order summary follows — the brief puts the final item, or
+   * the final bundle, 24px above Shipping, and this padding is the whole of
+   * that gap: the item cell's own 24px sits above its rule, and `Total`
+   * contributes nothing on top. 36px, the section gap, for everything else.
+   */
+  gapBottom = 36,
+  /**
+   * Gap above the heading. 0 by default: whatever precedes the table owns the
+   * gap down to it. Order Edited has nothing above it but the masthead rule,
+   * so it passes the 24px the intro heading used to carry.
+   */
+  gapTop = 0,
 }: {
   heading: string;
   hidePrices?: boolean;
+  gapBottom?: 24 | 36;
+  gapTop?: 0 | 24;
 }) {
   return /*html*/ `
   <!-- Order table -->
@@ -11,12 +28,12 @@ export function OrderTable({
        the 24px gap down to the first item is the line item cell's own
        padding-top, and nothing else. Those three used to sum to 34px. -->
   <tr>
-    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-bottom: 0; padding-left: 12px; padding-right: 12px;">
+    <td style="font-weight: bold; text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 13px; padding-top: ${gapTop}px; padding-bottom: 0; padding-left: 12px; padding-right: 12px;">
       ${heading}
     </td>
   </tr>
   <tr>
-    <td style="padding: 0 12px 36px;">
+    <td style="padding: 0 12px ${gapBottom}px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
         <!-- Item scenario 1 -->
         {% for line in subtotal_line_items %}
@@ -50,7 +67,7 @@ export function OrderTable({
                     </td>
                     <!-- END column left -->
 
-                    <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                    <td class="mw-24" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                     
                     <!-- column center -->
                     <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
@@ -248,7 +265,7 @@ export function OrderTable({
                     </table>
                   {% endif %}
                 </td>
-                <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                <td class="mw-24" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                 <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                   <!-- Product title -->
                   <p style="margin-bottom: 0; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">

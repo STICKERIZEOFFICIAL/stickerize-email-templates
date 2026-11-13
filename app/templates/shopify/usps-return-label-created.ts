@@ -5,6 +5,7 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 
 export default function () {
   return /*html*/ `
@@ -17,8 +18,8 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: null,
-        showOrderNumber: true,
+        description: `The return label for order ${ORDER_NUMBER} is ready. Here's what to do with it.`,
+        showPendingPayment: true,
       })}
 
 			${Description({

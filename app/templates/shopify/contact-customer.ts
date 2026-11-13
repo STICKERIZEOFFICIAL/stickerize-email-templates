@@ -14,7 +14,7 @@ export default function () {
 			${Intro({
         heading: `{{ email_title }}`,
         description: '{{ custom_message }}',
-        showOrderNumber: false,
+        showPendingPayment: false,
       })}
 
 			${Footer({ showLoginSection: false })}

@@ -4,6 +4,7 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 import { Total } from '~/components/shopify/Total';
 
@@ -15,7 +16,10 @@ export default function () {
 			${Header()}
 
 			${Intro({
-        heading: /*html*/ `{% if payment_terms.type == 'receipt' and payment_terms.next_payment.due_at == nil %}
+        heading: 'Invoice',
+        // The payment-due line moved out of the heading and into the body, so
+        // the order number has a sentence to sit in rather than a row of its own.
+        description: /*html*/ `{% if payment_terms.type == 'receipt' and payment_terms.next_payment.due_at == nil %}
 				{% assign due_date = 'now' %}
 				{% else %}
 					{% assign due_date = payment_terms.next_payment.due_at | default: nil %}
@@ -26,18 +30,17 @@ export default function () {
 					{% assign outstanding_amount = order.total_outstanding %}
 				{% endif %}
 				{% if payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}
-					Payment of {{ outstanding_amount | money_without_trailing_zeros }} is due on fulfillment
+					Payment of {{ outstanding_amount | money_without_trailing_zeros }} for order ${ORDER_NUMBER} is due on fulfillment.
 				{% else %}
-					Payment of {{ outstanding_amount | money_without_trailing_zeros }} is due {{ due_date | date: format: 'date' }}
+					Payment of {{ outstanding_amount | money_without_trailing_zeros }} for order ${ORDER_NUMBER} is due {{ due_date | date: format: 'date' }}.
 				{% endif %}
 				{% if custom_message != blank %}
-					{{ custom_message }}
+					<div style="padding-top: 12px;">{{ custom_message }}</div>
 				{% endif %}`,
-        description: null,
-        showOrderNumber: true,
+        showPendingPayment: true,
       })}
 
-			${OrderTable({ heading: 'Order summary' })}
+			${OrderTable({ heading: 'Order summary', gapBottom: 24 })}
 
 			${Total()}
 

@@ -36,14 +36,14 @@ export default function () {
           'Laptop, water bottle, notebook, phone. Your call. Show us where they end up: post it and tag @stickerizee. We feature our favourites.',
           /*html*/ `Not seeing your package? <a href="mailto:{{ shop.email }}">Let us know</a> and we'll track it down.`,
         ],
-        showOrderNumber: false,
+        showPendingPayment: false,
         showImage: false,
         // The tracking number display is gone: the parcel has arrived, so a
         // tracking number is no longer something to act on.
         showTrackingNumber: false,
       })}
 
-			${OrderTable({ heading: 'Items in this shipment' })}
+			${OrderTable({ heading: 'Items in this shipment', gapBottom: 24 })}
 
 			${Total()}
 

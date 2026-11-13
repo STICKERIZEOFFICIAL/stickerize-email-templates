@@ -4,6 +4,7 @@ import { Footer } from '~/components/shopify/Footer';
 import { Head } from '~/components/Head';
 import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
+import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
 
 export default function () {
@@ -22,8 +23,8 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: `Your return request was sent and is being reviewed. We'll email you once it's been completed.`,
-        showOrderNumber: true,
+        description: `Your return request for order ${ORDER_NUMBER} was sent and is being reviewed. We'll email you once it's been completed.`,
+        showPendingPayment: true,
       })}
 
 			${OrderTable({ heading: 'Return summary' })}
