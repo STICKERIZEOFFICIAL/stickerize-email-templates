@@ -2,37 +2,21 @@
  * The order summary: the rows that follow the line items — Shipping, the
  * optional order-wide discount, and the total.
  *
- * Spacing, from the brief. One side owns each gap, as everywhere else: a row's
- * `padding-top` is the whole of the gap above it, and the order table above
- * contributes nothing beyond its own 24px.
+ * One side owns each gap, as everywhere else: a row's `padding-top` is the
+ * whole of the gap above it, and the order table above contributes nothing
+ * beyond its own 24px.
  *
  *   final item or bundle -> Shipping         24px  (OrderTable's `gapBottom`)
- *   Shipping             -> Order discount   24px  (when the row shows)
- *   Order discount       -> Today's total    36px  (when the row shows)
- *   Shipping             -> Today's total     4px  (when it does not)
+ *   every row after the first                 4px
  *
- * The discount row used to sit above Shipping, 4px from it like every other
- * row. It now sits between Shipping and the total. When no discount qualifies,
- * the row and both of its gaps go away together — the summary reads exactly as
- * it did before, rather than holding the missing row's space open.
+ * The summary is one block of rows, so they all sit at the same 4px. The
+ * discount row's only job is to slot in between Shipping and the total when
+ * an order-wide discount qualifies; it changes nothing around it, and the
+ * summary reads identically whether or not it is there.
  */
 
-/** Gap above a further row of the summary — today, the discount. */
-const ROW_GAP = 24;
-/** Rows that belong with the one above them: the payment breakdown. */
-const TIGHT_GAP = 4;
-
-/**
- * Gap above Today's total — resolved at send time, not here.
- *
- * 36px separates the total from an Order discount row above it. With no
- * discount there is nothing to separate it from, and a fixed 36px would hold
- * the hidden row's space open: the total would float away from Shipping for
- * every order that has no discount, which is most of them. So when the row is
- * skipped the total closes back up to Shipping at the 4px the summary rows
- * always ran at.
- */
-const TOTAL_GAP = `{% if total_order_discount_amount > epsilon %}36{% else %}${TIGHT_GAP}{% endif %}`;
+/** Every row of the summary below the first. */
+const ROW_GAP = 4;
 
 export function Total({ showRefund }: { showRefund?: boolean } = {}) {
   return /*html*/ `
@@ -94,7 +78,8 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% endif %}
 
         <!-- Order discount: shown only for a confirmed, positive, order-wide
-             merchandise discount. No row, no gap, when there is none. -->
+             merchandise discount, and slotted in at the same 4px as the rows
+             around it. No row, and nothing left behind, when there is none. -->
         {% if total_order_discount_amount > epsilon %}
         <tr>
           <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
@@ -120,27 +105,27 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% if payment_terms and payment_terms.automatic_capture_at_fulfillment == false or b2b?%}
           {% assign due_at_date = payment_terms.next_payment.due_at | date: "%b %d, %Y" %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TOTAL_GAP}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
             Today’s total (VAT incl.)
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TOTAL_GAP}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
             {{ transaction_amount | money_without_trailing_zeros }}
           </td>
         </tr>
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TIGHT_GAP}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
             Total due {{ due_at_date }}
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TIGHT_GAP}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
             {{ payment_terms.next_payment.amount_due | money_without_trailing_zeros }}
           </td>
         </tr>
         {% else %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TOTAL_GAP}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
             Today’s total (VAT incl.)
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TOTAL_GAP}px;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
             {{ total_price | money_without_trailing_zeros }}
           </td>
         </tr>
@@ -173,10 +158,10 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% endif %}
 
           <tr>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TIGHT_GAP}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
               {{ transaction_name }}
             </td>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TIGHT_GAP}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
               {{ transaction.amount | money_without_trailing_zeros }}
             </td>
           </tr>
@@ -191,12 +176,12 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% assign refund_method_title = transaction.gateway %}
           {% endif %}
           <tr>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${TIGHT_GAP}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
               Refund
               <br>
               <small>{{ refund_method_title | replace: '_', ' ' | capitalize }}</small>
             </td>
-            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${TIGHT_GAP}px;">
+            <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
               - {{ transaction.amount | money_without_trailing_zeros }}
             </td>
           </tr>
