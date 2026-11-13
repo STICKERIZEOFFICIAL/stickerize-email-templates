@@ -8,21 +8,31 @@
  *
  *   final item or bundle -> Shipping         24px  (OrderTable's `gapBottom`)
  *   Shipping             -> Order discount   24px  (when the row shows)
- *   Shipping             -> Today's total    36px  (when it does not)
- *   Order discount       -> Today's total    36px
+ *   Order discount       -> Today's total    36px  (when the row shows)
+ *   Shipping             -> Today's total     4px  (when it does not)
  *
  * The discount row used to sit above Shipping, 4px from it like every other
- * row. It now sits between Shipping and the total, and the 36px before the
- * total holds whether it renders or not — when it is skipped, its gap goes
- * with it rather than leaving a spacer behind.
+ * row. It now sits between Shipping and the total. When no discount qualifies,
+ * the row and both of its gaps go away together — the summary reads exactly as
+ * it did before, rather than holding the missing row's space open.
  */
 
 /** Gap above a further row of the summary — today, the discount. */
 const ROW_GAP = 24;
-/** Gap immediately before Today's total, always. */
-const TOTAL_GAP = 36;
 /** Rows that belong with the one above them: the payment breakdown. */
 const TIGHT_GAP = 4;
+
+/**
+ * Gap above Today's total — resolved at send time, not here.
+ *
+ * 36px separates the total from an Order discount row above it. With no
+ * discount there is nothing to separate it from, and a fixed 36px would hold
+ * the hidden row's space open: the total would float away from Shipping for
+ * every order that has no discount, which is most of them. So when the row is
+ * skipped the total closes back up to Shipping at the 4px the summary rows
+ * always ran at.
+ */
+const TOTAL_GAP = `{% if total_order_discount_amount > epsilon %}36{% else %}${TIGHT_GAP}{% endif %}`;
 
 export function Total({ showRefund }: { showRefund?: boolean } = {}) {
   return /*html*/ `
