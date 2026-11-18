@@ -257,6 +257,11 @@ export const sampleData: Record<string, unknown> = {
     line_items: subtotalLineItems,
     cancel_reason: 'customer',
     note: null,
+    // The return notifications are scoped to a return, not an order, so they
+    // reach the order through `order.*`. Without these two their only button
+    // rendered with an empty href.
+    customer_order_url: 'https://stickerize.com/orders/1024',
+    order_status_url: 'https://stickerize.com/orders/status/sample',
   },
 
   order_name: '#1024',
@@ -350,24 +355,43 @@ export const sampleData: Record<string, unknown> = {
 
   // --- Refunds / returns ----------------------------------------------------
   refund_line_items: [{ line_item: subtotalLineItems[1], quantity: 1, subtotal: 600, price: 600 }],
-  refund_method_title: 'Visa ending in 4242',
-  refund_amount: 600,
+  // Shopify calls the refunded total `amount` in a refund notification, and
+  // that is what the template reads. The fixture had it as `refund_amount`,
+  // which nothing reads — so the refund email previewed as
+  // "We've refunded $0.00 USD".
+  //
+  // `refund_method_title` went the same way: Total assigns it from the
+  // transaction, so a fixture key of that name is shadowed before it is read.
+  amount: 600,
   return: {
     name: '#1024-R1',
-    decline_note:
-      'The items were marked as used, which falls outside our 30 day return policy.',
+    // `return.decline["note"]`, not `decline_note` — the templates read the
+    // nested shape, and with the flat key the declined email previewed with no
+    // reason in it at all.
+    decline: {
+      note: 'The items were marked as used, which falls outside our 30 day return policy.',
+    },
+    // `return-request-approved` opens with
+    // `assign return_delivery_first = return.deliveries | first`, so the
+    // carrier lines come from here. A top-level `return_delivery_first` in this
+    // fixture was shadowed by that assign and rendered as nothing.
+    deliveries: [
+      {
+        carrier_name: 'USPS',
+        tracking_number: '9405511899223817171719',
+        tracking_url:
+          'https://tools.usps.com/go/TrackConfirmAction?tLabels=9405511899223817171719',
+      },
+    ],
     return_line_items: [{ line_item: subtotalLineItems[1], quantity: 1 }],
   },
   return_label: {
     tracking_number: '9405511899223817171719',
     tracking_url: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=9405511899223817171719',
     carrier_name: 'USPS',
-    label_url: 'https://stickerize.com/returns/label.pdf',
-  },
-  return_delivery_first: {
-    tracking_number: '9405511899223817171719',
-    tracking_url: 'https://tools.usps.com/go/TrackConfirmAction?tLabels=9405511899223817171719',
-    carrier_name: 'USPS',
+    // `public_file_url` is the name the template reads; `label_url` was read by
+    // nothing, so the "Print return label" button had an empty href.
+    public_file_url: 'https://stickerize.com/returns/label.pdf',
   },
 
   // --- URLs -----------------------------------------------------------------

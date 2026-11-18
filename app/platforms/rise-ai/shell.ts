@@ -127,14 +127,23 @@ const PHOTO = style(
   'object-fit: cover',
 );
 
+/** One of the two squares in a photo row: the file, and what it shows. */
+export type Photo = { src: string; alt: string };
+
 /**
- * The two product squares the approved emails open on.
+ * The two product squares an email opens on.
  *
  * 49 / 2 / 49, in percentages because there is no stylesheet to stack them on
  * a phone — the columns have to hold their proportions at any width.
+ *
+ * **Both photos are required, deliberately.** Each email has its own artwork
+ * from the design set — `Email_4_Section_3_*` on Store credits,
+ * `Photo_*_stickers_product_shot_*` on Refund — and a default here would let
+ * one email quietly wear another's, which is exactly what happened when this
+ * function hardcoded the refund pair.
  */
-export function photos(): string {
-  const square = (src: string, alt: string) =>
+export function photos(left: Photo, right: Photo): string {
+  const square = ({ src, alt }: Photo) =>
     `${I(4)}<td width="49%" valign="top" style="${RESET}">` +
     `${I(5)}<img rise-element="img" src="${src}" width="344" height="344" border="0" alt="${alt}" style="${PHOTO}">` +
     `${I(4)}</td>`;
@@ -143,18 +152,32 @@ export function photos(): string {
     `<section rise-section="product_image" style="${SECTION}">` +
     `${I(3)}<table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" style="${RESET}">` +
     `${I(4)}<tr style="${RESET}">` +
-    square(
-      'https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Photo_holographic_stickers_product_shot_left.png?v=1793662793',
-      'Holographic stickers',
-    ) +
+    square(left) +
     `${I(4)}<td width="2%" style="${style(RESET, 'font-size: 0', 'line-height: 0')}">&nbsp;</td>` +
-    square(
-      'https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Photo_prism_stickers_product_shot_right_1.png?v=1793662808',
-      'Prism stickers',
-    ) +
+    square(right) +
     `${I(4)}</tr>${I(3)}</table>${I(2)}</section>`
   );
 }
+
+const CDN = 'https://cdn.shopify.com/s/files/1/0729/1394/4840/files/';
+
+/** Refund's pair, as the live template has it. */
+export const REFUND_PHOTOS: [Photo, Photo] = [
+  {
+    src: `${CDN}Photo_holographic_stickers_product_shot_left.png?v=1793662793`,
+    alt: 'Holographic stickers',
+  },
+  {
+    src: `${CDN}Photo_prism_stickers_product_shot_right_1.png?v=1793662808`,
+    alt: 'Prism stickers',
+  },
+];
+
+/** Store credits' own pair, from the design set. */
+export const STORE_CREDITS_PHOTOS: [Photo, Photo] = [
+  { src: `${CDN}Email_4_Section_3_1.jpg?v=1775045407`, alt: 'Stickers' },
+  { src: `${CDN}Email_4_Section_3_2.jpg?v=1775045405`, alt: 'Stickers' },
+];
 
 /** One full-width image — the gift card artwork Rise renders per recipient. */
 export function image(src: string, alt: string): string {

@@ -181,6 +181,7 @@ const RISE_AI: PlatformTemplate[] = [
     previewTextStatus: 'given',
     notes: [
       'CAUTION: other emails/new-rise.ai/store-credits.html is a 0-byte file. This carries the approved copy across from the old platform on the new variable names — diff it against Rise before release.',
+      'Keeps its own artwork from the design set (Email_4_Section_3_1 / _2), not the refund photos.',
       "The subject uses {{sender_first_name}} as supplied. On an email about the recipient's own cash back that looks like it wants {{recipient_full_name}} — worth a second look.",
     ],
   },
@@ -196,6 +197,7 @@ const RISE_AI: PlatformTemplate[] = [
     previewText: 'Your reward is ready to put toward your next batch of custom stickers.',
     previewTextStatus: 'given',
     notes: [
+      "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
       "Rise's default set the amounts out as a label-and-value grid. They read in the copy here, the way they do on the refund email.",
     ],
   },
@@ -211,6 +213,9 @@ const RISE_AI: PlatformTemplate[] = [
     previewText:
       'We have added store credit to your Stickerize account. Thanks for giving us a chance to make things right.',
     previewTextStatus: 'given',
+    notes: [
+      "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
+    ],
   },
   {
     slug: 'referral',
@@ -224,6 +229,7 @@ const RISE_AI: PlatformTemplate[] = [
     previewText: 'Your friend placed their first order. Thanks for sharing Stickerize!',
     previewTextStatus: 'given',
     notes: [
+      "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
       "Rise's default closed on a social row and a second website link. Dropped — this tab's footer has carried neither since the design-system pass, and the wordmark under it is already the link home.",
     ],
   },
@@ -257,6 +263,7 @@ const RISE_AI: PlatformTemplate[] = [
     previewText: 'Check your Stickerize wallet to see how much credit you have available.',
     previewTextStatus: 'given',
     notes: [
+      "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
       'Reads the balance and code off {{gift_card_balance}} / {{gift_card_code}}, not the {{wallet_*}} names the other credit emails use. That is how the export has it, so it is left alone — but send a test, because two naming schemes in one platform is how a line turns up empty.',
       'No expiry line, matching the export: this is a statement of what is held, not news.',
     ],

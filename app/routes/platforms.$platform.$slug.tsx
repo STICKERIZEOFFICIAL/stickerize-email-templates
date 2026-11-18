@@ -19,6 +19,29 @@ import { useNarrowViewport } from '~/platforms/useNarrowViewport';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: platformStyles }];
 
+/**
+ * A "Copied ✓" label that goes back to itself.
+ *
+ * Duplicated from the Shopify view rather than shared, the same way
+ * `useNarrowViewport` is: this compartment imports nothing from that one.
+ *
+ * A plain boolean cannot register a second copy — setting true when it is
+ * already true changes nothing and the timer never restarts. Storing when it
+ * happened does both.
+ */
+function useCopied(resetKey: string) {
+  const [copiedAt, setCopiedAt] = useState(0);
+
+  useEffect(() => setCopiedAt(0), [resetKey]);
+  useEffect(() => {
+    if (!copiedAt) return;
+    const timer = setTimeout(() => setCopiedAt(0), 2000);
+    return () => clearTimeout(timer);
+  }, [copiedAt]);
+
+  return [copiedAt > 0, () => setCopiedAt(Date.now()), () => setCopiedAt(0)] as const;
+}
+
 export async function loader({ params }: LoaderFunctionArgs) {
   const { platform, slug } = params;
   if (!isPlatformId(platform)) {
@@ -96,7 +119,7 @@ export default function PlatformTemplateView() {
   const [showSource, setShowSource] = useState(false);
   const [width, setWidth] = useState<Width>('desktop');
   const [scheme, setScheme] = useState<Scheme>('light');
-  const [copied, setCopied] = useState(false);
+  const [copied, markCopied, clearCopied] = useCopied(data.slug);
   const [navOpen, setNavOpen] = useState(false);
 
   const narrow = useNarrowViewport();
@@ -118,7 +141,6 @@ export default function PlatformTemplateView() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [data.previous, data.next, data.platform, navigate]);
 
-  useEffect(() => setCopied(false), [data.slug]);
   useEffect(() => setNavOpen(false), [data.slug]);
 
   useEffect(() => {
@@ -133,9 +155,9 @@ export default function PlatformTemplateView() {
   async function copySource() {
     try {
       await navigator.clipboard.writeText(data.source);
-      setCopied(true);
+      markCopied();
     } catch {
-      setCopied(false);
+      clearCopied();
     }
   }
 

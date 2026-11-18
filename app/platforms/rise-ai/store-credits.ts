@@ -1,4 +1,13 @@
-import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from './shell';
+import {
+  button,
+  codeBox,
+  expiration,
+  photos,
+  riseEmail,
+  smallPrint,
+  STORE_CREDITS_PHOTOS,
+  text,
+} from './shell';
 
 /**
  * CAUTION: `other emails/new-rise.ai/store-credits.html` is a **0-byte file**,
@@ -15,7 +24,7 @@ import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from
  */
 export default function () {
   return riseEmail([
-    photos(),
+    photos(...STORE_CREDITS_PHOTOS),
     text("Thanks for ordering. Here's {{issued_credit_amount}} back.", [
       'Your cash back is in, and you now have {{total_wallet_balance}} in credit for your next order.',
       'Your code has been saved to your account. Log in with this email address and hit "Apply your credits" in the cart.',

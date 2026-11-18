@@ -62,7 +62,14 @@ pasted into Rise is still the whole fragment.
   views for Rise.ai, Stamped and Klaviyo.
 - **Copy Liquid** / **Download** give you the *unrendered* source — that is what
   gets pasted into Shopify (Settings → Notifications → Customer notifications).
-  The rendered HTML in the iframe is for looking at only.
+  The rendered HTML in the iframe is for looking at only. The other tabs carry
+  the same pair as **Copy HTML** / **Download**, since those platforms take
+  plain HTML rather than Liquid.
+
+  Copy is the one to reach for: the clipboard is where the template is going
+  anyway, and it skips the round trip through the downloads folder. Both hand
+  over the identical bytes — the template's own output, never the rendered
+  preview.
 - Controls that change how the **email** renders — Desktop/Mobile, Light/Dark,
   language — sit on the email frame itself. None of them touch the app around
   it. See [Dark mode](#dark-mode).

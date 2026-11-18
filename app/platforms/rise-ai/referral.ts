@@ -1,4 +1,4 @@
-import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from './shell';
+import { button, codeBox, expiration, riseEmail, smallPrint, text } from './shell';
 
 /**
  * Restyled from `other emails/new-rise.ai/referral.html`.
@@ -7,10 +7,13 @@ import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from
  * row. It is dropped: this tab's footer has carried neither a social row nor a
  * second website link since the design-system pass, and the wordmark under the
  * footer is already the link home. Say the word and it comes back.
+ *
+ * No photo row. Rise's export has none for this email, and the design set has
+ * no pair named for it — rather than borrow the refund's artwork, it opens on
+ * the heading. `photos(left, right)` takes a pair the moment one is chosen.
  */
 export default function () {
   return riseEmail([
-    photos(),
     text('Your friend just made a purchase that earned you a reward!', [
       'You just got {{issued_credit_amount}} for your successful referral at {{business_name}}.',
       'That puts your balance at {{total_wallet_balance}}.',

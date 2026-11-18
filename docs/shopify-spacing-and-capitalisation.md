@@ -155,6 +155,138 @@ introductory paragraph — `Order **#1024**` — across the eleven templates tha
 used to draw a bordered box. The PO number follows the same pattern, and the
 pending-payment instructions block is untouched.
 
+> **Partly reversed since.** An `ORDER NUMBER` row is back in the
+> `CustomerInfo` panel — see [The customer-info panel's order-number
+> row](#the-customer-info-panels-order-number-row) below. The bordered box is
+> still gone, and the bold number in the body copy stays; the number now
+> appears twice on most emails, which is the deliberate change.
+
+## The customer-info panel's order-number row
+
+The panel carried an **Estimated delivery** row that never rendered. It was
+conditional on `consolidated_estimated_delivery_time`, which Shopify does not
+populate on these notifications, so the condition was always false and the row
+never appeared on a single email.
+
+It is now an **ORDER NUMBER** row, the first row of the panel, on all eleven
+templates that carry it. That reverses the brief's "remove the standalone
+order-number box wherever it appears" to the extent of this one row: a reader
+scanning the summary panel for order facts was the case the brief did not
+cover.
+
+The value is `ORDER_NUMBER_VALUE` from `orderNumber.ts` — the same fallback
+chain the body copy uses — not the bare `{{ order_name }}` the row carried
+before it was removed. That variable is empty on most of these notifications,
+which is the other half of why the row was blank even when it did render.
+
+`showEstimatedDelivery` is gone from `CustomerInfo`; nothing is conditional
+about the new row.
+
+## Liquid variable review
+
+Every variable the 28 templates read, checked against
+[Shopify's notification variable reference](https://help.shopify.com/en/manual/fulfillment/setup/notifications/email-variables).
+
+**The templates came out correct.** Nothing was reading a variable that does
+not exist, and nothing was using one outside the notification it belongs to.
+Two things are worth writing down:
+
+- The help page is **not exhaustive**. `shop.url`, `po_number`,
+  `total_outstanding`, `custom_message`, `email_title`, `transaction_id`,
+  `checkout_payment_collection_url`, `return_label.*`, `payment_terms.type` /
+  `.translated_name` / `.next_payment` / `.automatic_capture_at_fulfillment`
+  and the whole `transaction.*` family are absent from it, yet every one is
+  used by Shopify's own default notification templates, which is where these
+  came from. The page also documents no return-notification scope at all. A
+  name missing from that page is not evidence of a bug.
+- `line.bundle_components` and `line.bundle_parent?` are **draft-orders-only**
+  per the page, and both sit behind `{% assign expand_bundles = false %}` in
+  `OrderTable` — dead either way. Bundles reach the order emails through
+  `line_item_groups` instead, which is the path the preview exercises. The dead
+  branch is inherited from Shopify's default template, where `expand_bundles`
+  is a real setting. Harmless, removable.
+
+### What the review did find: four fixture gaps
+
+All preview-only. The Liquid was right in every case; `sample-data.ts` was
+supplying a different shape, so the preview rendered a blank where a real send
+would not.
+
+| Template | Read by the Liquid | The fixture had | Previewed as |
+|---|---|---|---|
+| Order refund | `amount` | `refund_amount` | **"We've refunded $0.00 USD"** |
+| Return declined | `return.decline["note"]` | `return.decline_note` | no reason given at all |
+| Return approved | `return.deliveries` | a top-level `return_delivery_first`, shadowed by the template's own `assign` | no carrier, no tracking number |
+| USPS label, both return emails | `return_label.public_file_url`, `order.customer_order_url`, `order.order_status_url` | `return_label.label_url`, no URLs on `order` | buttons with an empty `href` |
+
+`refund_method_title` is in the fixture too and is read by nothing: `Total`
+assigns it from the transaction, so a fixture key of that name is shadowed
+before anything can read it.
+
+### How they were found, and what that misses
+
+Two passes, because neither catches everything on its own:
+
+1. every `{{ output }}` and `{% tag %}` across the 28 rendered templates,
+   minus the locals each one assigns, cross-referenced against the fixture's
+   top-level keys;
+2. every rendered page scanned for an empty `href`, `mailto:` or `src`.
+
+The first misses a dotted path whose parent exists but whose leaf does not;
+the second misses a blank that is not a link. The decline note was caught by
+neither and turned up on a read-through. **A blank is the failure mode that
+hides** — the email still sends, the line simply is not there, which is how the
+Estimated delivery row survived as long as it did.
+
+## Line-item rules: grey between, black at the end
+
+The rules in the order table were all 1px `#000001`, which made the one under
+the last item look like one more divider between items. It is not: it is the
+line that separates the order from its totals.
+
+So rules **between** items are now `#c9c7c5` — the grey the table already uses
+for a compare-at price, not a new token — and the **last** rule stays black.
+Nothing else about the table changes: same 1px, same position, same 24px either
+side, so the layout is identical.
+
+### Knowing which row is last
+
+Harder than it looks, and `forloop.last` is the wrong answer. Two loops run in
+sequence over different collections:
+
+1. `subtotal_line_items`, which **skips** any item belonging to a bundle, so
+   its last iteration is often not its last rendered row;
+2. `line_item_groups`, the bundles, which render after — so whenever there is
+   one, the black rule belongs to this loop.
+
+Both are counted before either runs: `ungrouped_count` and `group_count`. An
+item takes the black rule only when it is the last ungrouped item *and* there
+are no groups behind it; a group takes it on `forloop.last`.
+
+Verified against eight shapes — one item, several, one group, several groups,
+items followed by groups, a grouped item sitting last in the collection, and an
+empty order. Exactly one black rule in every non-empty case, always last, and
+none when there is nothing to draw.
+
+## The summary row order
+
+**Order discount** now comes **first**, above Shipping:
+
+    Order discount   -$5
+    Shipping         Free
+    Today's total    $36
+
+It used to sit between Shipping and the total, which is what
+`docs/Stickerize-Shopify-Email-Changes-for-Claude (1).md` asked for. In
+practice that read as though the discount were taken off the shipping line —
+exactly what it is not. A shipping discount is netted off the Shipping row
+itself; this row is the merchandise discount on the order.
+
+One side still owns each gap, but which row is first now depends on whether
+the discount qualifies, so the gap above Shipping is computed —
+`first_row_gap`, 4px when the discount renders and 0 when it does not. The
+24px down from the last line item stays the order table's either way.
+
 ## The order number
 
 `{{ name }}` and `{{ order_number }}` are not interchangeable: the first

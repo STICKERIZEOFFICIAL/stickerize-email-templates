@@ -1,18 +1,22 @@
 /**
- * The order summary: the rows that follow the line items — Shipping, the
- * optional order-wide discount, and the total.
+ * The order summary: the rows that follow the line items — the optional
+ * order-wide discount, Shipping, and the total.
+ *
+ * The discount leads. Sitting between Shipping and the total it read as though
+ * it were taken off the shipping line, which is exactly what it is not: a
+ * shipping discount is netted off the Shipping row itself, and this row is the
+ * merchandise discount on the order.
  *
  * One side owns each gap, as everywhere else: a row's `padding-top` is the
  * whole of the gap above it, and the order table above contributes nothing
  * beyond its own 24px.
  *
- *   final item or bundle -> Shipping         24px  (OrderTable's `gapBottom`)
+ *   final item or bundle -> first row        24px  (OrderTable's `gapBottom`)
  *   every row after the first                 4px
  *
- * The summary is one block of rows, so they all sit at the same 4px. The
- * discount row's only job is to slot in between Shipping and the total when
- * an order-wide discount qualifies; it changes nothing around it, and the
- * summary reads identically whether or not it is there.
+ * Which row is first now depends on whether the discount qualifies, so the gap
+ * above Shipping is computed rather than fixed — see `first_row_gap`. The
+ * summary still reads as one block either way.
  */
 
 /** Every row of the summary below the first. */
@@ -46,15 +50,42 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
         {% assign shipping_amount = shipping_amount | plus: discount_application.total_allocated_amount %}
       {% endif %}
     {% endfor %}
+    {% comment %}
+      Which row opens the summary, and therefore owns no gap above it.
+
+      The discount comes first when there is one, so the gap belongs to
+      Shipping; with no discount, Shipping opens the block and takes 0. One
+      side owns each gap either way, and the 24px down from the last line item
+      stays the order table's.
+    {% endcomment %}
+    {% assign first_row_gap = 0 %}
+    {% if total_order_discount_amount > epsilon %}
+      {% assign first_row_gap = ${ROW_GAP} %}
+    {% endif %}
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <!-- Shipping, or Pickup. The first row of the summary, so nothing on
-             top: the 24px down from the last item is the order table's. -->
-        {% if delivery_method == 'pick-up' %}
+        <!-- Order discount: shown only for a confirmed, positive, order-wide
+             merchandise discount. It leads the summary so that it reads
+             against the order it discounts — directly above Shipping, it read
+             as though it were taken off the shipping line. No row, and nothing
+             left behind, when there is none. -->
+        {% if total_order_discount_amount > epsilon %}
         <tr>
           <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: 0;">
-            Pickup
+            Order discount
           </td>
           <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: 0;">
+            -{{ total_order_discount_amount | money_without_trailing_zeros }}
+          </td>
+        </tr>
+        {% endif %}
+
+        <!-- Shipping, or Pickup. -->
+        {% if delivery_method == 'pick-up' %}
+        <tr>
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ first_row_gap }}px;">
+            Pickup
+          </td>
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ first_row_gap }}px;">
             {{ shipping_price | money_without_trailing_zeros }}
           </td>
         </tr>
@@ -64,29 +95,15 @@ export function Total({ showRefund }: { showRefund?: boolean } = {}) {
           {% assign shipping_amount_due = shipping_price | minus: shipping_amount %}
         {% endif %}
         <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: 0;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: {{ first_row_gap }}px;">
             Shipping
           </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: 0;">
+          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: {{ first_row_gap }}px;">
             {% if shipping_amount_due < epsilon %}
               Free
             {% else %}
               {{ shipping_amount_due | money_without_trailing_zeros }}
             {% endif %}
-          </td>
-        </tr>
-        {% endif %}
-
-        <!-- Order discount: shown only for a confirmed, positive, order-wide
-             merchandise discount, and slotted in at the same 4px as the rows
-             around it. No row, and nothing left behind, when there is none. -->
-        {% if total_order_discount_amount > epsilon %}
-        <tr>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-top: ${ROW_GAP}px;">
-            Order discount
-          </td>
-          <td class="mfz-14 mlh-17" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-top: ${ROW_GAP}px;">
-            -{{ total_order_discount_amount | money_without_trailing_zeros }}
           </td>
         </tr>
         {% endif %}
