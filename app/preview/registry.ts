@@ -1,4 +1,5 @@
 import { DEFAULT_LOCALE, type LocaleCode } from '~/preview/locales';
+import { PAYMENT_TERMS } from '~/preview/sample-data';
 import globalFooter from '~/templates/global/footer';
 import globalHeader from '~/templates/global/header';
 import abandonedCheckout from '~/templates/shopify/abandoned-checkout';
@@ -139,6 +140,10 @@ export const TEMPLATES: Template[] = [
     description: 'Invoice for a draft or unpaid order.',
     subject: 'Invoice {{ name }}',
     render: orderInvoice,
+    // The only template whose subject is payment terms — its opening sentence
+    // is the due date. Every other email is a card paid at checkout, so the
+    // fixture carries no terms and their PAYMENT METHOD row is the card alone.
+    data: { payment_terms: PAYMENT_TERMS },
   },
   {
     slug: 'order-canceled',

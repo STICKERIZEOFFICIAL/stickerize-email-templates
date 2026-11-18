@@ -46,6 +46,12 @@ A tab bar on every gallery switches between the four. See
 each tab, what was changed to bring them onto the design system, and what is
 still waiting on a decision.
 
+Rise.ai has since moved to a new email platform, which has no global theme and
+no stylesheet — each of its eight emails is one self-contained, inline-styled
+fragment. The chrome they share is composed here instead, in
+`app/platforms/rise-ai/shell.ts`, so eight files cannot drift apart; what gets
+pasted into Rise is still the whole fragment.
+
 ## Using the preview
 
 - `/` — gallery of all Shopify templates, grouped by lifecycle stage, with
@@ -141,6 +147,14 @@ as integers in cents. Two things to keep in mind when extending it:
 
 - An empty string is **truthy** in Liquid. Use `null` wherever Shopify would
   omit the field, or `{% if %}` takes the wrong branch.
+- The order is **paid by card at checkout**, which is what Shopify's payment
+  method row returns: the card mark, then `ending with 4242`. There are no
+  payment terms on the fixture — with them set, every email carrying
+  `CustomerInfo` printed a `Net 30: Due …` line above the card that no customer
+  receives. Terms live on `order-invoice` alone, through its registry `data`.
+  `payment_icon_png_url` has no local equivalent, so the preview stands a
+  labelled card in for Shopify's brand artwork rather than a blank one — drop
+  the brand and the line reads `ending with 4242` with nothing in front of it.
 - `liquid.server.ts` implements only the Shopify filters these templates use
   (`money*`, `img_url`, `shopify_asset_url`, `payment_*_url`, `format_address`,
   and the `date: format:` form). Add to it if a template needs another one.

@@ -1,14 +1,14 @@
 import klaviyoKit from '~/platforms/klaviyo/kit';
-import { riseStyles } from '~/platforms/rise-ai/global-theme';
 import type { PlatformId } from '~/platforms/tokens';
 
 /**
  * Makes a previewable document out of whatever a template happens to be.
  *
  * Only some of these templates are whole emails. Stamped's are complete HTML
- * documents; the Rise.ai Global theme is a `<style>` plus a `<div>`; every
- * Klaviyo block is a bare `<table>` fragment whose classes (`kl-text`, `btn`,
- * `l-white`) are declared in the kit's head, not in the fragment.
+ * documents; a Rise.ai email is a self-contained `<div>` that styles itself
+ * inline; every Klaviyo block is a bare `<table>` fragment whose classes
+ * (`kl-text`, `btn`, `l-white`) are declared in the kit's head, not in the
+ * fragment.
  *
  * Dropped into an iframe unwrapped, a fragment renders on white with no base
  * styles and reads as broken when it is fine. So a fragment gets a shell: the
@@ -59,7 +59,11 @@ const COLUMN: Record<PlatformId, number> = {
 function baseStyles(platform: PlatformId): string {
   switch (platform) {
     case 'rise-ai':
-      return riseStyles();
+      // Nothing to add. Rise's new platform has no stylesheet slot, so every
+      // rule in those emails is already an inline style — and handing the
+      // preview a stylesheet the recipient will never get would make it show
+      // an email that does not exist.
+      return '';
     case 'klaviyo':
       return klaviyoBaseStyles();
     case 'stamped':

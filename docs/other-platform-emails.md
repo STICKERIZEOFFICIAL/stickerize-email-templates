@@ -35,7 +35,7 @@ silently blank:
 
 | Platform | Syntax | Pasted into |
 |---|---|---|
-| Rise.ai | `{{shop_url}}`, `{{{#expiration_date}}}` | Rise.ai → Email settings → Global theme, then each notification body |
+| Rise.ai | `{{wallet_code}}`, `{{#gift_card_expiration}}` | Rise.ai → Emails → the template's HTML |
 | Stamped | `##couponCode##`, a few `{{label_*}}` | Stamped → Settings → Emails |
 | Klaviyo | `{% unsubscribe_link %}` | Klaviyo → the campaign's HTML block |
 
@@ -45,23 +45,24 @@ deliverable. Any token with no sample is outlined in the preview rather than
 rendered blank, so a missing variable is visible instead of reading as missing
 copy.
 
-Rise.ai is the one that composes: the Global theme holds the header, footer and
-dark-mode CSS with a `{{{body}}}` slot, and each notification supplies only the
-body. The preview wraps them together; **Download hands over the body alone**,
-because the body is the field being edited.
+Nothing composes at paste time any more. Rise.ai used to: a Global theme held
+the header, footer and dark-mode CSS with a `{{{body}}}` slot, and each
+notification supplied only the body. Its new platform has no theme slot, so
+every template in this compartment is now whole, and Download hands over the
+whole thing.
 
 ## Dark mode differs by platform
 
-Rise.ai ships real dark-mode CSS — `prefers-color-scheme` plus `[data-ogsc]`
-for Outlook, driving `dm-invert` / `dm-line` / `dm-muted` / `dm-btn`. Stamped
-and Klaviyo declare none.
+Rise.ai **used to** ship real dark-mode CSS — `prefers-color-scheme` plus
+`[data-ogsc]` for Outlook, driving `dm-invert` / `dm-line` / `dm-muted` /
+`dm-btn` — in the Global theme its old platform gave it. The new platform has
+no theme and no stylesheet slot, so those rules have nowhere to live. The
+`dm-*` hooks are still on the markup and cost nothing; nothing drives them.
 
-So the toggle does different things, and says which under the frame:
-
-- **Rise.ai** — the authored design, applied unconditionally (an iframe cannot
-  be told the OS prefers dark).
-- **Stamped, Klaviyo** — a simulation of a client forcing inversion, same as
-  the Shopify views.
+So all three platforms are now simulated — a client forcing inversion, same as
+the Shopify views — and the frame says so. Give Rise.ai somewhere to paste a
+stylesheet and its dark design comes back by flipping one entry in
+`dark-mode.ts`; the hooks it needs never left.
 
 Light is not a no-op either. A template carrying `prefers-color-scheme` rules
 renders its dark design whenever the *viewer's* machine is in dark mode, which
@@ -76,20 +77,25 @@ diverge from what was supplied; the other ten are byte-identical.
 
 ### Rise.ai
 
+Rise has since **migrated to a new email platform**, and this tab now holds its
+eight emails rather than the old four. See
+[The Rise.ai migration](#the-riseai-migration) below for what that changed.
+
+The original pass against the old platform, kept because the same decisions
+carried forward:
+
 - **Global theme** — `h1`/`h2` were Arial Black 18/22 and 16/20, `p` was 15/18,
   `.button` 14px/22px padding, `.hr` carried its own 20px margin. All moved to
   the system's 13px Courier (bold uppercase 13/13 heading, 13/17 body, 23px
-  button padding, no divider margin). These rules are dormant today because
-  every body styles inline — but Rise's WYSIWYG emits bare `<p>` and `<h1>`, so
-  the old values would reappear the moment anyone edits a body in the admin.
+  button padding, no divider margin). *The Global theme no longer exists — the
+  new platform has no field to paste it into.*
 - **Welcome, Store credits received, Refund to credit** — the gap between a
   heading and its body was 12px throughout; it is now 24px, with 12px kept
   between sibling blocks and between an eyebrow and its heading. 7 gaps.
 - **Header rule** — moved onto an inner cell so it is inset by 12px like every
   other divider. A cell's border spans its own padding, so with the border on
-  the padded cell the line ran the full width of the column. The dark-mode
-  rules follow it to `.header-inner`. Same fix in the Shopify `Header` and both
-  Stamped templates.
+  the padded cell the line ran the full width of the column. Same fix in the
+  Shopify `Header` and both Stamped templates.
 
 ### Stamped
 
@@ -166,6 +172,115 @@ anyway. The page background in a CSS `url()` was the last one.
   out for exactly that reason, so it is now disabled here too. The `sup` rule
   in the same block is untouched.
 
+### The first Klaviyo email
+
+`How creators turn work into stickers` is the first actual campaign in that tab
+— the post-purchase flow email that goes out 42 days after fulfilment (template
+`UJkp6d`). It was supplied as a brief plus the live export, in
+`other emails/klaviyo/how-creators-turn-work-into-stickers-template.md`.
+
+It is **composed from this tab's blocks**, not pasted from the export: the same
+head, masthead, heading, paragraph, two-up image row, CTA and footer the kit
+uses. So the four differences from the live email are the four decisions
+already made for the tab, applied again:
+
+| | Live export | Here |
+|---|---|---|
+| Masthead | the 724px `STICKERIZE` wordmark | the 188×30 logo over a 1px `#000001` rule, inset 12px |
+| Button | JetBrains Mono 300, `ico_arrow_right.png` | Courier New, text `→` |
+| Block gaps | `padding: 12px` all round, so every gap landed on 24px | one side owns each gap — 24px inside a section, 36px on the block that closes one |
+| Footer | five stacked rows on `#e1e0dd` hairlines, plus a social row | the 288 / 16 / 396 two-column footer with the wordmark beneath |
+
+The wordmark masthead is the same thing the kit's own masthead was changed away
+from, and it already closes the email in the footer, so running it twice was
+the thing to drop. Two footer links go with it: **GO TO STICKERIZE**, whose
+destination the logo and every image already link to, and the **FOLLOW US**
+social row, which this tab's footer does not carry. Both are copy decisions
+rather than fixes — say the word and either comes back.
+
+Unlike the rest of the tab its inbox lines are **given, not proposed**: the
+subject comes from the flow, and the preview text — "A few collaborations we've
+loved" — is hardcoded in the hidden preheader because the flow's own preview
+text field is empty. That is why this one template does not use
+`{% render_variable preview_text %}`.
+
+## The Rise.ai migration
+
+Rise moved to a new email platform. The export of it is in
+`other emails/new-rise.ai/`, alongside the subject and preview-text list in
+`stickerize-rise-email-subjects.md`. Three things are different in kind:
+
+| | Old platform | New |
+|---|---|---|
+| Composition | a Global theme with a `{{{body}}}` slot, edited once; each email supplied a body | no theme and no stylesheet slot — each email is one whole self-contained fragment |
+| Styling | classes, driven by the theme's stylesheet | inline styles only; a class with nothing behind it does nothing |
+| Sections | `{{{#name}}} … {{{/name}}}` | `{{#name}} … {{/name}}` |
+| Emails | 4 | 8 |
+
+**Global theme and Welcome are retired.** There is no theme field any more, and
+no Welcome email was exported. The old HTML is still in `other emails/rise.ai/`
+if either is ever wanted back.
+
+**Dark mode is the real loss.** The theme was the only place the `prefers-color-scheme`
+rules could live, and the new platform has nowhere to put them — so Rise.ai
+joins Stamped and Klaviyo on client inversion. The `dm-*` hooks are still on
+every element, so the design returns the day Rise exposes a stylesheet.
+
+### Composed here, not there
+
+The platform not composing does not mean we cannot. Copying a header and a
+two-column footer into eight files by hand is how eight files drift, so the
+chrome and the blocks live once in `app/platforms/rise-ai/shell.ts` and each
+template supplies only its sections. `render()` still returns the whole
+fragment, byte for byte what gets pasted into Rise.
+
+`shell.ts` also merges inline styles so each property is declared once. Stacking
+a base and an override as text gives `padding: 0; padding: 0 12px` — right by
+the cascade, but it leaves two answers in the attribute for a client's sanitiser
+to choose between.
+
+### What changed in each
+
+- **Refund** — arrived already on the design system; it is our own template,
+  re-exported. The new editor had flattened two things, and both are put back:
+  the heading sits 24px from its body again rather than 12px, and the header
+  rule is back on an inner cell instead of running the full width of the column.
+- **Store credits** — `store-credits.html` **is a 0-byte file**. The approved
+  copy is carried across from the old platform on the new variable names.
+  **Diff it against Rise before release.**
+- **Cashback, Compensation, Referral, Wallet, Gift card, Print-at-home** — Rise
+  defaults in Helvetica with a 20px grey lead and the amounts in a
+  label-and-value grid. Every sentence is kept; the figures now read in the copy
+  the way they do on the refund email, because the system has one boxed code and
+  one expiry line rather than a table.
+- All six dropped Rise's `Hi {{ recipient_full_name }}` opener, because neither
+  approved template has one and the heading is the first thing the design shows.
+- Referral dropped Rise's social row and second website link, which this tab's
+  footer has not carried since the design-system pass.
+
+### Found on the way, and worth a test send
+
+- **The refund heading said `€€5.00`.** It hardcoded a euro sign in front of
+  `{{issued_credit_amount}}`, and Rise formats that amount with its own currency
+  symbol — every other template in the export uses the variable bare. The sign
+  is removed. **The old platform's template had the same bug**, so this has been
+  going out for a while.
+- **Wallet reads `{{gift_card_balance}}` and `{{gift_card_code}}`**, not the
+  `{{wallet_*}}` names the other credit emails use. That is how the export has
+  it, so it is left alone — but two naming schemes in one platform is how a line
+  turns up empty in a live send.
+- **The Store credits subject is `{{sender_first_name}}, your cash back is in
+  your account`**, as supplied. On an email about the recipient's own cash back
+  that looks like it wants `{{recipient_full_name}}`.
+- **The product squares** now open five emails that had no image at all in
+  Rise's export (cashback, compensation, referral, wallet, store credits),
+  matching the two approved templates. Gift card keeps Rise's own
+  `{{greeting_image_url}}` artwork and print-at-home has none. Say the word if
+  any of those should differ.
+- **Buttons link to `https://stickerize.com`**, following the approved refund
+  template. Rise's own defaults used `{{shop_url}}`, which would follow the
+  shop's locale — one line in `shell.ts` switches all eight.
+
 ## Still open
 
 Nothing below is blocking, but each is a decision someone else owns.
@@ -178,44 +293,48 @@ for these platforms, so every subject and preview text in the registry is
 
 | Email | Proposed subject |
 |---|---|
-| Rise.ai — Welcome | Your Stickerize account is ready |
-| Rise.ai — Store credits received | You have `{{store_credit_added}}` in store credit |
-| Rise.ai — Refund to credit | Your refund is now store credit |
 | Stamped — Review request | How did your stickers turn out? |
 | Stamped — Coupon | Here is the code we promised |
 
+Rise.ai is no longer on that list. Its eight subjects and preview texts were
+supplied with the migration, in
+`other emails/new-rise.ai/stickerize-rise-email-subjects.md`, and are marked
+**given** in the registry.
+
 Stamped's coupon is the only template here that already ships a preheader.
-**Rise.ai has no preheader block at all**, so all three of its emails currently
-let the client scrape the top of the email; adding one means a change to the
-Global theme. Klaviyo sets both lines in its own campaign editor.
+**Rise.ai has no preheader block**, and the new platform has no theme to add
+one to, so its preview texts are set in Rise's own admin — the list supplied
+with the migration is what goes in those fields. Klaviyo sets both lines in its
+own campaign editor.
 
 ### Two briefs disagree about Rise.ai
 
 `docs/email-style-changes.md` is the approved Rise.ai brief and conflicts with
 both the files on disk and the Shopify brief:
 
-- It specifies an **SVG logo** `Main_logo_…svg` at 188×24; `global-theme.html`
+- It specifies an **SVG logo** `Main_logo_…svg` at 188×24; every template
   ships `Frame_Logo_-_Stickerize_Emails.png` at 168×26. The brief's own open
   question — a PNG export for Gmail and Outlook, which do not render SVG — does
-  not appear to have been answered. **The PNG on disk was kept.**
+  not appear to have been answered. **The PNG was kept**, and it survived the
+  migration unchanged.
 - It states `section { margin: 24px 0 }` is Rise.ai's only vertical rhythm. The
   Shopify brief asks for **36px between distinct sections**. These cannot both
   hold. The 24px rhythm was kept, because changing it contradicts a written
   approved brief and would double the separation either side of every divider.
   **This one needs a decision.**
-- It names a "Reward (cashback)" email. On disk that appears to be
-  `store-credits-recieved.html` (note the filename typo). Confirm the naming.
-- `{{balance}}` and `{{unsubscribe_url}}` are still unconfirmed as real Rise
-  variables. Send a test before release.
+- It names a "Reward (cashback)" email. The new platform has both a **Cashback**
+  and a **Store credits** email, which may be the same thing twice. Confirm.
+- `{{unsubscribe_url}}` is still unconfirmed as a real Rise variable. Send a
+  test before release. (`{{balance}}` is gone — the new platform calls it
+  `{{total_wallet_balance}}`.)
 
 ### Footer columns differ three ways
 
-Shopify 288 / 16 / 396, Rise.ai 266 / 40 / 394, Klaviyo a stacked single
-column. The Rise.ai brief specifies 266 / 40 / 394 explicitly, so it was left
-alone rather than unified by fiat. Unifying them is a decision, not a fix.
+Shopify 288 / 16 / 396, Rise.ai 266 / 40 / 394, Klaviyo 288 / 16 / 396. The
+Rise.ai brief specifies 266 / 40 / 394 explicitly, so it was left alone rather
+than unified by fiat. Unifying them is a decision, not a fix.
 
 Rise.ai and Klaviyo footers carry an **unsubscribe** link; Shopify's does not.
-Klaviyo's carries **social icons**; nothing else does.
 
 ### Smaller questions
 
@@ -226,8 +345,8 @@ Klaviyo's carries **social icons**; nothing else does.
   Google Fonts and mixed both within one kit. Stamped takes the family from its
   own admin via `##fontFamilyUrl##`. Courier New was used as the system face
   throughout this pass; if that is wrong, it is a one-line change per platform.
-- **No Klaviyo campaigns were supplied** — that tab is a component library, not
-  a set of emails.
+- **Only one Klaviyo campaign has been supplied** — the collaborator email
+  above. The rest of that tab is still a component library.
 - Every sample value in `tokens.ts` is invented. The URLs point at real
   Stickerize paths; the codes, names and amounts are plausible but made up.
 

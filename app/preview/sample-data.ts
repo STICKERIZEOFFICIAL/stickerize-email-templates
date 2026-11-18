@@ -59,6 +59,23 @@ export const ORDER_WIDE_DISCOUNT = {
 /** The fixture's discounts with an order-wide one layered on. */
 export const DISCOUNTED_APPLICATIONS = [ITEM_DISCOUNT, ORDER_WIDE_DISCOUNT];
 
+/**
+ * Net 30, for the one template whose subject is payment terms.
+ *
+ * Kept off the shared fixture: terms are a B2B / draft-order arrangement, and
+ * with them set every email carrying `CustomerInfo` printed a due-date line
+ * above the card. The invoice layers this on through its registry `data`.
+ */
+export const PAYMENT_TERMS = {
+  translated_name: 'Net 30',
+  payment_terms_name: 'Net 30',
+  due_in_days: 30,
+  next_payment: { due_at: '2026-12-08T00:00:00-05:00', amount_due: 1200 },
+  payment_schedules: [
+    { due_at: '2026-12-08T00:00:00-05:00', amount_due: 1200, completed_at: null },
+  ],
+};
+
 const shippingAddress = {
   first_name: 'Mia',
   last_name: 'Kowalski',
@@ -306,15 +323,13 @@ export const sampleData: Record<string, unknown> = {
   transaction,
   transactions: [transaction],
   transaction_id: 4821907364,
-  payment_terms: {
-    translated_name: 'Net 30',
-    payment_terms_name: 'Net 30',
-    due_in_days: 30,
-    next_payment: { due_at: '2026-12-08T00:00:00-05:00', amount_due: 1200 },
-    payment_schedules: [
-      { due_at: '2026-12-08T00:00:00-05:00', amount_due: 1200, completed_at: null },
-    ],
-  },
+  // No payment terms. A Stickerize order is paid by card at checkout, so
+  // Shopify's PAYMENT METHOD row returns one line — the card — and the preview
+  // has to say the same thing. With `payment_terms` set, `CustomerInfo` put a
+  // "Net 30: Due December 8, 2026" line above it that no customer ever gets.
+  // Terms are the invoice's subject, so the fixture for them lives on that
+  // template alone, in `PAYMENT_TERMS` below.
+  payment_terms: null,
   payment_schedule: {
     due_at: '2026-12-08T00:00:00-05:00',
     amount_due: 1200,

@@ -23,11 +23,41 @@ const PLACEHOLDER_TAG =
     `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"><path d="M1 7l6-6h6v6l-6 6z" fill="none" stroke="#000001" stroke-width="1.2"/><circle cx="10" cy="4" r="1.2" fill="#000001"/></svg>`,
   );
 
-const PLACEHOLDER_CARD =
-  'data:image/svg+xml;utf8,' +
-  encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="38" height="24"><rect x="0.5" y="0.5" width="37" height="23" rx="3" fill="#fff" stroke="#c8c7c4"/><rect x="4" y="8" width="30" height="3" fill="#000001"/></svg>`,
+/**
+ * The card mark Shopify puts in front of "ending with 4242".
+ *
+ * `payment_icon_png_url` and `payment_type_img_url` return a brand logo —
+ * a Visa mark for a Visa card — so the line reads "Visa ending with 4242" even
+ * though the word Visa is nowhere in the Liquid. A blank grey card placeholder
+ * dropped that half of the sentence and left the preview saying only "ending
+ * with 4242", which is not what the customer receives.
+ *
+ * So the placeholder carries the brand it was handed. It is still a stand-in,
+ * not Shopify's artwork: the real marks are hosted on Shopify's CDN and are
+ * what the sent email loads.
+ */
+function paymentMark(subject: unknown): string {
+  const raw = String(subject ?? '').trim();
+  // Both filters are fed through `downcase | replace` in places, so "credit-card"
+  // and "Visa" both arrive here. Title-case whatever comes in.
+  const label = raw
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b[a-z]/g, (c) => c.toUpperCase());
+  const text = label || 'Card';
+  // The templates render the mark at `height="16"` with `width="auto"`, so the
+  // card grows sideways for a longer brand instead of squeezing the word.
+  // 24 tall matches the height Shopify's own marks are drawn at.
+  const fontSize = 13;
+  const width = Math.max(38, Math.round(text.length * fontSize * 0.62) + 12);
+  return (
+    'data:image/svg+xml;utf8,' +
+    encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="24"><rect x="0.5" y="0.5" width="${width - 1}" height="23" rx="3" fill="#fff" stroke="#c8c7c4"/><text x="${width / 2}" y="17" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="${fontSize}" font-weight="bold" fill="#000001">${text}</text></svg>`,
+    )
   );
+}
 
 function toCents(value: unknown): number {
   if (typeof value === 'number') return value;
@@ -83,8 +113,8 @@ export function createEngine() {
     return PLACEHOLDER_IMAGE;
   });
 
-  engine.registerFilter('payment_icon_png_url', () => PLACEHOLDER_CARD);
-  engine.registerFilter('payment_type_img_url', () => PLACEHOLDER_CARD);
+  engine.registerFilter('payment_icon_png_url', (subject: unknown) => paymentMark(subject));
+  engine.registerFilter('payment_type_img_url', (subject: unknown) => paymentMark(subject));
 
   engine.registerFilter('format_address', (address: unknown) => {
     if (!address || typeof address !== 'object') return '';

@@ -30,16 +30,34 @@ export type PlatformId = 'rise-ai' | 'stamped' | 'klaviyo';
  * the registry's inbox lines depends on them.
  */
 const SAMPLE: Record<PlatformId, Record<string, string>> = {
-  // Rise.ai: Handlebars-flavoured. Triple braces are its raw/section syntax.
+  // Rise.ai: Handlebars-flavoured. `{{#name}} … {{/name}}` is a section — the
+  // old platform wrote the same thing in triple braces.
   'rise-ai': {
-    shop_name: 'Stickerize',
+    business_name: 'Stickerize',
     shop_url: 'https://stickerize.com',
-    order_name: '#1024',
-    balance: '€15.00',
-    store_credit_added: '€5.00',
-    code: 'STICKERIZE-5EUR',
-    expiration_date: 'December 31, 2026',
     unsubscribe_url: 'https://stickerize.com/account/unsubscribe',
+    order_number: '#1024',
+
+    // Who the email is to, and who it is from. Gift cards are the only ones
+    // with two people in them.
+    recipient_full_name: 'Mia Kowalski',
+    sender_first_name: 'Alex',
+    sender_full_name: 'Alex Lindqvist',
+
+    // Store credit — the wallet family.
+    issued_credit_amount: '€5.00',
+    issued_credit_expiration: 'December 31, 2026',
+    total_wallet_balance: '€15.00',
+    wallet_code: 'STICKERIZE-5EUR',
+
+    // Gift cards. The Wallet email reads its balance and code off these too.
+    gift_card_balance: '€25.00',
+    gift_card_code: 'STICKERIZE-GIFT-25',
+    gift_card_expiration: 'December 31, 2026',
+    greeting_message: 'Saw these and thought of you. Make something good.',
+    greeting_card_url: 'https://stickerize.com/gift-cards/STICKERIZE-GIFT-25',
+    greeting_image_url:
+      'https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Photo_holographic_stickers_product_shot_left.png?v=1793662793',
   },
 
   // Stamped: `##name##` placeholders, plus a handful of `{{label_*}}` strings
@@ -81,17 +99,20 @@ function unresolved(name: string): string {
 function substituteRiseAi(html: string, values: Record<string, string>): string {
   return (
     html
-      // Section blocks: `{{{#expiration_date}}} … {{{/expiration_date}}}`.
+      // Section blocks: `{{#gift_card_expiration}} … {{/gift_card_expiration}}`.
       // Shown when the sample has a value for the name, dropped when it does
       // not — which is how Rise evaluates them.
+      //
+      // The new platform writes these in double braces; the old one used
+      // triple. Both are matched, so an older export still previews as an
+      // email rather than as a page with raw tags through the middle of it.
       .replace(
-        /\{\{\{#([A-Za-z_][A-Za-z_0-9]*)\}\}\}([\s\S]*?)\{\{\{\/\1\}\}\}/g,
-        (_match, name: string, inner: string) => (values[name] ? inner : ''),
+        /\{\{(\{?)#([A-Za-z_][A-Za-z_0-9]*)\}\}\1([\s\S]*?)\{\{\1\/\2\}\}\1/g,
+        (_match, _brace: string, name: string, inner: string) => (values[name] ? inner : ''),
       )
-      // `{{{body}}}` is composed by global-theme.ts, not here; anything else in
-      // triple braces is a raw variable.
+      // Anything left in triple braces is a raw variable.
       .replace(/\{\{\{\s*([A-Za-z_][A-Za-z_0-9.]*)\s*\}\}\}/g, (match, name: string) =>
-        name === 'body' ? match : (values[name] ?? unresolved(match)),
+        values[name] ?? unresolved(match),
       )
       .replace(/\{\{\s*([A-Za-z_][A-Za-z_0-9.]*)\s*\}\}/g, (match, name: string) =>
         values[name] ?? unresolved(match),
