@@ -27,6 +27,10 @@ Check the combined padding from the final bundle row, its wrapper, and the total
 
 ### Optional order discount row
 
+**Superseded:** Order discount now renders *above* Shipping, not between it and the
+total — between the two it read as though it were taken off the shipping line. See
+`shopify-spacing-and-capitalisation.md`.
+
 Show **Order discount** between **Shipping** and **Today's Total VAT Included** only when a positive order-wide discount can be confirmed in the Shopify notification payload. Shopify documents `discount_applications` and `total_allocated_amount`. Use the following as a starting point and verify it against a real notification payload. The filters select merchandise discounts with an order-wide target and exclude shipping discounts and item-specific discounts.
 
 ```liquid

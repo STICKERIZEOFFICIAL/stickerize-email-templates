@@ -155,6 +155,52 @@ introductory paragraph — `Order **#1024**` — across the eleven templates tha
 used to draw a bordered box. The PO number follows the same pattern, and the
 pending-payment instructions block is untouched.
 
+> **Partly reversed since.** An `ORDER NUMBER` row is back in the
+> `CustomerInfo` panel — see [The customer-info panel's order-number
+> row](#the-customer-info-panels-order-number-row) below. The bordered box is
+> still gone, and the bold number in the body copy stays; the number now
+> appears twice on most emails, which is the deliberate change.
+
+## The customer-info panel's order-number row
+
+The panel carried an **Estimated delivery** row that never rendered. It was
+conditional on `consolidated_estimated_delivery_time`, which Shopify does not
+populate on these notifications, so the condition was always false and the row
+never appeared on a single email.
+
+It is now an **ORDER NUMBER** row, the first row of the panel, on all eleven
+templates that carry it. That reverses the brief's "remove the standalone
+order-number box wherever it appears" to the extent of this one row: a reader
+scanning the summary panel for order facts was the case the brief did not
+cover.
+
+The value is `ORDER_NUMBER_VALUE` from `orderNumber.ts` — the same fallback
+chain the body copy uses — not the bare `{{ order_name }}` the row carried
+before it was removed. That variable is empty on most of these notifications,
+which is the other half of why the row was blank even when it did render.
+
+`showEstimatedDelivery` is gone from `CustomerInfo`; nothing is conditional
+about the new row.
+
+## The summary row order
+
+**Order discount** now comes **first**, above Shipping:
+
+    Order discount   -$5
+    Shipping         Free
+    Today's total    $36
+
+It used to sit between Shipping and the total, which is what
+`docs/Stickerize-Shopify-Email-Changes-for-Claude (1).md` asked for. In
+practice that read as though the discount were taken off the shipping line —
+exactly what it is not. A shipping discount is netted off the Shipping row
+itself; this row is the merchandise discount on the order.
+
+One side still owns each gap, but which row is first now depends on whether
+the discount qualifies, so the gap above Shipping is computed —
+`first_row_gap`, 4px when the discount renders and 0 when it does not. The
+24px down from the last line item stays the order table's either way.
+
 ## The order number
 
 `{{ name }}` and `{{ order_number }}` are not interchangeable: the first

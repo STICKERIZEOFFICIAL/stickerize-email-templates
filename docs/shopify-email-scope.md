@@ -31,7 +31,10 @@ Use the approved Order Confirmation preview as the visual reference for the spac
 
 ## Order number and image placement
 
-- Remove the standalone order-number box wherever it appears. Render the dynamic order number in bold within the introductory paragraph, for example **#1234**. Keep clickable shipment tracking where applicable and follow the template-specific rules below.
+- Remove the standalone order-number box wherever it appears.
+  **Superseded in part:** an `ORDER NUMBER` row is back in the customer-info
+  panel, replacing an Estimated delivery row that never rendered. The bordered
+  box stays gone. See `shopify-spacing-and-capitalisation.md`. Render the dynamic order number in bold within the introductory paragraph, for example **#1234**. Keep clickable shipment tracking where applicable and follow the template-specific rules below.
 - Use this sequence for email-level images, including the images requested for Account Invite: logo → first heading → introductory paragraph → image. Product thumbnails belong in the order line items.
 
 ## Template coverage

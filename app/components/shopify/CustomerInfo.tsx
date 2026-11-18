@@ -1,6 +1,6 @@
-export function CustomerInfo({
-  showEstimatedDelivery,
-}: { showEstimatedDelivery?: boolean } = {}) {
+import { ORDER_NUMBER_VALUE } from '~/components/shopify/orderNumber';
+
+export function CustomerInfo() {
   return /*html*/ `
   <!-- Customer info -->
   <tr>
@@ -9,9 +9,28 @@ export function CustomerInfo({
         <tr>
           <td style="padding: 16px 16px 0;">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <!-- No "Order number" row. The brief leaves the order number in
-                   one place only — in bold, inside the body copy — and this
-                   panel was the second. Its 16px went with it. -->
+              <!-- Order number, on every email that carries this panel. It
+                   replaced an "Estimated delivery" row that rendered nothing:
+                   that row was conditional on consolidated_estimated_delivery_time,
+                   which Shopify does not populate on these notifications, so
+                   the condition was always false and the row never appeared.
+
+                   The value is the shared fallback chain from orderNumber.ts,
+                   not the bare order_name this row used to carry — that
+                   variable is empty on most of these notifications, which is
+                   the other half of why the row was blank.
+
+                   No Liquid tag syntax in this comment: Liquid parses tags
+                   inside HTML comments, so naming one here opens it. -->
+              <tr>
+                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
+                  Order number
+                </td>
+                <td class="mfz-14 mlh-17 mmfz-13" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;" valign="top">
+                  ${ORDER_NUMBER_VALUE}
+                </td>
+              </tr>
+
               {%- if po_number %}
               <tr>
                 <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
@@ -22,23 +41,6 @@ export function CustomerInfo({
                 </td>
               </tr>
               {%- endif %}
-
-              ${
-                showEstimatedDelivery
-                  ? /*html*/ `
-              {% if consolidated_estimated_delivery_time %}
-              <tr>
-                <td class="mfz-14 mlh-17 mmfz-13" style="text-transform: uppercase; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px; padding-bottom: 16px;" valign="top">
-                  Estimated delivery
-                </td>
-                <td class="mfz-14 mlh-17 mmfz-13" valign="top" style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right; padding-bottom: 16px; padding-left: 10px;">
-                  {{ consolidated_estimated_delivery_time | date: '%B %d, %Y' }}
-                </td>
-              </tr>
-              {% endif %}
-              `
-                  : ""
-              }
 
               {% if requires_shipping and shipping_address %}
               <tr>

@@ -43,7 +43,7 @@ export default function () {
 
 			${Total()}
 
-			${CustomerInfo({ showEstimatedDelivery: true })}
+			${CustomerInfo()}
 
 			${Footer()}
 	`,
