@@ -1,4 +1,13 @@
-import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from './shell';
+import {
+  button,
+  codeBox,
+  expiration,
+  photos,
+  REFUND_PHOTOS,
+  riseEmail,
+  smallPrint,
+  text,
+} from './shell';
 
 /**
  * Rebuilt from `other emails/new-rise.ai/refund.html`.
@@ -19,7 +28,7 @@ import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from
  */
 export default function () {
   return riseEmail([
-    photos(),
+    photos(...REFUND_PHOTOS),
     text("Your refund is completed. Here's {{issued_credit_amount}} in store credit.", [
       "We've processed your refund for order {{order_number}} and added the amount to your account as store credit, ready for your next order.",
       'Your code has been saved to your account. Log in with this email address and hit "Apply your credits" in the cart.',

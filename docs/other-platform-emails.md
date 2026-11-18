@@ -272,11 +272,15 @@ to choose between.
 - **The Store credits subject is `{{sender_first_name}}, your cash back is in
   your account`**, as supplied. On an email about the recipient's own cash back
   that looks like it wants `{{recipient_full_name}}`.
-- **The product squares** now open five emails that had no image at all in
-  Rise's export (cashback, compensation, referral, wallet, store credits),
-  matching the two approved templates. Gift card keeps Rise's own
-  `{{greeting_image_url}}` artwork and print-at-home has none. Say the word if
-  any of those should differ.
+- **Artwork is per email, and four have none yet.** Each email has its own pair
+  from the design set — `Email_4_Section_3_*` on Store credits,
+  `Photo_*_stickers_product_shot_*` on Refund — so `photos(left, right)` takes
+  both and has no default: a default is how Store credits ended up briefly
+  wearing the refund's artwork. **Cashback, Compensation, Referral and Wallet
+  have no pair named for them**, in Rise's export or in the set, so they open on
+  the heading rather than borrowing someone else's. Name a pair and it is one
+  line each. Gift card uses Rise's own `{{greeting_image_url}}`; print-at-home
+  has no image, as in the export.
 - **Buttons link to `https://stickerize.com`**, following the approved refund
   template. Rise's own defaults used `{{shop_url}}`, which would follow the
   shop's locale — one line in `shell.ts` switches all eight.
