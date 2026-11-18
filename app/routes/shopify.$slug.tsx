@@ -13,6 +13,27 @@ import {
   subjectFor,
 } from '~/preview/registry';
 
+/**
+ * A "Copied ✓" label that goes back to itself.
+ *
+ * Copying is something you do once per template and then move on, so the
+ * label has to settle — but it also has to register a *second* copy, which a
+ * plain boolean cannot: setting true when it is already true changes nothing
+ * and the timer never restarts. Storing when it happened does both.
+ */
+function useCopied(resetKey: string) {
+  const [copiedAt, setCopiedAt] = useState(0);
+
+  useEffect(() => setCopiedAt(0), [resetKey]);
+  useEffect(() => {
+    if (!copiedAt) return;
+    const timer = setTimeout(() => setCopiedAt(0), 2000);
+    return () => clearTimeout(timer);
+  }, [copiedAt]);
+
+  return [copiedAt > 0, () => setCopiedAt(Date.now()), () => setCopiedAt(0)] as const;
+}
+
 export async function loader({ params }: LoaderFunctionArgs) {
   const template = getTemplate(params.slug);
   if (!template) {
@@ -81,7 +102,8 @@ export default function TemplatePreview() {
   // Whether the sample order carries an order-wide discount. Off by default:
   // most orders have none, so that is the view worth landing on.
   const [discounted, setDiscounted] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copiedSubject, markSubjectCopied, clearSubjectCopied] = useCopied(data.slug);
+  const [copiedSource, markSourceCopied, clearSourceCopied] = useCopied(data.slug);
   const [navOpen, setNavOpen] = useState(false);
 
   // A phone cannot show a 732px email at full width, so there is no desktop
@@ -101,7 +123,6 @@ export default function TemplatePreview() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [data.previous, data.next, navigate]);
 
-  useEffect(() => setCopied(false), [data.slug]);
   // Picking a template from the drawer should close it.
   useEffect(() => setNavOpen(false), [data.slug]);
 
@@ -118,9 +139,24 @@ export default function TemplatePreview() {
     if (!data.subject) return;
     try {
       await navigator.clipboard.writeText(data.subject);
-      setCopied(true);
+      markSubjectCopied();
     } catch {
-      setCopied(false);
+      clearSubjectCopied();
+    }
+  }
+
+  /**
+   * The whole template, unrendered — the Liquid that gets pasted into Shopify.
+   *
+   * The same bytes Download writes to a file. `data.source` is the template's
+   * own output, so this never copies the rendered preview by mistake.
+   */
+  async function copySource() {
+    try {
+      await navigator.clipboard.writeText(data.source);
+      markSourceCopied();
+    } catch {
+      clearSourceCopied();
     }
   }
 
@@ -174,12 +210,16 @@ export default function TemplatePreview() {
             Source
           </button>
 
+          <button type="button" className="btn btn--solid" onClick={copySource}>
+            {copiedSource ? 'Copied ✓' : 'Copy Liquid'}
+          </button>
+
           <a
             className="btn"
             href={`/preview/shopify/${data.slug}?source=1`}
             download={`${data.slug}.liquid`}
           >
-            Download Liquid
+            Download
           </a>
         </div>
 
@@ -213,7 +253,7 @@ export default function TemplatePreview() {
               <dd>
                 <code className="field-row__value">{data.subject}</code>
                 <button type="button" className="btn btn--solid" onClick={copySubject}>
-                  {copied ? 'Copied ✓' : 'Copy subject'}
+                  {copiedSubject ? 'Copied ✓' : 'Copy subject'}
                 </button>
               </dd>
             </div>
