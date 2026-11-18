@@ -10,10 +10,14 @@ import klaviyoParagraphBold from '~/platforms/klaviyo/components/paragraph-bold'
 import klaviyoUsps from '~/platforms/klaviyo/components/usps';
 import klaviyoCreators from '~/platforms/klaviyo/how-creators-turn-work-into-stickers';
 import klaviyoKit from '~/platforms/klaviyo/kit';
-import riseGlobalTheme from '~/platforms/rise-ai/global-theme';
+import riseCashback from '~/platforms/rise-ai/cashback';
+import riseCompensation from '~/platforms/rise-ai/compensation';
+import riseGiftCard from '~/platforms/rise-ai/gift-card';
+import risePrintAtHome from '~/platforms/rise-ai/print-at-home';
+import riseReferral from '~/platforms/rise-ai/referral';
 import riseRefund from '~/platforms/rise-ai/refund';
-import riseStoreCredits from '~/platforms/rise-ai/store-credits-received';
-import riseWelcome from '~/platforms/rise-ai/welcome';
+import riseStoreCredits from '~/platforms/rise-ai/store-credits';
+import riseWallet from '~/platforms/rise-ai/wallet';
 import stampedCoupon from '~/platforms/stamped/coupon';
 import stampedCustomForm from '~/platforms/stamped/custom-form';
 import stampedReviewRequest from '~/platforms/stamped/review-request';
@@ -64,9 +68,9 @@ export const TABS: Tab[] = [
     id: 'rise-ai',
     label: 'Rise.ai',
     href: '/platforms/rise-ai',
-    blurb: 'Store credit, rewards and refund-to-credit emails.',
-    syntax: 'Handlebars-like — {{shop_url}}, {{{#expiration_date}}}',
-    pasteInto: 'Rise.ai → Email settings → Global theme, then each notification body',
+    blurb: 'Store credit, gift cards, rewards and refund-to-credit emails.',
+    syntax: 'Handlebars-like — {{wallet_code}}, {{#gift_card_expiration}}',
+    pasteInto: "Rise.ai → Emails → the template's HTML, one whole email per field",
   },
   {
     id: 'stamped',
@@ -122,12 +126,6 @@ export type PlatformTemplate = {
   file: string;
   /** Returns the template exactly as it is pasted into the platform. */
   render: () => string;
-  /**
-   * Rise.ai only: the body needs the global theme wrapped round it before it
-   * looks like an email. Source and Download still hand over the body alone,
-   * because the body is the field being edited.
-   */
-  wrapInGlobalTheme?: boolean;
   subject?: string;
   subjectStatus: CopyStatus;
   previewText?: string;
@@ -140,66 +138,127 @@ export type PlatformTemplate = {
 
 const RISE_AI: PlatformTemplate[] = [
   {
-    slug: 'global-theme',
-    label: 'Global theme',
-    group: 'Global',
-    description: 'Header, footer and dark-mode CSS that every Rise.ai email shares.',
-    file: 'app/platforms/rise-ai/global-theme.ts',
-    render: riseGlobalTheme,
-    subjectStatus: 'none',
-    previewTextStatus: 'none',
+    slug: 'gift-card',
+    label: 'Gift card',
+    group: 'Gift cards',
+    description: 'Someone bought a gift card for someone else. Sent to the recipient.',
+    file: 'app/platforms/rise-ai/gift-card.ts',
+    render: riseGiftCard,
+    subject: '{{sender_first_name}} bought you a gift card at {{business_name}}',
+    subjectStatus: 'given',
+    previewText: 'Put your gift card toward custom stickers made from your own designs.',
+    previewTextStatus: 'given',
     notes: [
-      'Edited once in Rise.ai, not per email. The {{{body}}} slot is where each notification drops in.',
-      'The only template here with real dark-mode CSS: prefers-color-scheme plus [data-ogsc] for Outlook, driving the dm-* classes.',
+      'The only email here that can reach someone who has never bought from us, so it keeps the card artwork Rise renders into {{greeting_image_url}} rather than the product squares.',
+      'No small print: nothing in it is store credit in euros, so the conversion line would answer a question nobody asked.',
     ],
   },
   {
-    slug: 'welcome',
-    label: 'Welcome',
-    group: 'Notifications',
-    description: 'Sent after a first order, introducing the account and its credits.',
-    file: 'app/platforms/rise-ai/welcome.ts',
-    render: riseWelcome,
-    wrapInGlobalTheme: true,
-    subject: 'Your Stickerize account is ready',
-    subjectStatus: 'proposed',
-    previewText: 'Referrals, credits and your order history, all in one place.',
-    previewTextStatus: 'proposed',
+    slug: 'print-at-home',
+    label: 'Print-at-home',
+    group: 'Gift cards',
+    description: 'The printable gift card, sent to the buyer to hand over in person.',
+    file: 'app/platforms/rise-ai/print-at-home.ts',
+    render: risePrintAtHome,
+    subject: 'Your gift card is ready',
+    subjectStatus: 'given',
+    previewText: 'Print your Stickerize gift card at home and give it in person.',
+    previewTextStatus: 'given',
     notes: [
-      'Rise.ai has no preheader block, so nothing is set today — the client scrapes the top of the email instead. Adding one means a change to the Global theme.',
+      'Addresses the sender, not the recipient — it is the card they are about to print — so it reads {{sender_full_name}} and names who it is for.',
     ],
   },
   {
-    slug: 'store-credits-received',
-    label: 'Store credits received',
-    group: 'Notifications',
-    description: 'Credit landed in the account — the reward / cashback email.',
-    file: 'app/platforms/rise-ai/store-credits-received.ts',
+    slug: 'store-credits',
+    label: 'Store credits',
+    group: 'Credit',
+    description: 'Cash back landed in the account.',
+    file: 'app/platforms/rise-ai/store-credits.ts',
     render: riseStoreCredits,
-    wrapInGlobalTheme: true,
-    subject: 'You have {{store_credit_added}} in store credit',
-    subjectStatus: 'proposed',
-    previewText: 'Spend it on your next order. No code needed.',
-    previewTextStatus: 'proposed',
+    subject: '{{sender_first_name}}, your cash back is in your account',
+    subjectStatus: 'given',
+    previewText: 'Use your Stickerize credit on your next order whenever you are ready.',
+    previewTextStatus: 'given',
     notes: [
-      'Likely the "Reward (cashback)" email in docs/email-style-changes.md — confirm the naming.',
-      '{{balance}} is still unconfirmed as a Rise.ai variable. Send a test before release.',
+      'CAUTION: other emails/new-rise.ai/store-credits.html is a 0-byte file. This carries the approved copy across from the old platform on the new variable names — diff it against Rise before release.',
+      "The subject uses {{sender_first_name}} as supplied. On an email about the recipient's own cash back that looks like it wants {{recipient_full_name}} — worth a second look.",
+    ],
+  },
+  {
+    slug: 'cashback',
+    label: 'Cashback',
+    group: 'Credit',
+    description: 'The reward an order earned, waiting in the wallet.',
+    file: 'app/platforms/rise-ai/cashback.ts',
+    render: riseCashback,
+    subject: 'You got cashback from your last order',
+    subjectStatus: 'given',
+    previewText: 'Your reward is ready to put toward your next batch of custom stickers.',
+    previewTextStatus: 'given',
+    notes: [
+      "Rise's default set the amounts out as a label-and-value grid. They read in the copy here, the way they do on the refund email.",
+    ],
+  },
+  {
+    slug: 'compensation',
+    label: 'Compensation',
+    group: 'Credit',
+    description: 'Store credit added to make up for something that went wrong.',
+    file: 'app/platforms/rise-ai/compensation.ts',
+    render: riseCompensation,
+    subject: 'A little something from us for the inconvenience',
+    subjectStatus: 'given',
+    previewText:
+      'We have added store credit to your Stickerize account. Thanks for giving us a chance to make things right.',
+    previewTextStatus: 'given',
+  },
+  {
+    slug: 'referral',
+    label: 'Referral',
+    group: 'Credit',
+    description: 'A referred friend ordered, so the referrer earned credit.',
+    file: 'app/platforms/rise-ai/referral.ts',
+    render: riseReferral,
+    subject: 'Congrats on your successful referral!',
+    subjectStatus: 'given',
+    previewText: 'Your friend placed their first order. Thanks for sharing Stickerize!',
+    previewTextStatus: 'given',
+    notes: [
+      "Rise's default closed on a social row and a second website link. Dropped — this tab's footer has carried neither since the design-system pass, and the wordmark under it is already the link home.",
     ],
   },
   {
     slug: 'refund',
     label: 'Refund to credit',
-    group: 'Notifications',
+    group: 'Credit',
     description: 'A refund was issued as store credit rather than to the card.',
     file: 'app/platforms/rise-ai/refund.ts',
     render: riseRefund,
-    wrapInGlobalTheme: true,
-    subject: 'Your refund is now store credit',
-    subjectStatus: 'proposed',
-    previewText: 'It is on your account and ready to spend.',
-    previewTextStatus: 'proposed',
+    subject: 'Your store credit for order: {{order_number}}',
+    subjectStatus: 'given',
+    previewText:
+      'Your refund was issued as Stickerize store credit. You can use it on a future order.',
+    previewTextStatus: 'given',
     notes: [
-      'Carries a {{{#expiration_date}}} section. The preview renders it present; it disappears when Rise has no expiry.',
+      'Already on the design system when it arrived — our own template, re-exported after the migration. Two things the new editor flattened are put back: the heading sits 24px from its body again, and the header rule is inset by 12px instead of running the full column.',
+      "CHECK THIS ONE: the heading hardcoded a euro sign in front of {{issued_credit_amount}}, and Rise formats that amount with its own currency symbol — the live email reads €€5.00. The sign is removed here. It is the same bug the old platform's template had, so it has been going out for a while. Send a test before release.",
+      'Carries a {{#gift_card_expiration}} section. The preview renders it present; it disappears when Rise has no expiry.',
+    ],
+  },
+  {
+    slug: 'wallet',
+    label: 'Wallet',
+    group: 'Credit',
+    description: 'What is in the wallet right now, on request.',
+    file: 'app/platforms/rise-ai/wallet.ts',
+    render: riseWallet,
+    subject: 'Your store credit for {{business_name}}',
+    subjectStatus: 'given',
+    previewText: 'Check your Stickerize wallet to see how much credit you have available.',
+    previewTextStatus: 'given',
+    notes: [
+      'Reads the balance and code off {{gift_card_balance}} / {{gift_card_code}}, not the {{wallet_*}} names the other credit emails use. That is how the export has it, so it is left alone — but send a test, because two naming schemes in one platform is how a line turns up empty.',
+      'No expiry line, matching the export: this is a statement of what is held, not news.',
     ],
   },
 ];
@@ -417,18 +476,16 @@ export function getPlatformTemplate(
 /**
  * The template as the platform's editor should receive it.
  *
- * Rise.ai bodies are *not* wrapped here: the body is the field being edited,
- * and the Global theme has its own entry. Wrapping happens only for display.
+ * Every template in this compartment is now whole. Rise.ai used to be the
+ * exception — its bodies dropped into a Global theme held elsewhere — but its
+ * new platform has no theme slot, so nothing composes at paste time.
  */
 export function sourceOf(template: PlatformTemplate): string {
   return template.render();
 }
 
-/** The template as it should be looked at — the only place wrapping happens. */
-export function documentOf(platform: PlatformId, template: PlatformTemplate): string {
-  if (platform === 'rise-ai' && template.wrapInGlobalTheme) {
-    return riseGlobalTheme({ body: template.render() });
-  }
+/** The template as it should be looked at. Same string; the shell is added later. */
+export function documentOf(_platform: PlatformId, template: PlatformTemplate): string {
   return template.render();
 }
 

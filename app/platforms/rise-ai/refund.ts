@@ -1,99 +1,33 @@
+import { button, codeBox, expiration, photos, riseEmail, smallPrint, text } from './shell';
+
 /**
- * Ported verbatim from `other emails/rise.ai/refund.html`.
+ * Rebuilt from `other emails/new-rise.ai/refund.html`.
  *
- * Pure HTML with the platform's own variable syntax — no Liquid, no engine.
- * The preview substitutes tokens for display only; Source and Download emit
- * this string untouched, because that is what gets pasted into the platform.
+ * This one arrived already on the design system — it is our own template, re-
+ * exported after the migration — so the copy is untouched. Two things the new
+ * editor flattened on the way through are put back:
+ *
+ * - the heading sat 12px above its body; the system puts a heading 24px from
+ *   what it introduces, and 12px is the gap between sibling paragraphs.
+ * - the header rule had moved back onto the padded header cell, so it ran the
+ *   full width of the column instead of lining up with the 12px inset. It is
+ *   on the inner cell again — the same fix this header needed the first time.
+ *
+ * Variable names are the new platform's: `issued_credit_amount` where the old
+ * one said `store_credit_added`, `wallet_code` for `code`, `order_number` for
+ * `order_name`, and `{{#gift_card_expiration}}` for the triple-brace section.
  */
 export default function () {
-  return /*html*/ `<div id="RiseSections">
-    <style>
-        @media (prefers-color-scheme: dark) {
-            .dm-border {
-                border-color: #fffffe !important;
-            }
-        }
-        [data-ogsc] .dm-border { border-color: #fffffe !important; }
-    </style>
-
-    <!-- Photos · two squares -->
-    <section rise-section="product_image" rise-section-id="0c919c6be85d4587aedc8bbb16716135">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
-            <tr>
-                <td width="49%" valign="top" style="padding: 0;">
-                    <img rise-element="img" src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Photo_holographic_stickers_product_shot_left.png?v=1793662793" width="344" height="344" border="0" alt="Holographic stickers" style="width: 100%; max-width: 344px; height: auto; aspect-ratio: 1 / 1; object-fit: cover; display: block;" />
-                </td>
-                <td width="2%" style="font-size: 0; line-height: 0;">&nbsp;</td>
-                <td width="49%" valign="top" style="padding: 0;">
-                    <img rise-element="img" src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/Photo_prism_stickers_product_shot_right_1.png?v=1793662808" width="344" height="344" border="0" alt="Prism stickers" style="width: 100%; max-width: 344px; height: auto; aspect-ratio: 1 / 1; object-fit: cover; display: block;" />
-                </td>
-            </tr>
-        </table>
-    </section>
-
-    <!-- Heading + body -->
-    <section rise-section="text" rise-section-id="cbeea1d6ae824fc8a6e6a6ff8e514d47">
-        <div rise-element="text">
-            <p style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 13px; font-weight: bold; text-transform: uppercase; color: #000001;">
-                Your refund is completed. Here's &euro;{{store_credit_added}} in store credit.
-            </p>
-            <p style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 17px; color: #000001; margin-top: 24px;">
-                We've processed your refund for order {{order_name}} and added the amount to your account as store credit, ready for your next order.
-            </p>
-            <p style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 17px; color: #000001; margin-top: 12px;">
-                Your code has been saved to your account. Log in with this email address and hit "Apply your credits" in the cart.
-            </p>
-            <p style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 17px; color: #000001; margin-top: 12px;">
-                Or copy the code below and paste it at checkout.
-            </p>
-        </div>
-    </section>
-
-    <!-- Credit code box -->
-    <section rise-section="credit_code" rise-section-id="b6ec06bc2d5644609c419fb1489d9149" style="margin-bottom: 12px;">
-        <div rise-element="credit_code" class="dm-border" style="border: 1px solid #000001; padding: 23px 12px; text-align: center;">
-            <p style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 17px; color: #000001; text-align: center;">
-                Your code: {{code}}
-            </p>
-        </div>
-    </section>
-
-    <!-- CTA Button -->
-    <section rise-section="button" rise-section-id="1d4980f9b78b4886b5a198abb614edd1" style="margin-top: 12px;">
-        <div rise-element="button-placeholder">
-            <table class="dm-btn-table" width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" bgcolor="#000001" style="background-color: #000001;">
-                <tr>
-                    <td align="left" valign="middle" style="padding: 23px 0 23px 12px; background-color: #000001;">
-                        <a rise-element="button" class="dm-btn" href="https://stickerize.com" target="_blank" style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 18px; font-weight: 300; color: #fffffe; text-decoration: none; display: block; text-transform: uppercase;">USE MY CREDIT</a>
-                    </td>
-                    <td align="right" valign="middle" width="40" style="padding: 23px 12px 23px 0; background-color: #000001;">
-                        <a class="dm-btn" href="https://stickerize.com" target="_blank" style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 18px; font-weight: 300; color: #fffffe; text-decoration: none; display: block; text-align: right;">&rarr;</a>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </section>
-
-    <!-- Expiration date -->
-    <div rise-section="expiration_date" rise-section-id="b774a55216474eb4a722e579d1eeae16">
-        {{{#expiration_date}}}
-        <section>
-            <div rise-element="expiration_date">
-                <p style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 17px; color: #000001; text-align: center;">
-                    Expires on {{expiration_date}}
-                </p>
-            </div>
-        </section>
-        {{{/expiration_date}}}
-    </div>
-
-    <!-- Small print -->
-    <section rise-section="text" rise-section-id="06ca8ca47dfc485cbb0cd6d741925628">
-        <div rise-element="text">
-            <p class="dm-muted" style="font-family: 'Courier New', monospace; font-size: 13px; line-height: 17px; color: #999999;">
-                Credits are shown in euros and converted to your local currency at checkout, so the amount may vary slightly.
-            </p>
-        </div>
-    </section>
-</div>`;
+  return riseEmail([
+    photos(),
+    text("Your refund is completed. Here's {{issued_credit_amount}} in store credit.", [
+      "We've processed your refund for order {{order_number}} and added the amount to your account as store credit, ready for your next order.",
+      'Your code has been saved to your account. Log in with this email address and hit "Apply your credits" in the cart.',
+      'Or copy the code below and paste it at checkout.',
+    ]),
+    codeBox('Your code:', '{{wallet_code}}'),
+    button('USE MY CREDIT', 'https://stickerize.com', { tight: true }),
+    expiration('gift_card_expiration'),
+    smallPrint(),
+  ]);
 }

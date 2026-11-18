@@ -55,7 +55,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
     previewText: template.previewText ?? null,
     previewTextStatus: template.previewTextStatus,
     notes: template.notes ?? [],
-    wrapInGlobalTheme: template.wrapInGlobalTheme ?? false,
     variables,
     source,
     darkStrategy: DARK_STRATEGY[platform],
@@ -230,11 +229,6 @@ export default function PlatformTemplateView() {
             </dt>
             <dd>
               <code className="field-row__value">{data.tab.pasteInto}</code>
-              {data.wrapInGlobalTheme ? (
-                <span className="field-row__note">
-                  body only — the header and footer come from the Global theme
-                </span>
-              ) : null}
             </dd>
           </div>
 

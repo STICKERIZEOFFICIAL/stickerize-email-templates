@@ -46,6 +46,12 @@ A tab bar on every gallery switches between the four. See
 each tab, what was changed to bring them onto the design system, and what is
 still waiting on a decision.
 
+Rise.ai has since moved to a new email platform, which has no global theme and
+no stylesheet — each of its eight emails is one self-contained, inline-styled
+fragment. The chrome they share is composed here instead, in
+`app/platforms/rise-ai/shell.ts`, so eight files cannot drift apart; what gets
+pasted into Rise is still the whole fragment.
+
 ## Using the preview
 
 - `/` — gallery of all Shopify templates, grouped by lifecycle stage, with

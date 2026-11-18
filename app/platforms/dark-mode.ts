@@ -6,12 +6,17 @@ import type { PlatformId } from '~/platforms/tokens';
  * The three platforms are not in the same position, so one strategy would lie
  * about two of them:
  *
- *   Rise.ai   ships real dark-mode CSS — `prefers-color-scheme` rules plus
- *             `[data-ogsc]` for Outlook, driving dm-invert / dm-line /
- *             dm-muted / dm-btn. A preview should show *that* design, not a
- *             simulation of a client guessing.
+ *   Rise.ai   used to ship real dark-mode CSS, in the Global theme its old
+ *             platform gave it. The new platform has no theme and no
+ *             stylesheet slot, so those rules have nowhere to live: the
+ *             `dm-*` hooks are still on the markup, but nothing drives them
+ *             and the recipient gets whatever their client forces.
  *   Stamped   declares none.
  *   Klaviyo   declares none.
+ *
+ * So all three are simulated today. Give Rise.ai back a place to paste a
+ * stylesheet and its design can come back by flipping one entry below — the
+ * class hooks it needs never left the markup.
  *
  * Both halves of the toggle need work, not just the dark one. A template that
  * carries `prefers-color-scheme` rules renders them whenever the *viewer's* OS
@@ -30,7 +35,7 @@ import type { PlatformId } from '~/platforms/tokens';
 export type DarkStrategy = 'authored' | 'simulated';
 
 export const DARK_STRATEGY: Record<PlatformId, DarkStrategy> = {
-  'rise-ai': 'authored',
+  'rise-ai': 'simulated',
   stamped: 'simulated',
   klaviyo: 'simulated',
 };
