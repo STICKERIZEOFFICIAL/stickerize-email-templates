@@ -166,6 +166,38 @@ anyway. The page background in a CSS `url()` was the last one.
   out for exactly that reason, so it is now disabled here too. The `sup` rule
   in the same block is untouched.
 
+### The first Klaviyo email
+
+`How creators turn work into stickers` is the first actual campaign in that tab
+— the post-purchase flow email that goes out 42 days after fulfilment (template
+`UJkp6d`). It was supplied as a brief plus the live export, in
+`other emails/klaviyo/how-creators-turn-work-into-stickers-template.md`.
+
+It is **composed from this tab's blocks**, not pasted from the export: the same
+head, masthead, heading, paragraph, two-up image row, CTA and footer the kit
+uses. So the four differences from the live email are the four decisions
+already made for the tab, applied again:
+
+| | Live export | Here |
+|---|---|---|
+| Masthead | the 724px `STICKERIZE` wordmark | the 188×30 logo over a 1px `#000001` rule, inset 12px |
+| Button | JetBrains Mono 300, `ico_arrow_right.png` | Courier New, text `→` |
+| Block gaps | `padding: 12px` all round, so every gap landed on 24px | one side owns each gap — 24px inside a section, 36px on the block that closes one |
+| Footer | five stacked rows on `#e1e0dd` hairlines, plus a social row | the 288 / 16 / 396 two-column footer with the wordmark beneath |
+
+The wordmark masthead is the same thing the kit's own masthead was changed away
+from, and it already closes the email in the footer, so running it twice was
+the thing to drop. Two footer links go with it: **GO TO STICKERIZE**, whose
+destination the logo and every image already link to, and the **FOLLOW US**
+social row, which this tab's footer does not carry. Both are copy decisions
+rather than fixes — say the word and either comes back.
+
+Unlike the rest of the tab its inbox lines are **given, not proposed**: the
+subject comes from the flow, and the preview text — "A few collaborations we've
+loved" — is hardcoded in the hidden preheader because the flow's own preview
+text field is empty. That is why this one template does not use
+`{% render_variable preview_text %}`.
+
 ## Still open
 
 Nothing below is blocking, but each is a decision someone else owns.
@@ -226,8 +258,8 @@ Klaviyo's carries **social icons**; nothing else does.
   Google Fonts and mixed both within one kit. Stamped takes the family from its
   own admin via `##fontFamilyUrl##`. Courier New was used as the system face
   throughout this pass; if that is wrong, it is a one-line change per platform.
-- **No Klaviyo campaigns were supplied** — that tab is a component library, not
-  a set of emails.
+- **Only one Klaviyo campaign has been supplied** — the collaborator email
+  above. The rest of that tab is still a component library.
 - Every sample value in `tokens.ts` is invented. The URLs point at real
   Stickerize paths; the codes, names and amounts are plausible but made up.
 

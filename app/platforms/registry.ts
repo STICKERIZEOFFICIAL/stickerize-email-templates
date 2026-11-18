@@ -8,6 +8,7 @@ import klaviyoImage4 from '~/platforms/klaviyo/components/image-4';
 import klaviyoParagraph from '~/platforms/klaviyo/components/paragraph';
 import klaviyoParagraphBold from '~/platforms/klaviyo/components/paragraph-bold';
 import klaviyoUsps from '~/platforms/klaviyo/components/usps';
+import klaviyoCreators from '~/platforms/klaviyo/how-creators-turn-work-into-stickers';
 import klaviyoKit from '~/platforms/klaviyo/kit';
 import riseGlobalTheme from '~/platforms/rise-ai/global-theme';
 import riseRefund from '~/platforms/rise-ai/refund';
@@ -79,7 +80,7 @@ export const TABS: Tab[] = [
     id: 'klaviyo',
     label: 'Klaviyo',
     href: '/platforms/klaviyo',
-    blurb: 'Campaign and flow building blocks, not a fixed set of emails.',
+    blurb: 'The collaborator flow email, and the blocks every campaign is built from.',
     syntax: 'Klaviyo tags — {% unsubscribe_link %}',
     pasteInto: "Klaviyo → the campaign's HTML block",
   },
@@ -257,6 +258,25 @@ const STAMPED: PlatformTemplate[] = [
 ];
 
 const KLAVIYO: PlatformTemplate[] = [
+  {
+    slug: 'how-creators-turn-work-into-stickers',
+    label: 'How creators turn work into stickers',
+    group: 'Emails',
+    description:
+      'Post-purchase flow, 42 days after fulfilment: three collaborations, two images each.',
+    file: 'app/platforms/klaviyo/how-creators-turn-work-into-stickers.ts',
+    render: klaviyoCreators,
+    subject: 'How creators turn work into stickers',
+    subjectStatus: 'given',
+    previewText: "A few collaborations we've loved",
+    previewTextStatus: 'given',
+    notes: [
+      'Built from docs in `other emails/klaviyo/how-creators-turn-work-into-stickers-template.md`, composed out of this tab\'s blocks rather than pasted from the live export.',
+      'The flow\'s preview text field is empty — the line is hardcoded in the hidden preheader, as it is in the live email, so it is given rather than platform-owned.',
+      'Four deliberate differences from the live export: the 724px wordmark masthead is the system 188x30 logo over a 1px rule; the button is Courier New with a text arrow, not JetBrains Mono with ico_arrow_right.png; block gaps are owned by one side (24px inside a section, 36px closing one) instead of 12px all round; the footer is this tab\'s two-column footer, which drops the GO TO STICKERIZE row and the social icons.',
+      'Live as "Post purchase - Email Collaborator - 42 days after fulfilment", template ID UJkp6d.',
+    ],
+  },
   {
     slug: 'kit',
     label: 'All components',
