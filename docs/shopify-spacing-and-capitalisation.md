@@ -182,6 +182,36 @@ which is the other half of why the row was blank even when it did render.
 `showEstimatedDelivery` is gone from `CustomerInfo`; nothing is conditional
 about the new row.
 
+## Line-item rules: grey between, black at the end
+
+The rules in the order table were all 1px `#000001`, which made the one under
+the last item look like one more divider between items. It is not: it is the
+line that separates the order from its totals.
+
+So rules **between** items are now `#c9c7c5` — the grey the table already uses
+for a compare-at price, not a new token — and the **last** rule stays black.
+Nothing else about the table changes: same 1px, same position, same 24px either
+side, so the layout is identical.
+
+### Knowing which row is last
+
+Harder than it looks, and `forloop.last` is the wrong answer. Two loops run in
+sequence over different collections:
+
+1. `subtotal_line_items`, which **skips** any item belonging to a bundle, so
+   its last iteration is often not its last rendered row;
+2. `line_item_groups`, the bundles, which render after — so whenever there is
+   one, the black rule belongs to this loop.
+
+Both are counted before either runs: `ungrouped_count` and `group_count`. An
+item takes the black rule only when it is the last ungrouped item *and* there
+are no groups behind it; a group takes it on `forloop.last`.
+
+Verified against eight shapes — one item, several, one group, several groups,
+items followed by groups, a grouped item sitting last in the collection, and an
+empty order. Exactly one black rule in every non-empty case, always last, and
+none when there is nothing to draw.
+
 ## The summary row order
 
 **Order discount** now comes **first**, above Shipping:

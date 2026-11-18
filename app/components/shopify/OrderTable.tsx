@@ -35,9 +35,41 @@ export function OrderTable({
   <tr>
     <td style="padding: 0 12px ${gapBottom}px;">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
+        {% comment %}
+          Which rule closes the table.
+
+          Rules between items are grey; the one under the last item is black,
+          because it is not a divider between two items — it is the line that
+          separates the order from its totals.
+
+          Knowing which row is last takes counting first. Two loops run in
+          sequence, and the first skips any item belonging to a bundle, so
+          forloop.last there is the last item of the collection, not the last
+          row drawn. Bundles render after, so when there is one the black rule
+          always belongs to scenario 2.
+
+          (No backticks in this comment: the file is a JS template literal.)
+        {% endcomment %}
+        {% assign group_count = 0 %}
+        {% if line_item_groups %}
+          {% assign group_count = line_item_groups | size %}
+        {% endif %}
+        {% assign ungrouped_count = 0 %}
+        {% for line in subtotal_line_items %}
+          {% if line.groups.size == 0 %}
+            {% assign ungrouped_count = ungrouped_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        {% assign ungrouped_seen = 0 %}
+
         <!-- Item scenario 1 -->
         {% for line in subtotal_line_items %}
           {% if line.groups.size == 0 %}
+            {% assign ungrouped_seen = ungrouped_seen | plus: 1 %}
+            {% assign item_rule = '#c9c7c5' %}
+            {% if group_count == 0 and ungrouped_seen == ungrouped_count %}
+              {% assign item_rule = '#000001' %}
+            {% endif %}
             <tr class="order-list__item">
               <td class="order-list__item__cell">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
@@ -46,7 +78,7 @@ export function OrderTable({
                     {% assign thumb = line.properties._thumb %}
 
                     <!-- column left -->
-                    <td class="mw-img-90" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+                    <td class="mw-img-90" style="border-bottom: 1px solid {{ item_rule }}; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
                         {% if thumb %}
                             <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
@@ -67,10 +99,10 @@ export function OrderTable({
                     </td>
                     <!-- END column left -->
 
-                    <td class="mw-24" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                    <td class="mw-24" style="border-bottom: 1px solid {{ item_rule }}; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                     
                     <!-- column center -->
-                    <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
+                    <td style="letter-spacing: -0.04em; border-bottom: 1px solid {{ item_rule }}; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                       {% if line.product.title %}
                         {% assign line_title = line.product.title %}
                       {% else %}
@@ -191,16 +223,16 @@ export function OrderTable({
                     </td>
                     <!-- END column center -->
 
-                    <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                    <td class="mw-10" style="border-bottom: 1px solid {{ item_rule }}; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
 
                     <!-- column right -->
                     ${
                       !hidePrices
                         ? /*html*/ `
                       {% if expand_bundles and line.bundle_parent? %}
-                        <td style="border-bottom: 1px solid #000001; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                        <td style="border-bottom: 1px solid {{ item_rule }}; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                       {% else %}
-                        <td style="border-bottom: 1px solid #000001; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                        <td style="border-bottom: 1px solid {{ item_rule }}; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                       {% endif %}
                         <p style="color:#000001; font-family:'Courier New', monospace; font-size: 13px; line-height: 17px; text-align:right;">
                           {% if line.final_line_price > 0 %}
@@ -226,6 +258,10 @@ export function OrderTable({
 
         <!-- Item scenario 2 -->												
         {% for line_item_group in line_item_groups %}
+          {% assign item_rule = '#c9c7c5' %}
+          {% if forloop.last %}
+            {% assign item_rule = '#000001' %}
+          {% endif %}
           {% assign final_line_price = 0 %}
           {% assign original_line_price = 0 %}
           {% assign discount_keys_str = "" %}
@@ -246,7 +282,7 @@ export function OrderTable({
           <tr class="order-list__item">
             <td class="order-list__item__cell">
               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
-                <td class="mw-img-90" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
+                <td class="mw-img-90" style="border-bottom: 1px solid {{ item_rule }}; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="114" valign="top">
                   {% if line_item_group.image %}
                     <table border="0" cellspacing="0" cellpadding="0" role="presentation">
                       <tr>
@@ -265,8 +301,8 @@ export function OrderTable({
                     </table>
                   {% endif %}
                 </td>
-                <td class="mw-24" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
-                <td style="letter-spacing: -0.04em; border-bottom: 1px solid #000001; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
+                <td class="mw-24" style="border-bottom: 1px solid {{ item_rule }}; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                <td style="letter-spacing: -0.04em; border-bottom: 1px solid {{ item_rule }}; padding-top: 24px; padding-bottom: 24px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;" valign="top">
                   <!-- Product title -->
                   <p style="margin-bottom: 0; padding-bottom: 12px; color:#000001; font-family:'Courier New', monospace; text-align:left; font-size: 13px; line-height: 17px;">
                     <span class="order-list__item-title">{{ line_item_group.title }}&nbsp;&times;&nbsp;{{ line_item_group.quantity }}</span>
@@ -335,11 +371,11 @@ export function OrderTable({
                     </table>
                   {% endfor %}
                 </td>
-                <td class="mw-10" style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
+                <td class="mw-10" style="border-bottom: 1px solid {{ item_rule }}; font-size:0pt; line-height:0pt; text-align:left; padding-top: 24px; padding-bottom: 24px;" width="24" valign="top">&nbsp;</td>
                 ${
                   !hidePrices
                     ? /*html*/ `
-                  <td style="border-bottom: 1px solid #000001; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
+                  <td style="border-bottom: 1px solid {{ item_rule }}; letter-spacing: -0.04em; padding-top: 24px; padding-bottom: 24px;" valign="top">
                     <p style="color:#000001; font-family:'Courier New', monospace; text-align:right; font-size: 13px; line-height: 17px;">
                       {% if final_line_price > 0 %}
                         {{ final_line_price | money_without_trailing_zeros }}
