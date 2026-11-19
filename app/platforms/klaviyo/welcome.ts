@@ -227,8 +227,8 @@ export default function () {
 								<!-- Preview Text -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<div class="m-hide" style="font-size: 0pt; line-height: 0pt; mso-hide: all;">
 													Cash back on every order, and &euro;5 every time a friend orders.
 												</div>
@@ -245,8 +245,8 @@ export default function () {
 								<!-- Logo -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td class="h2" data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td class="h2">
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 24px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation"><tr><td style="border-bottom: 1px solid #000001; font-size:0pt; line-height:0pt; text-align:left; padding-bottom: 12px;"><a href="https://www.stickerize.com/" target="_blank"><img src="https://cdn.shopify.com/s/files/1/0729/1394/4840/files/logo_footer.png?v=1734345195" width="188" height="30" border="0" alt="STICKERIZE" style="display: block;" /></a></td></tr></table></td>
@@ -261,8 +261,8 @@ export default function () {
 								<!-- Photos -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 24px;">
@@ -289,8 +289,8 @@ export default function () {
 								<!-- Heading -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 24px;">
@@ -313,8 +313,8 @@ export default function () {
 								<!-- Intro -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -338,8 +338,8 @@ export default function () {
 								<!-- Divider 1 -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -360,8 +360,8 @@ export default function () {
 								<!-- Referrals -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -386,8 +386,8 @@ export default function () {
 								<!-- Divider 2 -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -408,8 +408,8 @@ export default function () {
 								<!-- Credits -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -451,8 +451,8 @@ export default function () {
 								<!-- Divider 3 -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -473,8 +473,8 @@ export default function () {
 								<!-- Brand Hub -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -499,8 +499,8 @@ export default function () {
 								<!-- Divider 4 -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -521,8 +521,8 @@ export default function () {
 								<!-- Invoices -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 24px;">
@@ -547,8 +547,8 @@ export default function () {
 								<!-- CTA -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">
@@ -585,8 +585,8 @@ export default function () {
 								<!-- Small print -->
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td data-klaviyo-region="true" data-klaviyo-region-width-pixels="auto">
-											<div class="klaviyo-block klaviyo-text-block">
+										<td>
+											<div>
 												<table width="100%" border="0" cellspacing="0" cellpadding="0">
 													<tr>
 														<td style="padding: 0 12px 36px;">

@@ -350,6 +350,85 @@ to choose between.
   template. Rise's own defaults used `{{shop_url}}`, which would follow the
   shop's locale — one line in `shell.ts` switches all eight.
 
+## Why Klaviyo broke the spacing, and what fixes it
+
+The two emails imported into Klaviyo came out with every gap wrong: sections
+and paragraphs further apart than authored, and the content inset no longer
+matching the footer's. They render correctly here, and correctly in a browser
+from the pasted source. Klaviyo was changing them on import.
+
+### The cause
+
+`data-klaviyo-region="true"` is Klaviyo's own instruction for *"make this cell
+an editable block in the drag-and-drop builder"*. Our templates carried it on
+every block, inherited from the export they were ported from — so on import
+Klaviyo did exactly what the markup told it to, and replaced each marked
+cell's chrome with its own:
+
+```html
+<td data-klaviyo-region="true">
+  <div class="kl-column"><div class="component-wrapper">
+    <table><tbody><tr>
+      <td style="…padding-top:9px;padding-right:18px;padding-bottom:9px;padding-left:18px;">
+        <!-- our block, now inside Klaviyo's padding -->
+```
+
+That wrapper adds **9px above and below every block — 18px to every gap — and
+18px to each side.** The uploaded templates came back from Klaviyo's API with
+`editor_type: USER_DRAGGABLE`, which is the conversion having happened.
+
+Measured on the welcome email, authored against imported:
+
+| | Authored | After Klaviyo's import |
+|---|---|---|
+| Heading → body | 24px | **42px** |
+| Body → divider | 36px | **54px** |
+| Content inset | 12px | **30px** |
+| Email height | 1836px | 2107px |
+
+It is the gap-summing bug the whole system exists to prevent, reintroduced
+from outside: 24 and 36 become 42 and 54, so the rhythm that distinguishes
+"inside a section" from "between sections" is flattened.
+
+### The control that proves it
+
+The **footer** of the same email carries no `data-klaviyo-region`, and came
+back from Klaviyo **byte-identical to the source** — no `kl-column`, no
+`component-wrapper`, no 9px/18px. Same document, same import, same pipeline:
+the blocks with the attribute were rewritten, the one block without it was
+not. That is why the footer sat at a 12px inset while everything above it sat
+at 30px, which is the mismatch that made it look broken rather than merely
+roomy.
+
+### The fix
+
+The markers are **removed, not compensated for** — 39 `data-klaviyo-region`
+attributes, 39 `klaviyo-block klaviyo-text-block` wrapper classes, and 9
+`kl-text` classes on the component files, which Klaviyo's own stylesheet pads
+by 18px a side under 480px.
+
+Nothing else changed. The surrounding structure is untouched, and the
+rendered output measures identically to before the fix: 24px, 36px, 12px
+inset, 1836px tall.
+
+What this costs: the emails are **no longer editable block-by-block in
+Klaviyo's drag-and-drop builder**. That is the point. The design is owned
+here, the template is pasted whole, and anything Klaviyo can rearrange is
+something that can silently stop matching this repo.
+
+### How to import them
+
+1. **Replace the two that are already up** — "Welcome Email - Rise.ai" and
+   "Collaborators Email". They hold the converted markup and cannot be
+   repaired in place; the spacing is baked into Klaviyo's blocks now.
+2. Create the template from **HTML / code**, not by importing into the
+   drag-and-drop builder, and paste the whole document from **Copy HTML**.
+3. Set the subject in Klaviyo. The preheader travels inside the HTML.
+
+The templates carry no `<p>`, `<h1>`–`<h4>`, so the stylesheet Klaviyo injects
+alongside its own blocks — which sets `p { padding-bottom: 1em }` and Arial
+headings — has nothing of ours to restyle.
+
 ## The CTA arrow moved to the left
 
 Every CTA on every platform — Shopify, Rise.ai, Stamped, Klaviyo — used to end
