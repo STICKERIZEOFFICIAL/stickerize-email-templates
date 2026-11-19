@@ -10,6 +10,7 @@ import klaviyoParagraphBold from '~/platforms/klaviyo/components/paragraph-bold'
 import klaviyoUsps from '~/platforms/klaviyo/components/usps';
 import klaviyoCreators from '~/platforms/klaviyo/how-creators-turn-work-into-stickers';
 import klaviyoKit from '~/platforms/klaviyo/kit';
+import klaviyoWelcome from '~/platforms/klaviyo/welcome';
 import riseCashback from '~/platforms/rise-ai/cashback';
 import riseCompensation from '~/platforms/rise-ai/compensation';
 import riseGiftCard from '~/platforms/rise-ai/gift-card';
@@ -84,7 +85,7 @@ export const TABS: Tab[] = [
     id: 'klaviyo',
     label: 'Klaviyo',
     href: '/platforms/klaviyo',
-    blurb: 'The collaborator flow email, and the blocks every campaign is built from.',
+    blurb: 'The collaborator flow email, the post-order welcome, and the blocks every campaign is built from.',
     syntax: 'Klaviyo tags — {% unsubscribe_link %}',
     pasteInto: "Klaviyo → the campaign's HTML block",
   },
@@ -324,6 +325,27 @@ const STAMPED: PlatformTemplate[] = [
 ];
 
 const KLAVIYO: PlatformTemplate[] = [
+  {
+    slug: 'welcome',
+    label: 'Welcome',
+    group: 'Emails',
+    description:
+      'Post-order welcome: how cash back, referrals, Brand Hub and invoices work.',
+    file: 'app/platforms/klaviyo/welcome.ts',
+    render: klaviyoWelcome,
+    subject: 'Your Stickerize account is ready',
+    subjectStatus: 'proposed',
+    previewText: 'Cash back on every order, and €5 every time a friend orders.',
+    previewTextStatus: 'proposed',
+    notes: [
+      'The old Rise.ai welcome email, rebuilt here. Rise’s migration retired it — no Welcome was exported and its account-creation trigger is obsolete — but it is the only email that explains cash back, referrals, Brand Hub and invoices, so it moves to Klaviyo and triggers off the order instead.',
+      'Copy carried across from `other emails/rise.ai/welcome-email.html`, approved on the old platform, sentence for sentence — the three-step credits list and the euro-conversion small print included. Only the chrome and the gaps are this tab’s.',
+      'TRIGGER TO SET IN KLAVIYO: Placed Order, not account creation. The opening line — “When you placed your order, we created a Stickerize account for you” — only reads true on that trigger.',
+      'Two deliberate deviations: the CTA points at /account rather than the bare https://stickerize.com that docs/email-style-changes.md specifies, since the label says GO TO MY ACCOUNT; and the preview text is new copy, because the old platform had no preheader field for this email.',
+      'Both inbox lines are proposed, not given. The subject matches the Shopify Account Invite’s wording so the two do not read as different products — worth a look, since on this trigger the account already exists.',
+      'The €5 referral reward and the 10% friend discount are quoted from the approved copy. Confirm they are still the live numbers before this goes out.',
+    ],
+  },
   {
     slug: 'how-creators-turn-work-into-stickers',
     label: 'How creators turn work into stickers',
