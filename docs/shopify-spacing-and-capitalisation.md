@@ -351,6 +351,25 @@ anywhere in visible copy.
 
 ## Open
 
+- **Order link's copy is proposed, not approved.** The template is new — it was
+  supplied as Shopify's stock notification, in
+  `other emails/order-link-shopify.html`, and rebuilt on the system. Martin's
+  copy sheet predates it, so its title, paragraph, subject and preview text
+  were written here:
+
+  | | |
+  |---|---|
+  | Title | Here's the link to your order |
+  | Paragraph | You asked for a link to order **#1024**. The button below opens it: your items, where the parcel is, and your invoice. Didn't ask for this? You can safely ignore this email. Nothing on the order has changed. |
+  | Subject | Here's the link to order `{{ name }}` |
+  | Preview | The link you asked for, straight to your order. |
+
+  The safety sentence deliberately echoes Password reset's approved wording —
+  "Didn't ask for this? You can safely ignore this email." — because the two
+  emails do the same job: hand over a link somebody requested. Shopify's stock
+  version keeps that line in grey small print under the button; it reads as
+  body copy here, as it does in Password reset.
+
 - **"What's Included"** does not exist anywhere in the repo. If that heading is
   meant to ship, it has not been written yet — say where it belongs and it can
   be added.

@@ -15,6 +15,7 @@ import orderCanceled from '~/templates/shopify/order-canceled';
 import orderConfirmation from '~/templates/shopify/order-confirmation';
 import orderEdited from '~/templates/shopify/order-edited';
 import orderInvoice from '~/templates/shopify/order-invoice';
+import orderLink from '~/templates/shopify/order-link';
 import orderPaymentReceipt from '~/templates/shopify/order-payment-receipt';
 import orderRefund from '~/templates/shopify/order-refund';
 import outForDelivery from '~/templates/shopify/out-for-delivery';
@@ -164,6 +165,17 @@ export const TEMPLATES: Template[] = [
     // Preview the full refund, which is the branch the copy was written for.
     // A partial refund keeps its own separate title.
     data: { item_count: 1 },
+  },
+  {
+    // On demand rather than at a lifecycle stage — a customer can ask for
+    // this link at any point — so it sits at the end of the order emails
+    // rather than between two of them.
+    slug: 'order-link',
+    label: 'Order link',
+    group: 'Order',
+    description: 'Customer asked for a link back to an order they already placed.',
+    subject: "Here's the link to order {{ name }}",
+    render: orderLink,
   },
   {
     slug: 'order-payment-receipt',
