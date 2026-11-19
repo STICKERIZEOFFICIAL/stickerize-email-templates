@@ -1,5 +1,17 @@
 /**
- * Ported verbatim from `other emails/klaviyo/cta.html`.
+ * Ported from `other emails/klaviyo/cta.html`, with the arrow moved.
+ *
+ * The arrow leads the label now, 12px in front of it, rather than sitting at
+ * the far right of the bar — the same change made to every CTA on every
+ * platform. The bar's width, height and 12px outer inset are untouched.
+ *
+ * The two anchors carry their padding inline here, which the exported block
+ * did not: `.btn-24-12 a { padding: 24px 12px; }` in the kit's head was
+ * giving *both* of them 12px on *both* sides, so once the cells swapped, the
+ * arrow's right padding and the label's left padding stacked with the cell's
+ * own and the gap came out at 36px. Inline padding beats the class, each
+ * anchor keeps the 24px vertical it always had, and the gap is the label
+ * cell's 12px and nothing else.
  *
  * Pure HTML with the platform's own variable syntax — no Liquid, no engine.
  * The preview substitutes tokens for display only; Source and Download emit
@@ -19,8 +31,8 @@ export default function () {
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td class="btn" style="color: #fffffe; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-weight: 300; font-size: 13px; line-height: 17px; text-transform: uppercase;"><a href="https://www.stickerize.com/en-se/account/settings" style="color: #fffffe; text-decoration: none;">CHECK YOUR STORE CREDITS</a></td>
-<td align="right" valign="middle" style="color: #fffffe; font-family: 'Courier New', Arial, sans-serif; font-size: 20px; line-height: 17px; font-weight: 400; text-align: right;" width="44"><a href="https://www.stickerize.com/en-se/account/settings" style="color: #fffffe; text-decoration: none;">&rarr;</a></td>
+<td align="left" valign="middle" style="color: #fffffe; font-family: 'Courier New', Arial, sans-serif; font-size: 20px; line-height: 17px; font-weight: 400; text-align: left;"><a href="https://www.stickerize.com/en-se/account/settings" style="color: #fffffe; text-decoration: none; display: block; padding: 22px 0 26px 12px;">&rarr;</a></td>
+<td class="btn" width="100%" style="color: #fffffe; font-family: 'Courier New', Arial, sans-serif; text-align: left; font-weight: 300; font-size: 13px; line-height: 17px; text-transform: uppercase; padding-left: 12px;"><a href="https://www.stickerize.com/en-se/account/settings" style="color: #fffffe; text-decoration: none; display: block; padding: 24px 12px 24px 0;">CHECK YOUR STORE CREDITS</a></td>
 </tr>
 </tbody>
 </table>

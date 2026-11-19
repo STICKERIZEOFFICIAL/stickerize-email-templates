@@ -208,10 +208,26 @@ export function codeBox(label: string, token: string): string {
 }
 
 /**
- * The black bar, label left and a text arrow right.
+ * The black bar: a text arrow, then the label 12px after it.
  *
  * The arrow is the character, not `ico_arrow.png`: it inherits the link colour,
  * so it survives the inversion clients force in dark mode, and it cannot skew.
+ *
+ * It used to sit at the far right of the bar. It now leads the label, which is
+ * the same change made to every other platform's CTA — the bar's width, height
+ * and 12px inset are untouched; the two cells swapped places and swapped which
+ * edge each one owns. The 12px gap is the label cell's own padding, so it does
+ * not depend on how wide the glyph renders.
+ *
+ * The arrow cell takes 2px less padding above and 2px more below than the
+ * label's. A block's baseline sits `(lineHeight - (ascent + descent)) / 2 +
+ * ascent` below its content top, and in Courier New the 20px arrow and the
+ * 13px label are a constant 2px apart on that figure — so without the offset
+ * the arrow hangs 2px low and reads as bottom-aligned. Total height is
+ * unchanged, which matters: both cells are `valign="middle"`.
+ *
+ * This is also where Rise's arrow stopped being the odd one out at 13px: it
+ * is 20px here, the size every other platform's CTA has always used.
  */
 export function button(label: string, href: string, { tight = false } = {}): string {
   const link = style(
@@ -230,11 +246,11 @@ export function button(label: string, href: string, { tight = false } = {}): str
     `${I(3)}<div rise-element="button-placeholder" style="${RESET}">` +
     `${I(4)}<table class="dm-btn-table" width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" bgcolor="#000001" style="${cell}">` +
     `${I(5)}<tr style="${RESET}">` +
-    `${I(6)}<td align="left" valign="middle" style="${style(cell, 'padding: 23px 0 23px 12px')}">` +
-    `${I(7)}<a rise-element="button" class="dm-btn" href="${href}" target="_blank" style="${style(link, 'text-transform: uppercase')}">${label}</a>` +
+    `${I(6)}<td align="left" valign="middle" style="${style(cell, 'padding: 21px 0 25px 12px')}">` +
+    `${I(7)}<a class="dm-btn" href="${href}" target="_blank" style="${style(link, 'font-size: 20px', 'line-height: 18px', 'font-weight: 400', 'text-align: left')}">&rarr;</a>` +
     `${I(6)}</td>` +
-    `${I(6)}<td align="right" valign="middle" width="40" style="${style(cell, 'padding: 23px 12px 23px 0')}">` +
-    `${I(7)}<a class="dm-btn" href="${href}" target="_blank" style="${style(link, 'text-align: right')}">&rarr;</a>` +
+    `${I(6)}<td align="left" valign="middle" width="100%" style="${style(cell, 'padding: 23px 12px 23px 12px')}">` +
+    `${I(7)}<a rise-element="button" class="dm-btn" href="${href}" target="_blank" style="${style(link, 'text-transform: uppercase')}">${label}</a>` +
     `${I(6)}</td>` +
     `${I(5)}</tr>${I(4)}</table>${I(3)}</div>${I(2)}</section>`
   );
