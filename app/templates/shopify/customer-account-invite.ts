@@ -29,6 +29,9 @@ export default function () {
 				`,
         showPendingPayment: false,
         showImage: true,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gapBottom: 24,
       })}
 
 			{% if customer.account_activation_url %}

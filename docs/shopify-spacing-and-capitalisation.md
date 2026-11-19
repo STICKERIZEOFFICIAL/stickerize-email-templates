@@ -12,6 +12,36 @@ brief's rules.
 | **24px** | Between elements of a section — the heading and its body, the body and the images, the images and the tracking box. |
 | **36px** | Between distinct sections. |
 
+### A CTA button is not a section
+
+The gap **above a button is 24px**, not 36px. A button is not a section of its
+own: it is the action belonging to the copy directly above it, so the element
+gap is the one that applies. At 36px a button floats free of the sentence that
+asks you to press it.
+
+Every template used to put 36px there, which is what prompted this. Eleven now
+pass the closing gap explicitly:
+
+| Shape | How |
+|---|---|
+| Copy comes through `Intro` | `gapBottom: 24` on the `Intro` call |
+| Copy comes through `Description` | `gap: 24` on the `Description` call |
+
+The same rule applies on the other platforms. Klaviyo's two emails now close
+their last text block at 24px rather than 36px; the kit was already at 24px.
+Rise.ai is spaced by collapsing section margins that give 24px anyway, and
+Stamped's coupon button deliberately sits 12px under the code box.
+
+**Four templates are deliberately left at 36px**, because what precedes the
+button in them is not a paragraph but a different section: the order table in
+Return declined and Return received, and the customer-information panel in
+Pending payment error and Payment receipt. Those read as section-to-section.
+Say the word if they should be 24px too, for one number everywhere.
+
+**Below the button is still 32px**, which is in `Button.tsx` and predates this.
+It is neither of the brief's numbers — a section gap there would be 36px. Left
+alone because it is not what this change was about, but worth a decision.
+
 ## Why the gaps were wrong
 
 Three separate causes, all of which made a gap bigger than the number written

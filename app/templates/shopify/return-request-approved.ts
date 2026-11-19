@@ -57,6 +57,9 @@ export default function () {
 								%Tracking number: <a target="_blank" href="{{ return_delivery_first.tracking_url }}">{{ return_delivery_first.tracking_number }}</a>
 						{% endif %}
 				{% endif %}`,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gap: 24,
       })}
 
 			${Button({ url: '{{ order_details_url }}', label: 'View your order', paddingTop: 0 })}

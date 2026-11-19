@@ -25,6 +25,9 @@ export default function () {
 
 			${Description({
         description: /*html*/ `{{ email_body }}`,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gap: 24,
       })}
 
 			{% if customer.reset_password_url  %}

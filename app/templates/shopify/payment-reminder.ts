@@ -51,6 +51,9 @@ export default function () {
 						for order ${ORDER_NUMBER} was due on {{ payment_schedule.due_at | date: '%B %e, %Y' }}. Pay securely using the button below. Already paid? Thank you, and please ignore this email. Questions about the invoice? Just reply.
 					{% endif %}
 				{% endif %}`,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gap: 24,
       })}
 
 			{% if checkout_payment_collection_url %}

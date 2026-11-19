@@ -25,6 +25,9 @@ export default function () {
         description: /*html*/ `{{email_body}}`,
         showPendingPayment: false,
         showImage: false,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gapBottom: 24,
       })}
 
 			${Button({ url: 'https://stickerize.com/account', label: 'Go to my account', paddingTop: 0 })}
