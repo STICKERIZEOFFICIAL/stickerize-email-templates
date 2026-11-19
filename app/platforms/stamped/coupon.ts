@@ -141,7 +141,7 @@ export default function () {
                     </tr>
 
                     <!-- CTA Button -->
-                    <!-- Two cells, label left and a text arrow right. The arrow
+                    <!-- Two cells, a text arrow then the label 12px after it. The arrow
                          is the character rather than ico_arrow.png: it inherits
                          the link colour, so it survives the inversion Gmail and
                          Outlook force in dark mode, and it cannot skew. -->
@@ -149,11 +149,11 @@ export default function () {
                         <td style="padding: 0 12px 36px;">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation" bgcolor="#000001" style="background-color: #000001;">
                                 <tr>
-                                    <td align="left" valign="middle" style="mso-padding-alt: 23px 12px; padding: 23px 0 23px 12px; background-color: #000001;">
-                                        <a href="##shopUrl##" target="_blank" rel="noopener" style="font-family: 'Courier New', monospace !important; font-size: 13px; line-height: 18px; font-weight: 300; color: #fffffe; text-decoration: none; display: block; text-transform: uppercase;">##labelCouponShoppingButton##</a>
+                                    <td align="left" valign="middle" style="mso-padding-alt: 21px 0 25px 12px; padding: 21px 0 25px 12px; background-color: #000001;">
+                                        <a href="##shopUrl##" target="_blank" rel="noopener" style="font-family: 'Courier New', monospace !important; font-size: 20px; line-height: 18px; font-weight: 400; color: #fffffe; text-decoration: none; display: block; text-align: left;">&rarr;</a>
                                     </td>
-                                    <td align="right" valign="middle" width="44" style="padding: 21px 12px 21px 0; background-color: #000001;">
-                                        <a href="##shopUrl##" target="_blank" rel="noopener" style="font-family: 'Courier New', monospace !important; font-size: 20px; line-height: 18px; font-weight: 400; color: #fffffe; text-decoration: none; display: block; text-align: right;">&rarr;</a>
+                                    <td align="left" width="100%" valign="middle" style="mso-padding-alt: 23px 12px; padding: 23px 12px 23px 12px; background-color: #000001;">
+                                        <a href="##shopUrl##" target="_blank" rel="noopener" style="font-family: 'Courier New', monospace !important; font-size: 13px; line-height: 18px; font-weight: 300; color: #fffffe; text-decoration: none; display: block; text-transform: uppercase;">##labelCouponShoppingButton##</a>
                                     </td>
                                 </tr>
                             </table>

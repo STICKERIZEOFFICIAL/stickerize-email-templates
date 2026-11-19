@@ -26,6 +26,7 @@ import returnRequestApproved from '~/templates/shopify/return-request-approved';
 import returnRequestDeclined from '~/templates/shopify/return-request-declined';
 import returnRequestReceived from '~/templates/shopify/return-request-received';
 import shippingConfirmation from '~/templates/shopify/shipping-confirmation';
+import shippingConfirmationOld from '~/templates/shopify/shipping-confirmation-old';
 import shippingUpdate from '~/templates/shopify/shipping-update';
 import uspsReturnLabelCreated from '~/templates/shopify/usps-return-label-created';
 
@@ -227,6 +228,20 @@ export const TEMPLATES: Template[] = [
     description: 'Order has shipped, with tracking.',
     subject: 'Order {{ name }} is on the move',
     render: shippingConfirmation,
+  },
+  {
+    // Kept for reference, not for sending. The design it carries — the
+    // package number in a bordered box, the box being the link — was
+    // replaced across all four shipping notifications by the number in the
+    // copy and a CTA button. Nothing imports from it and nothing else in the
+    // repo depends on it; it is here so the previous design can still be
+    // looked at rather than reconstructed from git.
+    slug: 'shipping-confirmation-old',
+    label: 'Shipping confirmation (old)',
+    group: 'Shipping',
+    description: 'Archive: the previous design, with the bordered tracking box.',
+    subject: 'Order {{ name }} is on the move',
+    render: shippingConfirmationOld,
   },
   {
     slug: 'shipping-update',

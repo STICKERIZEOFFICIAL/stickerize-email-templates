@@ -28,6 +28,9 @@ export default function () {
 
 			${Description({
         description: /*html*/ `{{ email_greeting }}{{ email_body }}`,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gap: 24,
       })}
 
 			${Button({ url: '{{ email_confirmation_url }}', label: 'Confirm payment information', paddingTop: 0 })}

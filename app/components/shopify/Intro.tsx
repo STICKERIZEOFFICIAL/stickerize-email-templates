@@ -35,6 +35,7 @@ export function Intro({
   showTrackingNumber,
   trackingLabel,
   showImage = false,
+  gapBottom = GAP.SECTION,
 }: {
   heading: string;
   description: string | readonly BodyBlock[] | null;
@@ -72,10 +73,24 @@ export function Intro({
    * Confirmation, and docs/shopify-email-scope.md adds Account Invite.
    */
   showImage?: boolean;
+  /**
+   * The gap under the last block this renders.
+   *
+   * 36px — a section gap — by default, because for most templates the next
+   * thing on the page is a different section: an order table, a totals block,
+   * a footer.
+   *
+   * Pass 24 when a CTA button follows. A button is not a section of its own:
+   * it is the action belonging to the copy directly above it, so the brief's
+   * element gap is the one that applies. Widening it to 36 detaches a button
+   * from the sentence that asks you to press it.
+   */
+  gapBottom?: 24 | 36;
 }) {
   // Which blocks this instance actually renders, in order. The last one owns
-  // the 36px gap to the next section; the rest own a gap to their neighbour.
-  // Built as a list so a block can never guess what follows it.
+  // the gap to whatever follows — `gapBottom`, 36px unless a button comes
+  // next — and the rest own a gap to their neighbour. Built as a list so a
+  // block can never guess what follows it.
   const blocks = [
     description ? 'description' : null,
     showPendingPayment ? 'pendingPayment' : null,
@@ -87,20 +102,20 @@ export function Intro({
   const isLast = (name: string) => blocks[blocks.length - 1] === name;
 
   /**
-   * Bottom padding: the section gap when last, else the element gap.
+   * Bottom padding: `gapBottom` when last, else the element gap.
    *
    * `pendingPayment` is the one block whose presence is only known at send
    * time — most orders are paid, and carry no instructions. So the block in
    * front of it has to ask the same question Liquid does: 24px down to the
-   * instructions when they are there, and the full section gap when they are
-   * not and this block turns out to be the last thing in the intro.
+   * instructions when they are there, and the closing gap when they are not
+   * and this block turns out to be the last thing in the intro.
    */
   const gapAfter = (name: string) => {
     const next = blocks[blocks.indexOf(name) + 1];
     if (next === 'pendingPayment' && isLast('pendingPayment')) {
-      return `{% if has_pending_payment %}${GAP.ELEMENT}{% else %}${GAP.SECTION}{% endif %}`;
+      return `{% if has_pending_payment %}${GAP.ELEMENT}{% else %}${gapBottom}{% endif %}`;
     }
-    return isLast(name) ? GAP.SECTION : GAP.ELEMENT;
+    return isLast(name) ? gapBottom : GAP.ELEMENT;
   };
 
   // Always the heading gap, never the section gap — including when Intro

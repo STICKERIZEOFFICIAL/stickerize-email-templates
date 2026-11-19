@@ -6,27 +6,28 @@ import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
 import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
+import { PACKAGE_NUMBER, TrackingButton } from '~/components/shopify/tracking';
 import { Total } from '~/components/shopify/Total';
 
+/**
+ * Out for delivery — on the shipping confirmation's design.
+ *
+ * The bordered tracking box and the "You can track your order here:" row
+ * above it are both gone: the package number reads in the copy and the action
+ * is the CTA button, both from `components/shopify/tracking.ts`.
+ *
+ * That row was this template's own `trackingLabel`, and it existed because
+ * the box needed introducing. A button does not — it says what it does — so
+ * the label goes with the box, and `Intro`'s `trackingLabel` now has no
+ * caller.
+ *
+ * The five-branch title conditional is dropped for the same reason it was
+ * dropped from Shipping confirmation: every branch captured the same string.
+ */
 export default function () {
   return /*html*/ `
-	{% if fulfillment.item_count == item_count %} 
-		{% capture email_title %}Heads up. Your order arrives today.{% endcapture %}
-	{% elsif fulfillment.item_count > 1 %} 
-		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Heads up. Your order arrives today.{% endcapture %}
-		{% else %}
-			{% capture email_title %}Heads up. Your order arrives today.{% endcapture %}
-		{% endif %}
-	{% else %} 
-		{% if fulfillment_status == 'fulfilled' %}
-			{% capture email_title %}Heads up. Your order arrives today.{% endcapture %}
-		{% else %}
-			{% capture email_title %}Heads up. Your order arrives today.{% endcapture %}
-		{% endif %}
-	{% endif %}
-
-	{% capture email_emphasis %}Order ${ORDER_NUMBER} is out for delivery and should land with you today. Start choosing where to place it.{% endcapture %}
+	{% capture email_title %}Heads up. Your order arrives today.{% endcapture %}
+	{% capture email_body %}Order ${ORDER_NUMBER} is out for delivery and should land with you today. Start choosing where to place it.{% endcapture %}
 
 	${Head({ title: '{{ email_title }}' })}
 	${BodyWrapper({
@@ -35,19 +36,16 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        description: /*html*/ `{{ email_emphasis }}`,
-        // A row of its own below the body text, 12px above the tracking box,
-        // with the shipment link kept.
-        trackingLabel: /*html*/ `
-				{% if fulfillment.tracking_url %}
-				You can track your order here:
-				{% elsif fulfillment.tracking_numbers.size > 0 %}
-				Your package number:
-				{% endif %}`,
+        description: /*html*/ `<div>{{ email_body }}</div>${PACKAGE_NUMBER}`,
         showPendingPayment: false,
         showImage: false,
-        showTrackingNumber: true,
+        showTrackingNumber: false,
+        // 24px to the button below, not the 36px section gap: the button is
+        // this copy's action, not a section of its own.
+        gapBottom: 24,
       })}
+
+			${TrackingButton()}
 
 			${OrderTable({ heading: 'Items in this shipment', gapBottom: 24 })}
 

@@ -469,17 +469,17 @@ export default function () {
 																	<td class="btn-24-12 c-white l-white" bgcolor="#000001" style="mso-padding-alt:24px 12px; color:#fffffe;">
 																		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 																			<tr>
-																				<td class="btn" style="color:#fffffe; font-family:'Courier New', Arial, sans-serif; text-align:left; font-weight:300; font-size: 13px; line-height: 17px; text-transform: uppercase;">
-																					<a href="https://www.stickerize.com/" target="_blank" class="link c-white" style="display: block; padding: 23px 0 23px 12px; text-decoration:none; color:#fffffe;">
-																						<span class="link c-white" style="text-decoration:none; color:#fffffe;">BUTTON PRIMARY</span>
-																					</a>
-																				</td>
 																				<!-- Text arrow rather than ico_arrow_right.png: it
 																				     inherits the link colour, so it survives the
 																				     inversion Gmail and Outlook force in dark mode,
 																				     and it cannot skew. -->
-																				<td  width="44" align="right" valign="middle" style="font-family:'Courier New', Arial, sans-serif; font-size: 20px; line-height: 18px; font-weight: 400; text-align:right;">
-																					<a href="https://www.stickerize.com/" target="_blank" class="link c-white" style="display: block; padding: 21px 12px 21px 0; text-decoration:none; color:#fffffe; text-align:right;">&rarr;</a>
+																				<td align="left" valign="middle" style="font-family:'Courier New', Arial, sans-serif; font-size: 20px; line-height: 17px; font-weight: 400; text-align:left;">
+																					<a href="https://www.stickerize.com/" target="_blank" class="link c-white" style="display: block; padding: 21px 0 25px 12px; text-decoration:none; color:#fffffe; text-align:left;">&rarr;</a>
+																				</td>
+																				<td class="btn" width="100%" style="color:#fffffe; font-family:'Courier New', Arial, sans-serif; text-align:left; font-weight:300; font-size: 13px; line-height: 17px; text-transform: uppercase;">
+																					<a href="https://www.stickerize.com/" target="_blank" class="link c-white" style="display: block; padding: 23px 12px 23px 12px; text-decoration:none; color:#fffffe;">
+																						<span class="link c-white" style="text-decoration:none; color:#fffffe;">BUTTON PRIMARY</span>
+																					</a>
 																				</td>
 																			</tr>
 																		</table>

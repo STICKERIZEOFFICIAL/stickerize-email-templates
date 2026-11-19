@@ -111,7 +111,8 @@ carried forward:
   - coupon box lost its `font-size: 30px` wrapper and `margin: 0 -12px`
     negative inset; it now sits on the 12px inset at 13/17.
   - CTA rebuilt as the two-cell table with a text `→` instead of
-    `ico_arrow.png`, 13px, 23px padding.
+    `ico_arrow.png`, 13px, 23px padding. The arrow has since moved to the
+    front of the label; see [The CTA arrow moved to the left](#the-cta-arrow-moved-to-the-left).
   - divider 2px `#ececec` → 1px `#000001`.
   - footer email `hello@` → `help@stickerize.com`.
   - unsubscribe `#ccc` → `#999999` with an underline.
@@ -187,7 +188,7 @@ already made for the tab, applied again:
 | | Live export | Here |
 |---|---|---|
 | Masthead | the 724px `STICKERIZE` wordmark | the 188×30 logo over a 1px `#000001` rule, inset 12px |
-| Button | JetBrains Mono 300, `ico_arrow_right.png` | Courier New, text `→` |
+| Button | JetBrains Mono 300, `ico_arrow_right.png` right | Courier New, text `→` leading the label |
 | Block gaps | `padding: 12px` all round, so every gap landed on 24px | one side owns each gap — 24px inside a section, 36px on the block that closes one |
 | Footer | five stacked rows on `#e1e0dd` hairlines, plus a social row | the 288 / 16 / 396 two-column footer with the wordmark beneath |
 
@@ -203,6 +204,64 @@ subject comes from the flow, and the preview text — "A few collaborations we'v
 loved" — is hardcoded in the hidden preheader because the flow's own preview
 text field is empty. That is why this one template does not use
 `{% render_variable preview_text %}`.
+
+### The welcome email, moved from Rise.ai
+
+`Welcome` is the second campaign in the tab, and it is not new copy — it is the
+welcome email the **old Rise.ai platform** sent, rebuilt here.
+
+Rise's migration retired it: no Welcome was exported, and the platform change
+left its account-creation trigger obsolete (see
+[The Rise.ai migration](#the-riseai-migration)). The *email* was never
+obsolete. It is the only one anywhere that explains cash back, referrals,
+Brand Hub and invoices, and a customer who has just ordered is still owed that
+explanation. So it moves to Klaviyo, where it can be automated, and triggers
+off the **order** instead of off account creation.
+
+The copy is carried across from `other emails/rise.ai/welcome-email.html`
+sentence for sentence — the three-step "apply your credits" list and the
+euro-conversion small print included. It was approved on the old platform and
+nothing about the migration made any of it untrue. Only the chrome and the
+gaps are this tab's:
+
+| | Rise.ai | Klaviyo |
+|---|---|---|
+| Block wrapper | `<section rise-section="text" rise-section-id="…">` | `data-klaviyo-region` blocks |
+| Spacing | section margins, supplied by the platform | each block's own `padding-bottom` |
+| Masthead and footer | the Global theme | this tab's own, same as the other email |
+| Dividers | `rise-element="divider"` | a 1px `#000001` row, inset 12px |
+
+Gaps follow the same rule as everything else: 12px from an eyebrow to its
+heading, 24px from a heading to its body, 12px between sibling paragraphs,
+36px on the block that closes a section. The 24px heading-to-body figure is
+the one the Rise design-system pass set for this very email, replacing the
+12px it shipped with.
+
+**The trigger has to be set in Klaviyo, and it is the one thing the HTML
+cannot carry.** Placed Order, not account creation — the opening line, "When
+you placed your order, we created a Stickerize account for you", only reads
+true on that trigger.
+
+Two deliberate deviations from the approved template, each one line to put
+back:
+
+- The CTA points at `https://stickerize.com/account` rather than the bare
+  `https://stickerize.com` that `docs/email-style-changes.md` specifies, since
+  the label says GO TO MY ACCOUNT and that is where all four of the things the
+  email describes live. The label itself is the approved one.
+- The preview text is new copy — "Cash back on every order, and €5 every time
+  a friend orders." The old platform had no preheader field for this email, so
+  there was nothing to carry across. It is hardcoded in the hidden block, the
+  way the other Klaviyo email hardcodes its own.
+
+Both inbox lines are therefore **proposed, not given**, and badged that way in
+the view. The subject borrows the Shopify Account Invite's wording so the two
+do not read as different products — worth a second look, since on this trigger
+the account already exists rather than waiting to be activated.
+
+One thing to confirm before release: the **€5 referral reward and the 10%
+friend discount** are quoted from the approved copy, and copy approved for the
+old platform is the wrong place to learn that a reward has changed.
 
 ## The Rise.ai migration
 
@@ -220,6 +279,12 @@ Rise moved to a new email platform. The export of it is in
 **Global theme and Welcome are retired.** There is no theme field any more, and
 no Welcome email was exported. The old HTML is still in `other emails/rise.ai/`
 if either is ever wanted back.
+
+Welcome has since been wanted back, and it came back **in the Klaviyo tab**
+rather than in this one — see
+[The welcome email, moved from Rise.ai](#the-welcome-email-moved-from-riseai).
+Rise is where the email no longer has a trigger; Klaviyo is where it can be
+automated off the order.
 
 **Dark mode is the real loss.** The theme was the only place the `prefers-color-scheme`
 rules could live, and the new platform has nowhere to put them — so Rise.ai
@@ -285,6 +350,102 @@ to choose between.
   template. Rise's own defaults used `{{shop_url}}`, which would follow the
   shop's locale — one line in `shell.ts` switches all eight.
 
+## The CTA arrow moved to the left
+
+Every CTA on every platform — Shopify, Rise.ai, Stamped, Klaviyo — used to end
+with a text `→` pinned to the far right of the black bar. **The arrow now
+leads the label, 12px in front of it.**
+
+Nothing else about the button changed. Same full width, same height, same 12px
+outer inset, same two cells, same glyph: the cells swapped places and swapped
+which edge each one owns.
+
+| | Before | After |
+|---|---|---|
+| Left cell | label, `padding: 23px 0 23px 12px` | arrow, `padding: 21px 0 25px 12px` |
+| Right cell | arrow, `width="44"`, right-aligned | label, `width="100%"`, `padding: 23px 12px` |
+
+### Centring the glyph
+
+The first version of this looked bottom-aligned, and it was: the arrow's ink
+sat **2.5px below** the label's. Two causes, stacked.
+
+1. **The baselines did not match.** A block's baseline sits
+   `(lineHeight - (ascent + descent)) / 2 + ascent` below its content top. In
+   Courier New that works out at `L/2 + 3.5` for the 13px label and
+   `L/2 + 5.5` for the 20px arrow — a constant **2px apart**, whatever the
+   line-height is. The arrow cell used the label's padding, so the arrow hung
+   2px low.
+2. **The glyph is not centred on its own baseline.** `→` is painted from
+   5.75px above the baseline to 0.875px above it; a capital letter runs from
+   cap-height down *to* the baseline. So even on a shared baseline the two ink
+   centres differ by 0.44px.
+
+The fix for (1) is arithmetic on the cell padding: **the arrow cell takes 2px
+less above and 2px more below than the label's.** The baselines then coincide
+and the cell's total height is unchanged — which matters, because both cells
+are `valign="middle"` and any difference in height would put the offset
+straight back through centring.
+
+```html
+<td style="padding: 21px 0 25px 12px;">   <!-- arrow: 23 − 2 / 23 + 2 -->
+<td style="padding: 23px 12px 23px 12px;" width="100%">   <!-- label -->
+```
+
+**A span does not work, and was tried first:** putting the 20px size on an
+inner `<span>` inside a 13px anchor looks like it should keep the anchor's
+baseline, but a taller inline box raises the line box and the block's baseline
+goes down with it. Measured in the page afterwards, the arrow's baseline was
+still exactly 2px below the label's — the span had changed nothing except the
+bar's height. Measure the baseline, not the box: a zero-height
+`display:inline-block` probe appended to an element has its top edge **on**
+that element's baseline, which is what finally showed this.
+
+Verified across all four platforms after the padding fix: **baseline delta 0
+on every CTA**, leaving the 0.44px from cause (2), which is the glyph's own
+shape and not something layout can correct.
+
+Rise.ai is the one that changed size as well as position. Its arrow had been
+**13px**, the only platform where the glyph matched the label rather than
+standing a size above it. It is 20px now, like everywhere else. That is a
+visible change rather than a fix, so say the word if Rise should keep the
+smaller arrow.
+
+Two details worth keeping:
+
+- **The 12px gap is the label cell's `padding-left`, never a width on the
+  arrow cell.** The arrow cell carries no width at all now and shrinks to its
+  glyph, which is why the label cell takes `width="100%"` — it claims the rest
+  of the bar. A fixed-width arrow cell would have made the gap depend on how
+  wide `→` renders in whatever font the client actually has, and the fallback
+  is not monospace everywhere.
+- **The Klaviyo standalone CTA block needed its anchors' padding made
+  inline.** The kit's head carries `.btn-24-12 a { padding: 24px 12px; }`,
+  which was giving *both* anchors 12px on *both* sides. Once the cells
+  swapped, the arrow's right padding and the label's left padding stacked with
+  the cell's own and the gap came out at 36px. Every other button already had
+  inline padding and was unaffected.
+
+Where each one lives:
+
+| Platform | File |
+|---|---|
+| Shopify (15 notifications) | `app/components/Button.tsx` |
+| Rise.ai (8 emails) | `app/platforms/rise-ai/shell.ts`, `button()` |
+| Klaviyo | `components/cta.ts`, `kit.ts`, and both emails |
+| Stamped | `coupon.ts`, and the review form's `<button>` in `review-request.ts` |
+
+Stamped's review form is the one that is not a table: it is a real `<button>`
+whose arrow was a `float: right` span. The float is gone and the span leads the
+label with a 12px `padding-right`.
+
+**Two trailing arrows are deliberately left alone**, because they are inline
+text links rather than CTAs: "GO TO ACCOUNT →" in the Shopify footer
+(`app/components/shopify/Footer.tsx`) and "Go to your account →" in
+`GoToAccount.tsx`. In both, the arrow follows the words as punctuation inside a
+sentence, not as a control at the edge of a bar. Say the word if those should
+move too.
+
 ## Still open
 
 Nothing below is blocking, but each is a decision someone else owns.
@@ -299,6 +460,7 @@ for these platforms, so every subject and preview text in the registry is
 |---|---|
 | Stamped — Review request | How did your stickers turn out? |
 | Stamped — Coupon | Here is the code we promised |
+| Klaviyo — Welcome | Your Stickerize account is ready |
 
 Rise.ai is no longer on that list. Its eight subjects and preview texts were
 supplied with the migration, in
@@ -309,7 +471,13 @@ Stamped's coupon is the only template here that already ships a preheader.
 **Rise.ai has no preheader block**, and the new platform has no theme to add
 one to, so its preview texts are set in Rise's own admin — the list supplied
 with the migration is what goes in those fields. Klaviyo sets both lines in its
-own campaign editor.
+own campaign editor — except on its two actual emails, which each hardcode a
+preheader in the hidden block, so the preview text travels with the HTML.
+
+The Klaviyo welcome's preview text, "Cash back on every order, and €5 every
+time a friend orders.", is proposed for the same reason its subject is: the
+old platform had no preheader field for that email, so there was nothing to
+carry across with the copy.
 
 ### Two briefs disagree about Rise.ai
 

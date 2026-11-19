@@ -6,8 +6,23 @@ import { Header } from '~/components/shopify/Header';
 import { Intro } from '~/components/shopify/Intro';
 import { ORDER_NUMBER } from '~/components/shopify/orderNumber';
 import { OrderTable } from '~/components/shopify/OrderTable';
+import { PACKAGE_NUMBER, TrackingButton } from '~/components/shopify/tracking';
 import { Total } from '~/components/shopify/Total';
 
+/**
+ * Shipping update — on the shipping confirmation's design.
+ *
+ * The bordered tracking box is gone: the package number reads in the copy and
+ * the action is the CTA button, both from
+ * `components/shopify/tracking.ts`, so this email and the other three
+ * shipping notifications ask the same question of the same fields.
+ *
+ * The box's "Your package number:" label used to be printed here by hand,
+ * conditional on there being a number but no URL. That line is now part of
+ * the shared block and is printed whenever there is a number at all — the URL
+ * decides what the *button* does, not whether the customer is told their
+ * parcel's number.
+ */
 export default function () {
   return /*html*/ `
 	{% capture email_title %}Update on your order{% endcapture %}
@@ -20,15 +35,16 @@ export default function () {
 
 			${Intro({
         heading: `{{ email_title }}`,
-        // Same duplicate-tracking-copy fix as Shipping Confirmation.
-        description: /*html*/ `<div>{{email_body}}</div>
-				{% if fulfillment.tracking_url == blank and fulfillment.tracking_numbers.size > 0 %}
-				<div style="padding-top: 12px;">Your package number:</div>
-				{% endif %}`,
+        description: /*html*/ `<div>{{ email_body }}</div>${PACKAGE_NUMBER}`,
         showPendingPayment: false,
         showImage: false,
-				showTrackingNumber: true,
+        showTrackingNumber: false,
+        // 24px to the button below, not the 36px section gap: the button is
+        // this copy's action, not a section of its own.
+        gapBottom: 24,
       })}
+
+			${TrackingButton()}
 
 			${OrderTable({ heading: 'Items in this shipment', gapBottom: 24 })}
 

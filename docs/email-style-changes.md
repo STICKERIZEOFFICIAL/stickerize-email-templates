@@ -31,6 +31,9 @@ Note: SVG does not render in Gmail or Outlook. Swap for a PNG export when availa
 
 - Old: single `<a>` with `ico_arrow.png` (or SVG arrow) floated right, 14px, `margin: 24px -12px` on the section, label "VISIT OUR STORE", href `{{shop_url}}`
 - New: two cell table, label left, text arrow `&rarr;` right (no image, cannot skew, inverts with the text)
+- **Superseded on the arrow's side only:** the arrow now leads the label, 12px in front of it, on every
+  platform. Everything else on this line still holds. See
+  [docs/other-platform-emails.md](other-platform-emails.md#the-cta-arrow-moved-to-the-left)
 - 13px Courier New, uppercase, weight 300, padding 23px 12px, full width, no negative margin
 - href `https://stickerize.com`
 - Labels: Welcome "GO TO MY ACCOUNT", Reward and Refund "USE MY CREDIT"

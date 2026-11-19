@@ -29,6 +29,9 @@ export default function () {
 					<li>Print your return label and attach it to the package. Cover any existing shipping labels.</li>
 					<li>Give the package to the carrier identified on the label.</li>
 				</ol>`,
+        // 24px to the button below, not the 36px section gap: the
+        // button is this copy's action, not a section of its own.
+        gap: 24,
       })}
 
 			${Button({ url: '{{ return_label.public_file_url }}', label: 'Print return label', paddingTop: 0 })}
