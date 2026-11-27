@@ -304,6 +304,9 @@ a base and an override as text gives `padding: 0; padding: 0 12px` — right by
 the cascade, but it leaves two answers in the attribute for a client's sanitiser
 to choose between.
 
+The fragment opens on a hidden preheader, blank for now, so Gmail stops reading
+before the heading — see [Inbox lines were never supplied](#inbox-lines-were-never-supplied).
+
 ### What changed in each
 
 - **Refund** — arrived already on the design system; it is our own template,
@@ -316,8 +319,16 @@ to choose between.
 - **Cashback, Compensation, Referral, Wallet, Gift card, Print-at-home** — Rise
   defaults in Helvetica with a 20px grey lead and the amounts in a
   label-and-value grid. Every sentence is kept; the figures now read in the copy
-  the way they do on the refund email, because the system has one boxed code and
-  one expiry line rather than a table.
+  the way they do on the refund email, because the system has one boxed code
+  rather than a table.
+- **The expiry line is out of every Rise.ai email, for now.** `expiration()` in
+  `shell.ts` still builds it, so it is one line per template to put back.
+- **Cashback, Store credits and Refund explain the currency.** Rise.ai is not
+  multi-currency: it runs in the shop's default euros, so every credit is issued
+  and printed in euros. Shopify's multi-currency setup shows the wallet in the
+  customer's own currency once they log in, already converted. The sentence
+  that says so is `CURRENCY_NOTE` in `shell.ts`, appended to the balance
+  sentence of each of the three.
 - All six dropped Rise's `Hi {{ recipient_full_name }}` opener, because neither
   approved template has one and the heading is the first thing the design shows.
 - Referral dropped Rise's social row and second website link, which this tab's
@@ -467,12 +478,22 @@ supplied with the migration, in
 `other emails/new-rise.ai/stickerize-rise-email-subjects.md`, and are marked
 **given** in the registry.
 
-Stamped's coupon is the only template here that already ships a preheader.
-**Rise.ai has no preheader block**, and the new platform has no theme to add
-one to, so its preview texts are set in Rise's own admin — the list supplied
-with the migration is what goes in those fields. Klaviyo sets both lines in its
+Stamped's coupon ships a preheader of its own. Klaviyo sets both lines in its
 own campaign editor — except on its two actual emails, which each hardcode a
 preheader in the hidden block, so the preview text travels with the HTML.
+
+**Rise.ai ships a blank preheader, on purpose.** Its preview texts were meant to
+be set in Rise's own admin, but they never reached Gmail: with nothing hidden
+at the top of the fragment, the inbox scraped the heading and the first
+paragraph as the snippet. The shell now puts the same hidden block the Klaviyo
+emails carry ahead of everything else, with no copy in it — a run of
+zero-width characters the client counts as text and renders as nothing — so
+the inbox shows the subject alone. The registry marks the eight
+**deliberately blank**. The supplied texts are still in
+`stickerize-rise-email-subjects.md`; the day one is wanted, pass it to
+`riseEmail()` in that template and mirror it in the registry. Confirm the
+blank line with a test send to Gmail before relying on it — the technique is
+standard, but Rise wraps the fragment in markup of its own that we cannot see.
 
 The Klaviyo welcome's preview text, "Cash back on every order, and €5 every
 time a friend orders.", is proposed for the same reason its subject is: the

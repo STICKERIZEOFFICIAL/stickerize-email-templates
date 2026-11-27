@@ -1,7 +1,7 @@
 import {
   button,
   codeBox,
-  expiration,
+  CURRENCY_NOTE,
   photos,
   REFUND_PHOTOS,
   riseEmail,
@@ -23,20 +23,23 @@ import {
  *   on the inner cell again — the same fix this header needed the first time.
  *
  * Variable names are the new platform's: `issued_credit_amount` where the old
- * one said `store_credit_added`, `wallet_code` for `code`, `order_number` for
- * `order_name`, and `{{#gift_card_expiration}}` for the triple-brace section.
+ * one said `store_credit_added`, `wallet_code` for `code` and `order_number`
+ * for `order_name`. The `{{#gift_card_expiration}}` section the export carried
+ * is out, along with the expiry line on every other Rise.ai email, for now.
+ *
+ * The first body sentence carries `CURRENCY_NOTE` — see `shell.ts` for why
+ * the euro figure here and the wallet's local-currency figure differ.
  */
 export default function () {
   return riseEmail([
     photos(...REFUND_PHOTOS),
     text("Your refund is completed. Here's {{issued_credit_amount}} in store credit.", [
-      "We've processed your refund for order {{order_number}} and added the amount to your account as store credit, ready for your next order.",
+      `We've processed your refund for order {{order_number}} and added the amount to your account as store credit, ready for your next order. ${CURRENCY_NOTE}`,
       'Your code has been saved to your account. Log in with this email address and hit "Apply your credits" in the cart.',
       'Or copy the code below and paste it at checkout.',
     ]),
     codeBox('Your code:', '{{wallet_code}}'),
     button('USE MY CREDIT', 'https://stickerize.com', { tight: true }),
-    expiration('gift_card_expiration'),
     smallPrint(),
   ]);
 }

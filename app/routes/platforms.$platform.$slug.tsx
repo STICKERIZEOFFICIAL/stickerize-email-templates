@@ -109,6 +109,10 @@ const COPY_STATUS: Record<CopyStatus, { label: string; note: string } | null> = 
     label: 'set in the platform',
     note: 'this field lives in the platform’s own editor, not in the HTML',
   },
+  blank: {
+    label: 'deliberately blank',
+    note: 'a hidden blank preheader ships in the HTML, so the inbox shows the subject alone',
+  },
   none: null,
 };
 
@@ -297,7 +301,9 @@ export default function PlatformTemplateView() {
                   <p className="dispatch__preheader dispatch__preheader--empty">
                     {data.previewTextStatus === 'platform'
                       ? `Set in ${data.tab.label} — the template only carries the tag`
-                      : 'No preview text — the client will scrape the top of the email instead'}
+                      : data.previewTextStatus === 'blank'
+                        ? 'Blank on purpose — a hidden preheader keeps the client from scraping the top of the email'
+                        : 'No preview text — the client will scrape the top of the email instead'}
                   </p>
                 )}
               </div>
@@ -334,7 +340,9 @@ export default function PlatformTemplateView() {
                   {data.previewText ? (
                     <code className="field-row__value">{data.previewText}</code>
                   ) : (
-                    <code className="field-row__value field-row__value--empty">Not set</code>
+                    <code className="field-row__value field-row__value--empty">
+                      {data.previewTextStatus === 'blank' ? 'Blank' : 'Not set'}
+                    </code>
                   )}
                   {previewStatus ? (
                     <span className="field-row__note">{previewStatus.note}</span>

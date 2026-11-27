@@ -1,7 +1,7 @@
 import {
   button,
   codeBox,
-  expiration,
+  CURRENCY_NOTE,
   photos,
   riseEmail,
   smallPrint,
@@ -17,7 +17,11 @@ import {
  * across from the old platform and moved onto the new variable names —
  * `issued_credit_amount` for `store_credit_added`, `total_wallet_balance` for
  * `balance`, `wallet_code` for `code`. The structure is the one every other
- * email in this tab uses.
+ * email in this tab uses, minus the expiry line, which is out of every Rise.ai
+ * email for now.
+ *
+ * The balance sentence carries `CURRENCY_NOTE` — see `shell.ts` for why the
+ * euro figure here and the wallet's local-currency figure differ.
  *
  * Diff it against Rise before release: if the live template says anything else,
  * this is the file to correct, and a real export would settle it.
@@ -26,13 +30,12 @@ export default function () {
   return riseEmail([
     photos(...STORE_CREDITS_PHOTOS),
     text("Thanks for ordering. Here's {{issued_credit_amount}} back.", [
-      'Your cash back is in, and you now have {{total_wallet_balance}} in credit for your next order.',
+      `Your cash back is in, and you now have {{total_wallet_balance}} in credit for your next order. ${CURRENCY_NOTE}`,
       'Your code has been saved to your account. Log in with this email address and hit "Apply your credits" in the cart.',
       'Or copy the code below and paste it at checkout.',
     ]),
     codeBox('Your code:', '{{wallet_code}}'),
     button('USE MY CREDIT', 'https://stickerize.com', { tight: true }),
-    expiration('issued_credit_expiration'),
     smallPrint(),
   ]);
 }

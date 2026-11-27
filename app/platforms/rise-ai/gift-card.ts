@@ -1,4 +1,4 @@
-import { button, codeBox, expiration, image, note, riseEmail, text } from './shell';
+import { button, codeBox, image, note, riseEmail, text } from './shell';
 
 /**
  * Restyled from `other emails/new-rise.ai/gift-card.html`.
@@ -20,7 +20,6 @@ export default function () {
     note(['{{greeting_message}}']),
     codeBox('Gift card code:', '{{gift_card_code}}'),
     button('VIEW YOUR GIFT CARD', '{{greeting_card_url}}', { tight: true }),
-    expiration('gift_card_expiration'),
     note(["Got any questions? Get in touch with us and we'll do everything we can to help."]),
   ]);
 }
