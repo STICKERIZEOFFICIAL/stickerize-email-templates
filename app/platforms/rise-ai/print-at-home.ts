@@ -1,4 +1,4 @@
-import { button, codeBox, expiration, note, riseEmail, text } from './shell';
+import { button, codeBox, note, riseEmail, text } from './shell';
 
 /**
  * Restyled from `other emails/new-rise.ai/print-at-home.html`.
@@ -16,7 +16,6 @@ export default function () {
     ]),
     codeBox('Gift card code:', '{{gift_card_code}}'),
     button('PRINT GIFT CARD', '{{greeting_card_url}}', { tight: true }),
-    expiration('gift_card_expiration'),
     note(["Got any questions? Get in touch with us and we'll do everything we can to help."]),
   ]);
 }

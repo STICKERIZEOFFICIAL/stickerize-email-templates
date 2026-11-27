@@ -1,4 +1,4 @@
-import { button, codeBox, expiration, riseEmail, smallPrint, text } from './shell';
+import { button, codeBox, riseEmail, smallPrint, text } from './shell';
 
 /**
  * Restyled from `other emails/new-rise.ai/referral.html`.
@@ -21,7 +21,6 @@ export default function () {
     ]),
     codeBox('Your code:', '{{wallet_code}}'),
     button('START SHOPPING', 'https://stickerize.com', { tight: true }),
-    expiration('issued_credit_expiration'),
     smallPrint(),
   ]);
 }

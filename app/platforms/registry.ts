@@ -114,6 +114,11 @@ export type CopyStatus =
   | 'proposed'
   /** The platform owns this field and we cannot set it from the HTML. */
   | 'platform'
+  /**
+   * Deliberately empty: the HTML ships a hidden blank preheader, so the inbox
+   * shows the subject alone rather than a scrape of the body.
+   */
+  | 'blank'
   /** Not applicable — the entry is not an email. */
   | 'none';
 
@@ -137,6 +142,15 @@ export type PlatformTemplate = {
   notes?: string[];
 };
 
+/**
+ * Rise ships a blank preheader on every email, so no entry below carries a
+ * previewText — the inbox shows the subject alone. Rise's own preview-text
+ * field never reached Gmail, which scraped the heading instead, and until the
+ * copy is decided a blank line beats a scraped one. The texts supplied with
+ * the migration are in `other emails/new-rise.ai/stickerize-rise-email-subjects.md`;
+ * when one is wanted, pass it to `riseEmail()` in the template and mirror it
+ * here, since this file is what the preview page displays.
+ */
 const RISE_AI: PlatformTemplate[] = [
   {
     slug: 'gift-card',
@@ -147,8 +161,7 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseGiftCard,
     subject: '{{sender_first_name}} bought you a gift card at {{business_name}}',
     subjectStatus: 'given',
-    previewText: 'Put your gift card toward custom stickers made from your own designs.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       'The only email here that can reach someone who has never bought from us, so it keeps the card artwork Rise renders into {{greeting_image_url}} rather than the product squares.',
       'No small print: nothing in it is store credit in euros, so the conversion line would answer a question nobody asked.',
@@ -163,8 +176,7 @@ const RISE_AI: PlatformTemplate[] = [
     render: risePrintAtHome,
     subject: 'Your gift card is ready',
     subjectStatus: 'given',
-    previewText: 'Print your Stickerize gift card at home and give it in person.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       'Addresses the sender, not the recipient — it is the card they are about to print — so it reads {{sender_full_name}} and names who it is for.',
     ],
@@ -178,8 +190,7 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseStoreCredits,
     subject: '{{sender_first_name}}, your cash back is in your account',
     subjectStatus: 'given',
-    previewText: 'Use your Stickerize credit on your next order whenever you are ready.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       'CAUTION: other emails/new-rise.ai/store-credits.html is a 0-byte file. This carries the approved copy across from the old platform on the new variable names — diff it against Rise before release.',
       'Keeps its own artwork from the design set (Email_4_Section_3_1 / _2), not the refund photos.',
@@ -195,11 +206,11 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseCashback,
     subject: 'You got cashback from your last order',
     subjectStatus: 'given',
-    previewText: 'Your reward is ready to put toward your next batch of custom stickers.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
       "Rise's default set the amounts out as a label-and-value grid. They read in the copy here, the way they do on the refund email.",
+      'The balance sentence explains why the euro amount here and the local-currency amount in the wallet differ: Rise.ai runs in euros only, Shopify shows the converted figure on login.',
     ],
   },
   {
@@ -211,9 +222,7 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseCompensation,
     subject: 'A little something from us for the inconvenience',
     subjectStatus: 'given',
-    previewText:
-      'We have added store credit to your Stickerize account. Thanks for giving us a chance to make things right.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
     ],
@@ -227,8 +236,7 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseReferral,
     subject: 'Congrats on your successful referral!',
     subjectStatus: 'given',
-    previewText: 'Your friend placed their first order. Thanks for sharing Stickerize!',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
       "Rise's default closed on a social row and a second website link. Dropped — this tab's footer has carried neither since the design-system pass, and the wordmark under it is already the link home.",
@@ -243,13 +251,11 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseRefund,
     subject: 'Your store credit for order: {{order_number}}',
     subjectStatus: 'given',
-    previewText:
-      'Your refund was issued as Stickerize store credit. You can use it on a future order.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       'Already on the design system when it arrived — our own template, re-exported after the migration. Two things the new editor flattened are put back: the heading sits 24px from its body again, and the header rule is inset by 12px instead of running the full column.',
       "CHECK THIS ONE: the heading hardcoded a euro sign in front of {{issued_credit_amount}}, and Rise formats that amount with its own currency symbol — the live email reads €€5.00. The sign is removed here. It is the same bug the old platform's template had, so it has been going out for a while. Send a test before release.",
-      'Carries a {{#gift_card_expiration}} section. The preview renders it present; it disappears when Rise has no expiry.',
+      'Explains in the first paragraph why the euro amount in the email and the local-currency amount in the wallet differ: Rise.ai runs in euros only, Shopify shows the converted figure on login.',
     ],
   },
   {
@@ -261,12 +267,11 @@ const RISE_AI: PlatformTemplate[] = [
     render: riseWallet,
     subject: 'Your store credit for {{business_name}}',
     subjectStatus: 'given',
-    previewText: 'Check your Stickerize wallet to see how much credit you have available.',
-    previewTextStatus: 'given',
+    previewTextStatus: 'blank',
     notes: [
       "No photo row: neither Rise's export nor the design set has a pair named for this email, so it opens on the heading rather than borrowing the refund's. Name a pair and it is one line.",
       'Reads the balance and code off {{gift_card_balance}} / {{gift_card_code}}, not the {{wallet_*}} names the other credit emails use. That is how the export has it, so it is left alone — but send a test, because two naming schemes in one platform is how a line turns up empty.',
-      'No expiry line, matching the export: this is a statement of what is held, not news.',
+      'Never carried an expiry line, even before the section was taken out of the other emails: this is a statement of what is held, not news.',
     ],
   },
 ];

@@ -107,6 +107,20 @@ export function note(lines: string[], { muted = false } = {}): string {
   );
 }
 
+/**
+ * Why the amount in the email and the amount in the wallet can differ.
+ *
+ * Rise.ai is not multi-currency: it runs in the shop's default currency,
+ * euros, so every credit is issued in euros and the figure the email prints
+ * is a euro figure. Shopify's multi-currency setup then shows the wallet in
+ * the customer's own currency once they log in, already converted. One
+ * sentence says so, so a customer paying in dollars or pounds does not read
+ * the two numbers as a mistake. Appended to the balance sentence on the
+ * cashback, store-credits and refund emails rather than typed into each one.
+ */
+export const CURRENCY_NOTE =
+  "Your credit is stored in euros, but don't worry: once you log in, you'll see it in your local currency.";
+
 /** The line every store-credit email closes on. */
 export function smallPrint(): string {
   return note(
@@ -259,6 +273,10 @@ export function button(label: string, href: string, { tight = false } = {}): str
 /**
  * The expiry line, present only when Rise has a date.
  *
+ * Not used by any template at the moment — the expiry section was taken out
+ * of every Rise.ai email (not needed for now). Kept so it is one line to put
+ * back; `tokens.ts` still carries the fixture dates for the preview.
+ *
  * `{{#name}} … {{/name}}` is the new platform's section syntax — the old one
  * wrote the same thing in triple braces.
  */
@@ -276,17 +294,62 @@ export function expiration(token: string): string {
 }
 
 /**
+ * Everything an inbox needs to not show: `display: none`, then the belt and
+ * braces every client that ignores `display: none` on a div responds to.
+ * Written in full, inline, because this platform has no stylesheet to put a
+ * class behind — the same block Stamped's coupon carries.
+ */
+const HIDDEN = `display: none; font-size: 1px; line-height: 1px; color: #ffffff; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all;`;
+
+/**
+ * The inbox preview line, and the padding that stops a client reading past
+ * it. Same mechanism as the Klaviyo emails and Stamped's coupon.
+ *
+ * A client builds its snippet from the first text it finds, so an email with
+ * no preheader opens in the inbox on whatever its body happens to begin with —
+ * for these templates the heading, run straight into the first paragraph. The
+ * second div is a run of zero-width non-joiners and non-breaking spaces, which
+ * a client counts as content but renders as nothing, so the snippet ends where
+ * the preheader ends instead of continuing into the body.
+ *
+ * With `text` empty, only the padding ships, and the inbox shows the subject
+ * alone. That is the deliberate state today: Rise's own preview-text field did
+ * not make it to Gmail, and until the copy is decided a blank line beats a
+ * scraped one. Pass copy here the day it is decided — and mirror it in
+ * `app/platforms/registry.ts`, which is what the preview page displays.
+ *
+ * The padding is 100 pairs, about 200 characters. Gmail shows roughly 100 of
+ * text in a snippet, Apple Mail up to two lines; the Klaviyo emails carry a
+ * far longer run, but past the longest snippet more characters change nothing
+ * except the weight of the HTML Rise has to store.
+ */
+export function preheader(text = ''): string {
+  const padding = '&zwnj;&nbsp;'.repeat(100);
+  return (
+    `<!-- Preview Text -->` +
+    (text ? `${I(1)}<div style="${HIDDEN}">${I(2)}${text}${I(1)}</div>` : '') +
+    `${I(1)}<div style="${HIDDEN}">${I(2)}${padding}${I(1)}</div>` +
+    `${I(1)}<!-- END Preview Text -->`
+  );
+}
+
+/**
  * Header, footer and the table they hang on.
+ *
+ * The preheader comes first, before anything a client could read as the
+ * opening line. It ships blank unless a template passes `previewText` — see
+ * `preheader()` for why.
  *
  * The header rule sits on an inner cell, not on the padded header itself: a
  * cell's border spans its own padding, so a border out there runs the full
  * width of the column instead of lining up with the 12px inset every other
  * divider keeps.
  */
-export function riseEmail(sections: string[]): string {
+export function riseEmail(sections: string[], { previewText = '' } = {}): string {
   const column = style(RESET, 'font-size: 0pt', 'line-height: 0pt', 'font-weight: normal');
 
   return /*html*/ `<div style="${style(RESET, 'box-sizing: border-box', 'color-scheme: light dark', 'supported-color-schemes: light dark')}">
+    ${preheader(previewText)}
     <table class="main" rise-template="main" align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="${style(RESET, 'background-color: #fbf9f6', 'padding: 12px 0')}">
         <tbody style="${RESET}">
             <tr style="${RESET}">
